@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { Router } from "next/router";
 import nprogress from "nprogress";
