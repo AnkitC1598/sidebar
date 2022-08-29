@@ -1,0 +1,3 @@
+[submodule "submodules/shared"]
+	path = submodules/shared
+	url = https://github.com/AnkitC1598/shared.git
