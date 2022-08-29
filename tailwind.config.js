@@ -23,6 +23,7 @@ module.exports = {
 		"./components/**/*.{js,ts,jsx,tsx}",
 		"./submodules/**/*.{js,ts,jsx,tsx}",
 	],
+	darkMode: "class",
 	theme: {
 		extend: MergedExtentedTheme,
 	},
