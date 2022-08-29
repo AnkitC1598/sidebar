@@ -11,11 +11,15 @@ const MergedExtentedTheme = {};
 Object.keys(SharedTailwindConfigThemeExtend).forEach((key) =>
 	ExtendedTheme.hasOwnProperty(key)
 		? (MergedExtentedTheme[key] = {
-				...ExtendedTheme[key],
-				...SharedTailwindConfigThemeExtend[key],
-		  })
+			...ExtendedTheme[key],
+			...SharedTailwindConfigThemeExtend[key],
+		})
 		: (MergedExtentedTheme[key] = SharedTailwindConfigThemeExtend[key])
 );
+
+const SharedTailwindConfigPlugins = SharedTailwindConfig.plugins;
+const ExtendedPlugins = []
+const MergedPlugins = [...SharedTailwindConfigPlugins, ...ExtendedPlugins];
 
 module.exports = {
 	content: [
@@ -27,5 +31,5 @@ module.exports = {
 	theme: {
 		extend: MergedExtentedTheme,
 	},
-	plugins: SharedTailwindConfig.plugins,
+	plugins: MergedPlugins,
 };
