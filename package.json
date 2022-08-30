@@ -1,6 +1,6 @@
 {
-	"name": "template",
-	"version": "1.0.0",
+	"name": "sidebar",
+	"version": "1.0.3",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",

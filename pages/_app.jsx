@@ -4,8 +4,7 @@ import Head from "next/head";
 import { Router } from "next/router";
 import nprogress from "nprogress";
 import { useEffect } from "react";
-import "styles/globals.css";
-import { Navbar } from "submodules/shared/components/organisms";
+import "../styles/globals.css";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -57,12 +56,7 @@ const AppWithQuery = ({ Component, pageProps }) => {
 	return (
 		<div className="flex h-screen select-none flex-col overflow-x-hidden overflow-y-scroll bg-slate-100 scrollbar-hide dark:bg-neutral-900 sm:flex-row">
 			<div className="bg-slate-100 dark:bg-neutral-900 h-screen w-screen">
-				<header>
-					<Navbar />
-				</header>
-				<div className="mx-auto mt-6 min-h-navScreenSpaced w-full max-w-9xl px-4 text-slate-900 dark:text-slate-200 sm:px-6 lg:px-14">
-					<Component {...pageProps} />
-				</div>
+				<Component {...pageProps} />
 			</div>
 		</div>
 	);
