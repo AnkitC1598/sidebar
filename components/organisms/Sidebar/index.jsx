@@ -5,7 +5,7 @@ import {
 	ClipboardDocumentListIcon as ClipboardDocumentListIconOutline,
 	Cog6ToothIcon as Cog6ToothIconOutline,
 	FolderIcon as FolderIconOutline,
-	HandIcon as HandIconOutline,
+	HandRaisedIcon as HandRaisedIconOutline,
 	UserGroupIcon as UserGroupIconOutline,
 } from "@heroicons/react/24/outline";
 import {
@@ -14,7 +14,7 @@ import {
 	ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
 	Cog6ToothIcon as Cog6ToothIconSolid,
 	FolderIcon as FolderIconSolid,
-	HandIcon as HandIconSolid,
+	HandRaisedIcon as HandRaisedIconSolid,
 	UserGroupIcon as UserGroupIconSolid,
 } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
@@ -593,8 +593,8 @@ const Tabs = [
 	{
 		label: "doubt",
 		component: <Doubts />,
-		outlineIcon: <HandIconOutline className="h-5 w-5" />,
-		solidIcon: <HandIconSolid className="h-5 w-5" />,
+		outlineIcon: <HandRaisedIconOutline className="h-5 w-5" />,
+		solidIcon: <HandRaisedIconSolid className="h-5 w-5" />,
 	},
 	{
 		label: "pastebin",
