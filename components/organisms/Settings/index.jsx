@@ -1,5 +1,8 @@
 import {
-    MoonIcon, SpeakerWaveIcon, SpeakerXMarkIcon, SunIcon
+	MoonIcon,
+	SpeakerWaveIcon,
+	SpeakerXMarkIcon,
+	SunIcon,
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { Toggle } from "../../../submodules/shared/components/atoms";
@@ -11,7 +14,7 @@ const Settings = () => {
 
 	return (
 		<>
-			<div className="flex w-full flex-col divide-y divide-neutral-200 bg-white text-slate-900 h-screen-ios dark:divide-neutral-800 dark:bg-neutral-900 dark:text-slate-200 md:h-navScreen">
+			<div className="flex w-full flex-col divide-y divide-neutral-200 text-slate-900 h-screen-ios dark:divide-neutral-800 bg-neutral-50 dark:bg-neutral-900 dark:text-slate-200 md:h-navScreen">
 				<div className="w-full p-4">
 					<Toggle
 						label="Dark Mode"

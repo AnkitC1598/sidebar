@@ -4,7 +4,7 @@ import { Agenda } from "../../molecules";
 const Agendas = ({ agendas }) => {
 	return (
 		<>
-			<div className="flex w-full flex-col bg-white text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 md:h-navScreen">
+			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 md:h-navScreen">
 				{Object.prototype.toString.call(agendas) === '[object Array]' && agendas.length ? (
 					<>
 						<span className="border-b border-neutral-200 px-3 py-3 dark:border-neutral-800">

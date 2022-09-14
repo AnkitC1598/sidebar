@@ -16,7 +16,7 @@ const Agenda = ({ agenda }) => {
 
 	return (
 		<>
-			<li className="flex select-none items-center justify-between bg-white py-4 dark:bg-neutral-900">
+			<li className="flex select-none items-center justify-between py-4 bg-neutral-50 dark:bg-neutral-900">
 				{editing ? (
 					<span className="px-3">
 						<Input

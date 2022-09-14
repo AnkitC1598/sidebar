@@ -1,18 +1,34 @@
 import { Tab, Transition } from "@headlessui/react";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import {
-	ArrowLeftOnRectangleIcon,
-	ArrowRightOnRectangleIcon,
-	ChatBubbleBottomCenterTextIcon,
-	ClipboardDocumentListIcon,
-	FolderIcon,
-	HandIcon,
-	UserGroupIcon,
+	ArrowLeftOnRectangleIcon as ArrowLeftOnRectangleIconOutline,
+	ChatBubbleBottomCenterTextIcon as ChatBubbleBottomCenterTextIconOutline,
+	ClipboardDocumentListIcon as ClipboardDocumentListIconOutline,
+	Cog6ToothIcon as Cog6ToothIconOutline,
+	FolderIcon as FolderIconOutline,
+	HandIcon as HandIconOutline,
+	UserGroupIcon as UserGroupIconOutline,
+} from "@heroicons/react/24/outline";
+import {
+	ArrowRightOnRectangleIcon as ArrowRightOnRectangleIconSolid,
+	ChatBubbleBottomCenterTextIcon as ChatBubbleBottomCenterTextIconSolid,
+	ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
+	Cog6ToothIcon as Cog6ToothIconSolid,
+	FolderIcon as FolderIconSolid,
+	HandIcon as HandIconSolid,
+	UserGroupIcon as UserGroupIconSolid,
 } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
-import { Agendas, Chats, Doubts, Participants, PasteBin, Settings } from "..";
-import { classNames } from "../../../submodules/shared/utils";
+import {
+	Agendas,
+	Chats,
+	Doubts,
+	Participants,
+	PasteBin,
+	Profile,
+	Settings,
+} from "..";
 import { Tooltip } from "../../../submodules/shared/components/atoms";
+import { classNames } from "../../../submodules/shared/utils";
 
 const agendas = [
 	{ id: "FMDDa_f-fiww8YAh", text: "For Loop", isCompleted: false },
@@ -563,34 +579,50 @@ const Tabs = [
 	{
 		label: "agenda",
 		component: <Agendas agendas={agendas} />,
-		icon: <ClipboardDocumentListIcon className="h-7 w-7 md:h-5 md:w-5" />,
+		outlineIcon: <ClipboardDocumentListIconOutline className="h-5 w-5" />,
+		solidIcon: <ClipboardDocumentListIconSolid className="h-5 w-5" />,
 	},
 	{
 		label: "chat",
 		component: <Chats messages={messages} />,
-		icon: (
-			<ChatBubbleBottomCenterTextIcon className="h-7 w-7 md:h-5 md:w-5" />
+		outlineIcon: (
+			<ChatBubbleBottomCenterTextIconOutline className="h-5 w-5" />
 		),
+		solidIcon: <ChatBubbleBottomCenterTextIconSolid className="h-5 w-5" />,
 	},
 	{
 		label: "doubt",
 		component: <Doubts />,
-		icon: <HandIcon className="h-7 w-7 md:h-5 md:w-5" />,
+		outlineIcon: <HandIconOutline className="h-5 w-5" />,
+		solidIcon: <HandIconSolid className="h-5 w-5" />,
 	},
 	{
 		label: "pastebin",
 		component: <PasteBin resources={resources} />,
-		icon: <FolderIcon className="h-7 w-7 md:h-5 md:w-5" />,
+		outlineIcon: <FolderIconOutline className="h-5 w-5" />,
+		solidIcon: <FolderIconSolid className="h-5 w-5" />,
 	},
 	{
-		label: "participant",
+		label: "users",
 		component: <Participants participants={participants} user={user} />,
-		icon: <UserGroupIcon className="h-7 w-7 md:h-5 md:w-5" />,
+		outlineIcon: <UserGroupIconOutline className="h-5 w-5" />,
+		solidIcon: <UserGroupIconSolid className="h-5 w-5" />,
+	},
+	{
+		label: "profile",
+		component: <Profile user={user} />,
+		icon: (
+			<img
+				className="aspect-square h-7 w-7 rounded-md"
+				src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+			/>
+		),
 	},
 	{
 		label: "settings",
 		component: <Settings />,
-		icon: <Cog6ToothIcon className="h-7 w-7 md:h-5 md:w-5" />,
+		outlineIcon: <Cog6ToothIconOutline className="h-5 w-5" />,
+		solidIcon: <Cog6ToothIconSolid className="h-5 w-5" />,
 	},
 ];
 
@@ -632,14 +664,14 @@ const Sidebar = ({
 							})
 						}
 					>
-						<Tab.List className="z-20 h-screen h-screen-ios flex flex-col border-x border-neutral-200 dark:border-neutral-800 bg-neutral-50 px-4 py-3 dark:bg-neutral-900 space-y-5 md:rounded-none md:p-2 md:pr-2">
+						<Tab.List className="z-20 h-screen h-screen-ios flex flex-col border-x border-neutral-200 dark:border-neutral-800 bg-neutral-50 px-2 py-3 dark:bg-neutral-900 space-y-5 md:rounded-none md:p-2 md:pr-2">
 							{Tabs.filter((tab) =>
 								enabledSections.includes(tab.label)
 							).map((tab) => (
 								<span
 									key={tab.label}
 									className={classNames(
-										tab.label === "settings"
+										tab.label === "profile"
 											? "flex flex-grow flex-col justify-end space-y-3"
 											: ""
 									)}
@@ -649,28 +681,36 @@ const Sidebar = ({
 											classNames(
 												"group relative flex aspect-square w-full flex-col items-center justify-center rounded-md text-sm transition-all duration-200 focus-visible:outline-0",
 												selected && sideBarOpen
-													? "bg-neutral-300 text-slate-900 dark:bg-white dark:text-slate-900"
-													: "bg-white text-slate-900 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
+													? "bg-neutral-200 text-slate-900 dark:bg-neutral-800 dark:text-slate-100"
+													: "bg-neutral-50 text-slate-900 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
 											)
 										}
 									>
-										{tab.icon}
-										<Tooltip
-											position={toolTipDir}
-											label={tab.label}
-										/>
+										{({ selected }) => (
+											<>
+												{tab.icon
+													? tab.icon
+													: selected
+													? tab.solidIcon
+													: tab.outlineIcon}
+												<Tooltip
+													position={toolTipDir}
+													label={tab.label}
+												/>
+											</>
+										)}
 									</Tab>
 								</span>
 							))}
 							<span
 								className={classNames(
-									enabledSections.includes("settings")
+									enabledSections.includes("profile")
 										? ""
 										: "flex flex-grow flex-col justify-end space-y-3"
 								)}
 							>
 								<span
-									className="group relative flex aspect-square w-full flex-col items-center justify-center rounded-full bg-neutral-200 p-3 text-sm text-slate-900 transition-all duration-200 hover:bg-neutral-300 focus-visible:outline-0 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
+									className="group relative flex aspect-square w-full flex-col items-center justify-center rounded-full p-3 text-sm transition-all duration-200focus-visible:outline-0 bg-neutral-50 text-slate-900 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
 									onClick={() =>
 										dispatchToSidebar({
 											type: "TOGGLE_SIDEBAR_STATE",
@@ -678,9 +718,9 @@ const Sidebar = ({
 									}
 								>
 									{sideBarOpen ? (
-										<ArrowRightOnRectangleIcon className="h-5 w-5" />
+										<ArrowRightOnRectangleIconSolid className="h-5 w-5" />
 									) : (
-										<ArrowLeftOnRectangleIcon className="h-5 w-5" />
+										<ArrowLeftOnRectangleIconOutline className="h-5 w-5" />
 									)}
 									<Tooltip
 										position={toolTipDir}
@@ -711,8 +751,8 @@ const Sidebar = ({
 										key={tab.label}
 										className="h-full w-full divide-y divide-neutral-200 bg-neutral-50 outline-none transition-all duration-200 dark:divide-neutral-800 dark:bg-neutral-900"
 									>
-										<div className="flex h-16 w-full items-center space-x-2 bg-neutral-50 px-8 py-2 text-slate-900 dark:bg-neutral-900 dark:text-slate-200">
-											<span className="flex-1 text-[28px] font-bold capitalize">
+										<div className="flex h-16 w-full items-center space-x-2 bg-neutral-50 py-2 px-4 text-slate-900 dark:bg-neutral-900 dark:text-slate-200">
+											<span className="flex-1 text-xl capitalize">
 												{tab.label}
 											</span>
 										</div>
@@ -734,7 +774,8 @@ Sidebar.defaultProps = {
 		"chat",
 		// "doubt",
 		"pastebin",
-		"participant",
+		"users",
+		"profile",
 		"settings",
 	],
 	defaultSection: "chat",

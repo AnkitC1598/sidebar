@@ -47,7 +47,7 @@ const ResourcePreview = ({
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<div className="my-8 inline-flex max-h-[75vh] min-h-[50vh] min-w-[50vw] max-w-3xl transform flex-col overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-neutral-900">
+							<div className="my-8 inline-flex max-h-[75vh] min-h-[50vh] min-w-[50vw] max-w-3xl transform flex-col overflow-hidden rounded-lg bg-neutral-50 p-6 text-left align-middle shadow-xl transition-all dark:bg-neutral-900">
 								<div className="flex items-center justify-between space-x-4">
 									<Dialog.Title
 										as="h3"
