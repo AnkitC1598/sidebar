@@ -4,7 +4,7 @@ import { Resource } from "../../molecules";
 const PasteBin = ({ resources }) => {
 	return (
 		<>
-			<div className="flex w-full flex-col bg-white text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 md:h-navScreen">
+			<div className="flex w-full flex-col bg-white text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 h-navScreen">
 				{Object.prototype.toString.call(resources) === '[object Array]' && resources.length ? (
 					<>
 						<ul className="flex h-full w-full flex-col divide-y divide-neutral-200 overflow-y-scroll rounded-md pt-0.5 scrollbar-hide dark:divide-neutral-800 md:!h-screen">

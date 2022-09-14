@@ -2,11 +2,7 @@
 const SharedTailwindConfig = require("./submodules/shared/tailwind.config");
 
 const SharedTailwindConfigThemeExtend = SharedTailwindConfig.theme.extend;
-const ExtendedTheme = {
-	height: {
-		available: "-webkit-fill-available",
-	},
-};
+const ExtendedTheme = {};
 const MergedExtentedTheme = {};
 Object.keys(SharedTailwindConfigThemeExtend).forEach((key) =>
 	ExtendedTheme.hasOwnProperty(key)

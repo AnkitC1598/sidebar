@@ -2,8 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ArrowDownTrayIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
 import { Fragment } from "react";
-import { downloadFile } from "../../../submodules/shared/utils";
 import { Toggle } from "../../../submodules/shared/components/atoms";
+import { downloadFile } from "../../../submodules/shared/utils";
 
 const ResourcePreview = ({
 	isOpen,
@@ -48,14 +48,14 @@ const ResourcePreview = ({
 							leaveTo="opacity-0 scale-95"
 						>
 							<div className="my-8 inline-flex max-h-[75vh] min-h-[50vh] min-w-[50vw] max-w-3xl transform flex-col overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-neutral-900">
-								<div className="flex items-center justify-between">
+								<div className="flex items-center justify-between space-x-4">
 									<Dialog.Title
 										as="h3"
-										className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-200"
+										className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-200 line-clamp-1"
 									>
 										{resource.name}
 									</Dialog.Title>
-									<div className="flex space-x-4">
+									<div className="flex items-center space-x-4">
 										<Toggle
 											defaultValue={resource.isVisible}
 											onChange={handleToggleVisibility}
@@ -73,7 +73,7 @@ const ResourcePreview = ({
 										) : null}
 										<button
 											type="button"
-											className="inline-flex justify-center rounded-lg p-2 text-sm font-medium text-black hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+											className="inline-flex justify-center rounded-lg p-2 text-sm font-medium text-black hover:bg-neutral-100 dark:text-slate-200 dark:hover:bg-neutral-800"
 											onClick={close}
 										>
 											<XMarkIcon className="h-4 w-4" />

@@ -1,5 +1,5 @@
 import {
-	MoonIcon, SpeakerWaveIcon, SpeakerXMarkIcon, SunIcon
+    MoonIcon, SpeakerWaveIcon, SpeakerXMarkIcon, SunIcon
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { Toggle } from "../../../submodules/shared/components/atoms";
@@ -26,7 +26,7 @@ const Settings = () => {
 							iconColor: "text-gray-900",
 						}}
 						falseState={{
-							bg: "bg-slate-200",
+							bg: "bg-neutral-200",
 							icon: SunIcon,
 							iconColor: "text-lu-500",
 						}}
@@ -44,7 +44,7 @@ const Settings = () => {
 							iconColor: "text-gray-900",
 						}}
 						falseState={{
-							bg: "bg-slate-200",
+							bg: "bg-neutral-200",
 							icon: SpeakerXMarkIcon,
 							iconColor: "text-gray-900",
 						}}

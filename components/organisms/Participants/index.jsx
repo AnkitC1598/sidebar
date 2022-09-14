@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { classNames } from "../../../submodules/shared/utils";
 import { Search } from "../../../submodules/shared/components/atoms";
+import { classNames } from "../../../submodules/shared/utils";
 import { Participant } from "../../molecules";
 
 const Participants = ({ participants, user }) => {
@@ -9,8 +9,9 @@ const Participants = ({ participants, user }) => {
 	return (
 		<>
 			<div className="flex w-full flex-col bg-white text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 md:h-navScreen">
-				{Object.prototype.toString.call(user) === '[object Object]' && user.name ? (
-					<div className="flex w-full flex-col items-center space-y-4 bg-neutral-800 p-4">
+				{Object.prototype.toString.call(user) === "[object Object]" &&
+				user.name ? (
+					<div className="flex w-full flex-col items-center space-y-4 bg-neutral-200 dark:bg-neutral-800 p-4">
 						<img
 							className="aspect-square h-28 w-28 rounded-md"
 							src="https://via.placeholder.com/200"
@@ -22,7 +23,7 @@ const Participants = ({ participants, user }) => {
 							<a
 								href={`https://letsupgrade.in/user/${user.username}`}
 								target="_blank"
-								className="!mt-0 font-medium text-slate-900 hover:text-lu-900 dark:text-slate-200 hover:dark:text-lu-200"
+								className="!mt-0 font-medium text-slate-900 hover:italic hover:text-lu-900 dark:text-slate-200 hover:dark:text-lu-200"
 							>
 								@{user.username}
 							</a>
@@ -35,8 +36,8 @@ const Participants = ({ participants, user }) => {
 										user.role === "trainer"
 											? "bg-purple-100 text-purple-800"
 											: user.role === "trainer"
-												? "bg-yellow-100 text-yellow-800"
-												: "bg-green-100 text-green-800"
+											? "bg-yellow-100 text-yellow-800"
+											: "bg-green-100 text-green-800"
 									)}
 								>
 									<span>
@@ -48,9 +49,13 @@ const Participants = ({ participants, user }) => {
 						</div>
 					</div>
 				) : null}
-				{Object.prototype.toString.call(participants) === '[object Array]' && participants.length ? (
+				{Object.prototype.toString.call(participants) ===
+					"[object Array]" && participants.length ? (
 					<>
-						<Search setSearch={setSearch} className="border-b-2 border-neutral-200 dark:border-neutral-800" />
+						<Search
+							setSearch={setSearch}
+							className="border-b border-neutral-200 dark:border-neutral-700 p-4"
+						/>
 						<ul className="h-full divide-y divide-neutral-200 overflow-y-scroll bg-white text-slate-900 shadow scrollbar-hide dark:divide-neutral-800 dark:bg-neutral-900 dark:text-slate-200">
 							{participants
 								.filter((p) =>
@@ -96,7 +101,7 @@ const Participants = ({ participants, user }) => {
 
 Participants.defaultProps = {
 	participants: [],
-	user: {}
-}
+	user: {},
+};
 
 export default Participants;

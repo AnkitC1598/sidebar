@@ -599,6 +599,7 @@ const Sidebar = ({
 	defaultSection,
 	dispatchToSidebar,
 	sideBarOpen,
+	toolTipDir,
 }) => {
 	if (Object.prototype.toString.call(enabledSections) !== "[object Array]")
 		return null;
@@ -620,46 +621,18 @@ const Sidebar = ({
 
 	return (
 		<>
-			<div className="relative flex h-full w-full bg-slate-50 dark:bg-neutral-900">
+			<div className="relative flex h-full w-full bg-neutral-50 dark:bg-neutral-900">
 				<>
 					<Tab.Group
 						defaultIndex={findTabIndex(defaultSection)}
-						onChange={(val) => {
+						onChange={(idx) =>
 							dispatchToSidebar({
 								type: "OPEN_SIDEBAR_STATE",
-								payload: { type: "chat" },
-							});
-						}}
+								payload: { type: enabledSections[idx] },
+							})
+						}
 					>
-						<Transition
-							as={Fragment}
-							show={sideBarOpen}
-							enter="transition ease-in-out duration-300 transform"
-							enterFrom="translate-x-full"
-							enterTo="translate-x-0"
-							leave="transition ease-in-out duration-300 transform"
-							leaveFrom="translate-x-0"
-							leaveTo="translate-x-full"
-						>
-							<Tab.Panels className="z-10 w-full bg-slate-50 dark:bg-neutral-900">
-								{Tabs.filter((tab) =>
-									enabledSections.includes(tab.label)
-								).map((tab) => (
-									<Tab.Panel
-										key={tab.label}
-										className="h-full w-full divide-y divide-neutral-200 bg-slate-50 outline-none transition-all duration-200 dark:divide-neutral-800 dark:bg-neutral-900"
-									>
-										<div className="flex h-16 w-full items-center space-x-2 bg-slate-50 px-8 py-2 text-slate-900 dark:bg-neutral-900 dark:text-slate-200">
-											<span className="flex-1 text-[28px] font-bold capitalize">
-												{tab.label}
-											</span>
-										</div>
-										{tab.component}
-									</Tab.Panel>
-								))}
-							</Tab.Panels>
-						</Transition>
-						<Tab.List className="z-20 mx-4 flex flex-row space-x-6 border-l border-neutral-200 bg-slate-50 px-4 py-3 dark:border-neutral-800 dark:bg-neutral-900  md:mx-0 md:flex-col md:space-y-5 md:space-x-0 md:rounded-none md:p-2 md:pr-2">
+						<Tab.List className="z-20 h-screen h-screen-ios flex flex-col border-x border-neutral-200 dark:border-neutral-800 bg-neutral-50 px-4 py-3 dark:bg-neutral-900 space-y-5 md:rounded-none md:p-2 md:pr-2">
 							{Tabs.filter((tab) =>
 								enabledSections.includes(tab.label)
 							).map((tab) => (
@@ -676,14 +649,14 @@ const Sidebar = ({
 											classNames(
 												"group relative flex aspect-square w-full flex-col items-center justify-center rounded-md text-sm transition-all duration-200 focus-visible:outline-0",
 												selected && sideBarOpen
-													? "bg-slate-300 text-slate-900 dark:bg-white dark:text-slate-900"
-													: "bg-white text-slate-900 hover:bg-slate-200 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-slate-700"
+													? "bg-neutral-300 text-slate-900 dark:bg-white dark:text-slate-900"
+													: "bg-white text-slate-900 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
 											)
 										}
 									>
 										{tab.icon}
 										<Tooltip
-											position="left"
+											position={toolTipDir}
 											label={tab.label}
 										/>
 									</Tab>
@@ -697,7 +670,7 @@ const Sidebar = ({
 								)}
 							>
 								<span
-									className="group relative flex aspect-square w-full flex-col items-center justify-center rounded-full bg-slate-200 p-3 text-sm text-slate-900 transition-all duration-200 hover:bg-slate-300 focus-visible:outline-0 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-slate-700"
+									className="group relative flex aspect-square w-full flex-col items-center justify-center rounded-full bg-neutral-200 p-3 text-sm text-slate-900 transition-all duration-200 hover:bg-neutral-300 focus-visible:outline-0 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
 									onClick={() =>
 										dispatchToSidebar({
 											type: "TOGGLE_SIDEBAR_STATE",
@@ -710,7 +683,7 @@ const Sidebar = ({
 										<ArrowLeftOnRectangleIcon className="h-5 w-5" />
 									)}
 									<Tooltip
-										position="left"
+										position={toolTipDir}
 										label={
 											sideBarOpen
 												? "Close Sidebar"
@@ -720,6 +693,34 @@ const Sidebar = ({
 								</span>
 							</span>
 						</Tab.List>
+						<Transition
+							as={Fragment}
+							show={sideBarOpen}
+							enter="transition ease-in-out duration-500 transform"
+							enterFrom="translate-x-full"
+							enterTo="translate-x-0"
+							leave="transition ease-in-out duration-500 transform"
+							leaveFrom="translate-x-0"
+							leaveTo="translate-x-full"
+						>
+							<Tab.Panels className="z-10 w-full bg-neutral-50 dark:bg-neutral-900 border-x border-neutral-200 dark:border-neutral-800">
+								{Tabs.filter((tab) =>
+									enabledSections.includes(tab.label)
+								).map((tab) => (
+									<Tab.Panel
+										key={tab.label}
+										className="h-full w-full divide-y divide-neutral-200 bg-neutral-50 outline-none transition-all duration-200 dark:divide-neutral-800 dark:bg-neutral-900"
+									>
+										<div className="flex h-16 w-full items-center space-x-2 bg-neutral-50 px-8 py-2 text-slate-900 dark:bg-neutral-900 dark:text-slate-200">
+											<span className="flex-1 text-[28px] font-bold capitalize">
+												{tab.label}
+											</span>
+										</div>
+										{tab.component}
+									</Tab.Panel>
+								))}
+							</Tab.Panels>
+						</Transition>
 					</Tab.Group>
 				</>
 			</div>
@@ -729,16 +730,17 @@ const Sidebar = ({
 
 Sidebar.defaultProps = {
 	enabledSections: [
-		"agenda",
+		// "agenda",
 		"chat",
-		"doubt",
+		// "doubt",
 		"pastebin",
 		"participant",
 		"settings",
 	],
-	defaultSection: "agenda",
+	defaultSection: "chat",
 	dispatchToSidebar: () => false,
 	sideBarOpen: true,
+	toolTipDir: "left",
 };
 
 export default Sidebar;

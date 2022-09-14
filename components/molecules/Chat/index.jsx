@@ -7,7 +7,7 @@ const Chat = ({ msgGroup }) => {
 
 	return (
 		<>
-			<li className="group flex space-x-2 break-all px-8 py-4 hover:bg-slate-50 dark:hover:bg-slate-800">
+			<li className="group flex space-x-2 break-all px-8 py-4 hover:bg-neutral-50 dark:hover:bg-neutral-800">
 				<img
 					src={
 						msgGroup.user.profileImageUrl

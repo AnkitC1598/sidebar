@@ -54,8 +54,8 @@ const App = (props) => {
 
 const AppWithQuery = ({ Component, pageProps }) => {
 	return (
-		<div className="flex h-screen select-none flex-col overflow-x-hidden overflow-y-scroll bg-slate-100 scrollbar-hide dark:bg-neutral-900 sm:flex-row">
-			<div className="bg-slate-100 dark:bg-neutral-900 h-screen w-screen">
+		<div className="flex h-screen select-none overflow-x-hidden overflow-y-scroll bg-neutral-100 scrollbar-hide dark:bg-neutral-900">
+			<div className="bg-neutral-100 dark:bg-neutral-900 h-screen w-screen">
 				<Component {...pageProps} />
 			</div>
 		</div>
