@@ -1,9 +1,6 @@
 import create from "zustand";
 import { devtools } from "zustand/middleware";
-import {
-	sidebarReducer,
-	socketReducer
-} from "./reducer";
+import { sidebarReducer, socketReducer } from "./reducer";
 
 export const useSidebarStore = create(
 	devtools(
@@ -18,6 +15,9 @@ export const useSidebarStore = create(
 			doubtPage: 0,
 			sideBarOpen: true,
 			sideBarSection: "",
+			overlapVisible: false,
+			OverlapComponent: null,
+			overlapProps: null,
 			unRead: {
 				chat: 0,
 				resource: 0,

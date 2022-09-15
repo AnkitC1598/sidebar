@@ -13,8 +13,8 @@ const LinearChat = ({ msgGroup }) => {
 					<span className="flex items-center space-x-2">
 						<Avatar
 							imgUrl={
-								msgGroup.user.profileImageUrl
-									? msgGroup.user.profileImageUrl
+								msgGroup.user.profileImage
+									? msgGroup.user.profileImage
 									: `https://avatars.dicebear.com/api/initials/${msgGroup.user?.name}.svg`
 							}
 							alt={msgGroup.user?.name}

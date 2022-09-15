@@ -1,5 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
-import { EllipsisVerticalIcon, GlobeAltIcon } from "@heroicons/react/24/solid";
+import {
+	ArrowLeftIcon,
+	EllipsisVerticalIcon,
+	GlobeAltIcon,
+} from "@heroicons/react/24/solid";
 import React, { Fragment } from "react";
 import { useSidebarStore } from "../../../store/store";
 import { Tooltip } from "../../../submodules/shared/components/atoms";
@@ -8,7 +12,7 @@ import {
 	Github,
 	Instagram,
 	Linkedin,
-	Twitter
+	Twitter,
 } from "../../../submodules/shared/icons";
 import { classNames } from "../../../submodules/shared/utils";
 
@@ -30,11 +34,13 @@ const getSocialIcon = (name) => {
 };
 
 const Profile = ({ user }) => {
-	if (Object.prototype.toString.call(user) !== "[object Object]") return null;
+	if (Object.prototype.toString.call(user) !== "[object Object]") throw new Error("User must be an object");
 
 	const dispatchToSidebar = useSidebarStore(
 		(store) => store.dispatchToSidebar
 	);
+
+	const copyProfileLink = () => console.log("ProfileLinkCopy");
 
 	return (
 		<>
@@ -71,7 +77,7 @@ const Profile = ({ user }) => {
 										</span>
 									</div>
 									<p className="text-sm text-slate-500 dark:text-slate-400">
-										{user.username}
+										@{user.username}
 									</p>
 								</div>
 								<div className="inline-flex sm:ml-0">
@@ -97,15 +103,14 @@ const Profile = ({ user }) => {
 											leaveFrom="transform opacity-100 scale-100"
 											leaveTo="transform opacity-0 scale-95"
 										>
-											{/* bg-neutral-50 text-slate-900
-											dark:bg-neutral-900
-											dark:text-slate-200 */}
 											<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-neutral-50 dark:bg-neutral-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 												<div className="p-1">
 													<Menu.Item>
 														{({ active }) => (
 															<a
-																href="/"
+																href={`https://letsupgrade.in/user/${user.username}/edit`}
+																target="_blank"
+																rel="noopener noreferrer"
 																className={classNames(
 																	active
 																		? "bg-neutral-200 dark:bg-neutral-600 text-slate-900 dark:text-slate-200"
@@ -113,24 +118,26 @@ const Profile = ({ user }) => {
 																	"rounded-md block px-4 py-2 text-sm"
 																)}
 															>
-																View profile
+																Edit profile
 															</a>
 														)}
 													</Menu.Item>
 													<Menu.Item>
 														{({ active }) => (
-															<a
-																href="/"
+															<span
 																className={classNames(
 																	active
 																		? "bg-neutral-200 dark:bg-neutral-600 text-slate-900 dark:text-slate-200"
 																		: "bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-slate-200",
 																	"rounded-md block px-4 py-2 text-sm"
 																)}
+																onClick={
+																	copyProfileLink
+																}
 															>
 																Copy profile
 																link
-															</a>
+															</span>
 														)}
 													</Menu.Item>
 												</div>
@@ -227,7 +234,7 @@ const Profile = ({ user }) => {
 							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
 								Socials
 							</span>
-							<span className="text-sm text-slate-900 dark:text-slate-200 flex space-x-4">
+							<span className="text-sm text-slate-900 dark:text-slate-200 grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
 								{Object.keys(user.socials).map((socialName) => {
 									const SocialIcon =
 										getSocialIcon(socialName);
@@ -238,7 +245,7 @@ const Profile = ({ user }) => {
 											href={socialUrl}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="group relative inline-flex"
+											className="group relative flex"
 										>
 											<SocialIcon className="h-9 w-9 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-400 border dark:border-neutral-200 p-2 rounded-md shadow-sm" />
 											<Tooltip

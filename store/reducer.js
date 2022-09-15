@@ -1,4 +1,25 @@
 import { produce } from "immer";
+import { forwardRef } from "react";
+import { Profile } from "../components/organisms";
+
+const NavDropDownLink = forwardRef(({ href, children, ...rest }, ref) => {
+	return (
+		<Link href={href}>
+			<a ref={ref} {...rest}>
+				{children}
+			</a>
+		</Link>
+	);
+});
+
+const getComponentFromName = (name) => {
+	switch (name) {
+		case "profile":
+			return Profile;
+		default:
+			return null;
+	}
+};
 
 export const socketReducer = (state, { type, payload }) => {
 	switch (type) {
@@ -63,6 +84,23 @@ export const sidebarReducer = (state, { type, payload }) => {
 			return produce(state, (draft) => {
 				draft.sideBarOpen = true;
 				draft.sideBarSection = payload;
+			});
+		case "SET_OVERLAP_SECTION":
+			return produce(state, (draft) => {
+				const props = payload.props || {};
+				const Component = getComponentFromName(payload.component);
+				// Component = ;
+				draft.overlapVisible = true;
+				draft.OverlapComponent = forwardRef((props, ref) => {
+					return <Component ref={ref} {...props} />;
+				});
+				draft.overlapProps = props;
+			});
+		case "RESET_OVERLAP_SECTION":
+			return produce(state, (draft) => {
+				draft.overlapVisible = false;
+				draft.OverlapComponent = null;
+				draft.overlapProps = null;
 			});
 		case "ASSIGN_PARTICIPANT_ID":
 			return produce(state, (draft) => {

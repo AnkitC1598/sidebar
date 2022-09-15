@@ -39,13 +39,16 @@ const App = (props) => {
 	return (
 		<>
 			<Head>
-				<title>LU Next Template</title>
+				<title>LU Sidebar</title>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<QueryClientProvider client={queryClient}>
 				<AppWithQuery {...props} />
 				{process.env.NODE_ENV === "development" && (
-					<ReactQueryDevtools initialIsOpen={true} />
+					<ReactQueryDevtools
+						initialIsOpen={true}
+						position="top-right"
+					/>
 				)}
 			</QueryClientProvider>
 		</>
