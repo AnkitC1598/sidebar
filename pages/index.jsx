@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Sidebar } from "../components/organisms";
+import { useSidebarStore } from "../store/store";
 import { useDarkMode } from "../submodules/shared/hooks";
 import { classNames } from "../submodules/shared/utils";
 
@@ -7,10 +9,22 @@ const SidebarView = ({
 	className,
 	enabledSections,
 	defaultSection,
-	dispatchToSidebar,
-	sideBarOpen,
 }) => {
 	if (!asComponent) useDarkMode();
+
+	const dispatchToSidebar = useSidebarStore(
+		(store) => store.dispatchToSidebar
+	);
+
+	useEffect(
+		() =>
+			dispatchToSidebar({
+				type: "SET_SIDEBAR_SECTION",
+				payload: defaultSection,
+			}),
+		[defaultSection]
+	);
+
 	return (
 		<div
 			className={classNames(
@@ -21,9 +35,6 @@ const SidebarView = ({
 			<Sidebar
 				toolTipDir={asComponent ? "left" : "right"}
 				enabledSections={enabledSections}
-				defaultSection={defaultSection}
-				dispatchToSidebar={dispatchToSidebar}
-				sideBarOpen={sideBarOpen}
 			/>
 		</div>
 	);
@@ -42,8 +53,6 @@ SidebarView.defaultProps = {
 		"settings",
 	],
 	defaultSection: "agenda",
-	dispatchToSidebar: () => false,
-	sideBarOpen: true,
 };
 
 export default SidebarView;

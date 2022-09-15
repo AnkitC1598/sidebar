@@ -27,6 +27,7 @@ import {
 	Profile,
 	Settings,
 } from "..";
+import { useSidebarStore } from "../../../store/store";
 import { Tooltip } from "../../../submodules/shared/components/atoms";
 import { classNames } from "../../../submodules/shared/utils";
 
@@ -367,11 +368,25 @@ const participants = [
 ];
 const user = {
 	uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t2",
-	name: "Ankit Chaudhari",
-	username: "ankit_chaudhari",
-	profileImageUrl:
-		"https://cdn.letsupgrade.net/aVNhQHe1N8ZibeFmGh5zK8eAh9t2/profile/displayImage.png",
-	role: "admin",
+	bannerImg: "https://source.unsplash.com/1600x900/?technology",
+	profileImage:
+		"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+	name: "Ashley Porter",
+	username: "@ashleyporter",
+	email: "ashleyporter@email.com",
+	number: "+911234567890",
+	title: "Code Storming 💻",
+	bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+	location: "New York, NY, USA",
+	learningHours: "500",
+	socials: {
+		twitter: "http://twitter.com",
+		instagram: "https://instagram.com",
+		linkedin: "https://linkedin.com",
+		facebook: "https://facebook.com",
+		github: "https://github.com",
+		web: "https://letsupgrade.in",
+	},
 };
 
 const resources = [
@@ -614,7 +629,7 @@ const Tabs = [
 		icon: (
 			<img
 				className="aspect-square h-7 w-7 rounded-md"
-				src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+				src={user.profileImage}
 			/>
 		),
 	},
@@ -626,22 +641,15 @@ const Tabs = [
 	},
 ];
 
-const Sidebar = ({
-	enabledSections,
-	defaultSection,
-	dispatchToSidebar,
-	sideBarOpen,
-	toolTipDir,
-}) => {
+const Sidebar = ({ enabledSections, toolTipDir }) => {
 	if (Object.prototype.toString.call(enabledSections) !== "[object Array]")
 		return null;
-	if (
-		Object.prototype.toString.call(dispatchToSidebar) !==
-		"[object Function]"
-	)
-		return null;
-	if (Object.prototype.toString.call(sideBarOpen) !== "[object Boolean]")
-		return null;
+
+	const { sideBarOpen, sideBarSection, dispatchToSidebar } = useSidebarStore((store) => ({
+		sideBarOpen: store.sideBarOpen,
+		sideBarSection: store.sideBarSection,
+		dispatchToSidebar: store.dispatchToSidebar,
+	}));
 
 	const findTabIndex = (tabLabel) => {
 		const found = Tabs.filter((tab) =>
@@ -656,11 +664,11 @@ const Sidebar = ({
 			<div className="relative flex h-full w-full bg-neutral-50 dark:bg-neutral-900">
 				<>
 					<Tab.Group
-						defaultIndex={findTabIndex(defaultSection)}
+						selectedIndex={findTabIndex(sideBarSection)}
 						onChange={(idx) =>
 							dispatchToSidebar({
-								type: "OPEN_SIDEBAR_STATE",
-								payload: { type: enabledSections[idx] },
+								type: "SET_SIDEBAR_SECTION",
+								payload: enabledSections[idx],
 							})
 						}
 					>
@@ -778,9 +786,6 @@ Sidebar.defaultProps = {
 		"profile",
 		"settings",
 	],
-	defaultSection: "chat",
-	dispatchToSidebar: () => false,
-	sideBarOpen: true,
 	toolTipDir: "left",
 };
 
