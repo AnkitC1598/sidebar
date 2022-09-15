@@ -30,7 +30,7 @@ const LinearChat = ({ msgGroup }) => {
 					</span>
 				</div>
 				<div className="flex w-full flex-col items-start space-y-1">
-					<div className="group-scoped message relative flex w-full items-center space-x-1">
+					<div className="group-scoped message relative flex w-full items-center space-x-1 pl-7">
 						<div className="flex flex-col">
 							{msgGroup.messages.map(({ _id, message }) => (
 								<ReadMore key={_id} msg={message} />

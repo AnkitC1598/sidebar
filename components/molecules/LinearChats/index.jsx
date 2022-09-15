@@ -1,7 +1,4 @@
-import { formatDistanceToNow } from "date-fns";
-import { useState } from "react";
 import { Input } from "../../../submodules/shared/components/atoms";
-import { classNames, urlify } from "../../../submodules/shared/utils";
 import { LinearChat } from "../../atoms";
 
 const LinearChats = ({ messages }) => {

@@ -10,8 +10,7 @@ import {
 	UserGroupIcon as UserGroupIconSolid
 } from "@heroicons/react/24/solid";
 import { Fragment, useMemo } from "react";
-import { classNames } from "../../../submodules/shared/utils";
-import { LinearChats } from "../../molecules";
+import { InboxChats, LinearChats } from "../../molecules";
 
 const Chats = ({ messages }) => {
 	const tabs = useMemo(
@@ -22,7 +21,7 @@ const Chats = ({ messages }) => {
 				outlineIcon: (
 					<SignalIconOutline className="h-5 w-5 rounded-md" />
 				),
-				component: <></>,
+				component: <LinearChats messages={messages} />,
 			},
 			{
 				label: "Discussion",
@@ -32,7 +31,7 @@ const Chats = ({ messages }) => {
 				outlineIcon: (
 					<UserGroupIconOutline className="h-5 w-5 rounded-md" />
 				),
-				component: <></>,
+				component: <LinearChats messages={messages} />,
 			},
 			{
 				label: "Inbox",
@@ -40,7 +39,7 @@ const Chats = ({ messages }) => {
 				outlineIcon: (
 					<InboxIconOutline className="h-5 w-5 rounded-md" />
 				),
-				component: <></>,
+				component: <InboxChats />,
 			},
 		],
 		[]
@@ -52,10 +51,8 @@ const Chats = ({ messages }) => {
 					<Tab.List className="flex">
 						{tabs.map((tab) => (
 							<Tab
-								key={tab.label}
-								className={classNames(
-									"w-full py-2.5 text-sm font-medium leading-5 focus:outline-none transition-all duration-200 focus:ring-0 focus:bg-transparent flex flex-col justify-center items-center space-y-1 relative bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"
-								)}
+								key={tab.label + "tab"}
+								className="w-full py-2.5 text-sm font-medium leading-5 focus:outline-none transition-all duration-200 focus:ring-0 focus:bg-transparent flex flex-col justify-center items-center space-y-1 relative bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"
 							>
 								{({ selected }) => (
 									<>
@@ -75,7 +72,7 @@ const Chats = ({ messages }) => {
 											leaveFrom="opacity-100"
 											leaveTo="opacity-0"
 										>
-											<span className="w-2/3 mx-auto absolute -bottom-1 inset-x-0 transition-all duration-200 border-t-4 h-2 rounded-sm border-purple-700 dark:border-purple-300"></span>
+											<span className="w-2/3 mx-auto absolute -bottom-1 inset-x-0 transition-all duration-200 border-t-4 h-2 rounded-sm border-purple-700 dark:border-purple-300" />
 										</Transition>
 									</>
 								)}
@@ -85,10 +82,10 @@ const Chats = ({ messages }) => {
 					<Tab.Panels className="w-full h-full bg-neutral-50 dark:bg-neutral-900">
 						{tabs.map((tab) => (
 							<Tab.Panel
-								key={tab.label}
+								key={tab.label + "component"}
 								className="w-full divide-y divide-neutral-200 bg-neutral-50 outline-none transition-all duration-200 dark:divide-neutral-800 dark:bg-neutral-900 h-chatTab"
 							>
-								<LinearChats messages={messages} />
+								{tab.component}
 							</Tab.Panel>
 						))}
 					</Tab.Panels>
