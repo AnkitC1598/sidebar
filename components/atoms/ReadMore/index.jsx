@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { classNames, urlify } from "../../../submodules/shared/utils";
 
 const ReadMore = ({ msg }) => {
-	if (Object.prototype.toString.call(msg) !== "[object String]") return null;
+	if (Object.prototype.toString.call(msg) !== "[object String]") throw new Error("msg must be a string");
 
 	const [isReadMore, setIsReadMore] = useState(msg.length > 150);
 	return (
@@ -33,7 +33,7 @@ const ReadMore = ({ msg }) => {
 };
 
 ReadMore.defaultProps = {
-	msg: "",
+	msg: null,
 };
 
 export default ReadMore;

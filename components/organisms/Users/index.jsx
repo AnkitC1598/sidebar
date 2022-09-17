@@ -1,18 +1,306 @@
-import { Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { useSidebarStore } from "../../../store/store";
 import { Search } from "../../../submodules/shared/components/atoms";
 import { Participant } from "../../molecules";
 
-const Users = ({ participants }) => {
+const participants = [
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 1",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t22",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 2",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t23",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 3",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t24",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 4",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t25",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 5",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t26",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 6",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t27",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 7",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t28",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 8",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t29",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 9",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t210",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 10",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+	{
+		uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t211",
+		bannerImg: "https://source.unsplash.com/1600x900/?technology",
+		profileImage:
+			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+		name: "Ashley Porter 11",
+		username: "ashleyporter",
+		email: "ashleyporter@email.com",
+		number: "+911234567890",
+		title: "Code Storming 💻",
+		bio: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, voluptas! Consequuntur quis ullam accusantium.",
+		location: "New York, NY, USA",
+		learningHours: "500",
+		socials: {
+			twitter: "http://twitter.com",
+			instagram: "https://instagram.com",
+			linkedin: "https://linkedin.com",
+			facebook: "https://facebook.com",
+			github: "https://github.com",
+			web: "https://letsupgrade.in",
+		},
+		role: "student",
+		handRaiseStatus: null,
+		lastDoubtId: null,
+		permissions: { chat: { isBanned: false, time: 0 } },
+	},
+];
+
+const Users = () => {
 	const [search, setSearch] = useState("");
-	const { overlapVisible, OverlapComponent, overlapProps } = useSidebarStore(
-		(store) => ({
-			overlapVisible: store.overlapVisible,
-			OverlapComponent: store.OverlapComponent,
-			overlapProps: store.overlapProps,
-		})
-	);
+	const { overlapVisible, OverlapComponent, overlapProps, overlapName } =
+		useSidebarStore((store) => ({
+			overlapVisible: store.overlapSection.visible,
+			OverlapComponent: store.overlapSection.Component,
+			overlapProps: store.overlapSection.props,
+			overlapName: store.overlapSection.name,
+		}));
 
 	return (
 		<>
@@ -29,10 +317,9 @@ const Users = ({ participants }) => {
 				> */}
 				{/* <OverlapComponent {...overlapProps} /> */}
 				{/* </Transition> */}
-				{overlapVisible ? (
+				{overlapVisible && overlapName === "profile" ? (
 					<OverlapComponent {...overlapProps} />
-				) : Object.prototype.toString.call(participants) ===
-						"[object Array]" && participants.length ? (
+				) : participants.length ? (
 					<>
 						<Search
 							setSearch={setSearch}
@@ -83,10 +370,6 @@ const Users = ({ participants }) => {
 			</div>
 		</>
 	);
-};
-
-Users.defaultProps = {
-	participants: [],
 };
 
 export default Users;

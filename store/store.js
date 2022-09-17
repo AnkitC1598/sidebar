@@ -5,6 +5,8 @@ import { sidebarReducer, socketReducer } from "./reducer";
 export const useSidebarStore = create(
 	devtools(
 		(set) => ({
+			loaded: false,
+			user: null,
 			agendas: [],
 			chats: [],
 			chatPage: 0,
@@ -15,9 +17,12 @@ export const useSidebarStore = create(
 			doubtPage: 0,
 			sideBarOpen: true,
 			sideBarSection: "",
-			overlapVisible: false,
-			OverlapComponent: null,
-			overlapProps: null,
+			overlapSection: {
+				visible: false,
+				Component: null,
+				props: {},
+				name: "",
+			},
 			unRead: {
 				chat: 0,
 				resource: 0,

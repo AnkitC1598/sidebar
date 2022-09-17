@@ -1,7 +1,9 @@
+import React from "react";
+import { LRChat } from "..";
 import { Input } from "../../../submodules/shared/components/atoms";
-import { LinearChat } from "../../atoms";
+import { classNames } from "../../../submodules/shared/utils";
 
-const messages = [
+const msgGroups = [
 	{
 		user: {
 			name: "Biruntha Anbazhagan",
@@ -362,42 +364,32 @@ const messages = [
 		],
 	},
 ];
+const user = "aVNhQHe1N8ZibeFmGh5zK8eAh9t2";
 
-const LinearChats = () => {
+const InboxChat = () => {
 	return (
 		<>
-			{messages.length ? (
-				<>
-					<ul className="flex h-full w-full flex-col divide-y divide-neutral-200 overflow-hidden overflow-y-scroll rounded-md pt-0.5 scrollbar-hide dark:divide-neutral-800">
-						{messages.map((msgGroup, idx) => (
-							<li
-								key={msgGroup?.user?.uid + msgGroup.type + idx}
-								className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
-							>
-								<LinearChat msgGroup={msgGroup} />
-							</li>
-						))}
-					</ul>
-					<div className="border-t border-neutral-200 px-3 py-3 dark:border-neutral-800">
-						<Input placeholder="Send Message" />
-					</div>
-				</>
-			) : (
-				<>
-					<div className="flex h-full select-none flex-col items-center justify-center space-x-1 space-y-8 text-black">
-						<img
-							src="/assets/img/noMessage.png"
-							alt="No Agenda's Listed"
-							className="w-[25%] md:w-[60%]"
+			<ul className="flex w-full flex-col overflow-hidden overflow-y-scroll h-navScreen h-screen-ios rounded-md pt-0.5 scrollbar-hide space-y-3 p-4">
+				{msgGroups.map((msgGroup, idx) => (
+					<li
+						key={idx}
+						className={classNames(
+							"group flex w-2/3",
+							msgGroup.user.uid === user && "justify-end"
+						)}
+					>
+						<LRChat
+							msgGroup={msgGroup}
+							isSent={msgGroup.user.uid === user}
 						/>
-						<div className="text-slate-500">
-							No Resource's Listed
-						</div>
-					</div>
-				</>
-			)}
+					</li>
+				))}
+			</ul>
+				<div className="border-t border-neutral-200 px-3 py-3 dark:border-neutral-800">
+					<Input placeholder="Send Message" />
+				</div>
 		</>
 	);
 };
 
-export default LinearChats;
+export default InboxChat;

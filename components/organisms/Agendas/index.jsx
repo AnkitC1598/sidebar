@@ -1,11 +1,19 @@
 import { Input } from "../../../submodules/shared/components/atoms";
 import { Agenda } from "../../molecules";
 
-const Agendas = ({ agendas }) => {
+const agendas = [
+	{ id: "FMDDa_f-fiww8YAh", text: "For Loop", isCompleted: false },
+	{ id: "UrFaOcRk7p_285-L", text: "For in Loop", isCompleted: true },
+	{ id: "wdMhkhqlLokPQ6b_", text: "For of Loops", isCompleted: false },
+	{ id: "T4YWUt6QHEttf22k", text: "Do While Loop", isCompleted: false },
+	{ id: "mAFbN446ez13RofL", text: "While Loops", isCompleted: false },
+];
+
+const Agendas = () => {
 	return (
 		<>
 			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 md:h-navScreen">
-				{Object.prototype.toString.call(agendas) === '[object Array]' && agendas.length ? (
+				{agendas.length ? (
 					<>
 						<span className="border-b border-neutral-200 px-3 py-3 dark:border-neutral-800">
 							<Input placeholder="Add Agenda" />
@@ -34,9 +42,5 @@ const Agendas = ({ agendas }) => {
 		</>
 	);
 };
-
-Agendas.defaultProps = {
-	agendas: []
-}
 
 export default Agendas;

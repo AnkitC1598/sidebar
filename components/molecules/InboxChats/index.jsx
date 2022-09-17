@@ -1,7 +1,12 @@
 import React from "react";
+import { useSidebarStore } from "../../../store/store";
 import { InboxChatPreview } from "../../atoms";
 
 const InboxChats = ({ chats }) => {
+	const dispatchToSidebar = useSidebarStore(
+		(store) => store.dispatchToSidebar
+	);
+
 	return (
 		<>
 			{Object.prototype.toString.call(chats) === "[object Array]" &&
@@ -12,6 +17,17 @@ const InboxChats = ({ chats }) => {
 							<li
 								key={chat?.chatName + idx}
 								className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+								onClick={() =>
+									dispatchToSidebar({
+										type: "SET_OVERLAP_SECTION",
+										payload: {
+											component: "inboxChat",
+											props: {
+												chatId: chat.chatId,
+											},
+										},
+									})
+								}
 							>
 								<InboxChatPreview chat={chat} />
 							</li>
@@ -39,6 +55,7 @@ const InboxChats = ({ chats }) => {
 InboxChats.defaultProps = {
 	chats: [
 		{
+			chatId: 1,
 			chatIcon: "https://via.placeholder.com/150",
 			chatName: "LisA Chat Test",
 			lastMessage: {
@@ -52,6 +69,7 @@ InboxChats.defaultProps = {
 			},
 		},
 		{
+			chatId: 2,
 			chatIcon: "https://via.placeholder.com/150",
 			chatName: "LisA Chat Test",
 			lastMessage: {

@@ -1,21 +1,14 @@
 import { produce } from "immer";
 import { forwardRef } from "react";
+import { InboxChat } from "../components/atoms";
 import { Profile } from "../components/organisms";
-
-const NavDropDownLink = forwardRef(({ href, children, ...rest }, ref) => {
-	return (
-		<Link href={href}>
-			<a ref={ref} {...rest}>
-				{children}
-			</a>
-		</Link>
-	);
-});
 
 const getComponentFromName = (name) => {
 	switch (name) {
 		case "profile":
 			return Profile;
+		case "inboxChat":
+			return InboxChat;
 		default:
 			return null;
 	}
@@ -46,6 +39,7 @@ export const socketReducer = (state, { type, payload }) => {
 };
 
 export const sidebarReducer = (state, { type, payload }) => {
+	console.log('start')
 	switch (type) {
 		/* COMMON */
 		case "SET_STATE_TYPE":
@@ -88,19 +82,25 @@ export const sidebarReducer = (state, { type, payload }) => {
 		case "SET_OVERLAP_SECTION":
 			return produce(state, (draft) => {
 				const props = payload.props || {};
-				const Component = getComponentFromName(payload.component);
-				// Component = ;
-				draft.overlapVisible = true;
-				draft.OverlapComponent = forwardRef((props, ref) => {
-					return <Component ref={ref} {...props} />;
-				});
-				draft.overlapProps = props;
+				const componentName = payload.component;
+				const Component = getComponentFromName(componentName);
+				draft.overlapSection = {
+					visible: true,
+					Component: forwardRef((props, ref) => {
+						return <Component ref={ref} {...props} />;
+					}),
+					props: payload.props || {},
+					name: componentName,
+				};
 			});
 		case "RESET_OVERLAP_SECTION":
 			return produce(state, (draft) => {
-				draft.overlapVisible = false;
-				draft.OverlapComponent = null;
-				draft.overlapProps = null;
+				draft.overlapSection = {
+					visible: false,
+					Component: null,
+					props: null,
+					name: null,
+				};
 			});
 		case "ASSIGN_PARTICIPANT_ID":
 			return produce(state, (draft) => {
@@ -316,4 +316,5 @@ export const sidebarReducer = (state, { type, payload }) => {
 				draft.avgRating = payload.avgRating;
 			});
 	}
+	console.log('end')
 };

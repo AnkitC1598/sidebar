@@ -33,12 +33,11 @@ const getSocialIcon = (name) => {
 	}
 };
 
-const Profile = ({ user }) => {
-	if (Object.prototype.toString.call(user) !== "[object Object]") throw new Error("User must be an object");
-
-	const dispatchToSidebar = useSidebarStore(
-		(store) => store.dispatchToSidebar
-	);
+const Profile = () => {
+	const { user, dispatchToSidebar } = useSidebarStore((store) => ({
+		user: store.user,
+		dispatchToSidebar: store.dispatchToSidebar,
+	}));
 
 	const copyProfileLink = () => console.log("ProfileLinkCopy");
 
@@ -262,10 +261,6 @@ const Profile = ({ user }) => {
 			</div>
 		</>
 	);
-};
-
-Profile.defaultProps = {
-	user: null,
 };
 
 export default Profile;
