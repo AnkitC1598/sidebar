@@ -1,8 +1,12 @@
 export { default as Agendas } from "./Agendas";
 export { default as Chats } from "./Chats";
+export { default as CreateNewGroupOrChat } from "./CreateNewGroupOrChat";
 export { default as Doubts } from "./Doubts";
-export { default as Users } from "./Users";
+export { default as InboxChatDetail } from "./InboxChatDetail";
+export { default as InboxChats } from "./InboxChats";
+export { default as LinearChats } from "./LinearChats";
 export { default as PasteBin } from "./PasteBin";
 export { default as Profile } from "./Profile";
 export { default as Settings } from "./Settings";
 export { default as Sidebar } from "./Sidebar";
+export { default as Users } from "./Users";

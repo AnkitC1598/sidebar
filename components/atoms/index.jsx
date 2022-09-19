@@ -1,9 +1,6 @@
 export { default as ChatBubble } from "./ChatBubble";
 export { default as DateDistance } from "./DateDistance";
-export { default as InboxChat } from "./InboxChat";
 export { default as InboxChatPreview } from "./InboxChatPreview";
-export { default as LinearChat } from "./LinearChat";
-export { default as LRChat } from "./LRChat";
 export { default as ReadMore } from "./ReadMore";
 export { default as ReceivedMsg } from "./ReceivedMsg";
 export { default as SentMsg } from "./SentMsg";

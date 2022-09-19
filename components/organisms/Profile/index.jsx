@@ -1,12 +1,7 @@
-import { Menu, Transition } from "@headlessui/react";
-import {
-	ArrowLeftIcon,
-	EllipsisVerticalIcon,
-	GlobeAltIcon,
-} from "@heroicons/react/24/solid";
-import React, { Fragment } from "react";
+import { GlobeAltIcon } from "@heroicons/react/24/solid";
+import React from "react";
 import { useSidebarStore } from "../../../store/store";
-import { Tooltip } from "../../../submodules/shared/components/atoms";
+import { Options, Tooltip } from "../../../submodules/shared/components/atoms";
 import {
 	Facebook,
 	Github,
@@ -14,7 +9,6 @@ import {
 	Linkedin,
 	Twitter,
 } from "../../../submodules/shared/icons";
-import { classNames } from "../../../submodules/shared/utils";
 
 const getSocialIcon = (name) => {
 	switch (name) {
@@ -47,8 +41,8 @@ const Profile = () => {
 				<div>
 					<div className="h-32 bg-transparent overflow-hidden flex items-center shadow-2xl dark:shadow-gray-900">
 						<img
-							src={user.bannerImg}
-							alt={user.name}
+							src={user?.bannerImg}
+							alt={user?.name}
 							className="flex-1"
 						/>
 					</div>
@@ -57,8 +51,8 @@ const Profile = () => {
 							<div className="inline-flex overflow-hidden rounded-lg border-4 border-white z-20">
 								<img
 									className="h-24 w-24 flex-shrink-0"
-									src={user.profileImage}
-									alt={user.name}
+									src={user?.profileImage}
+									alt={user?.name}
 								/>
 							</div>
 						</div>
@@ -67,7 +61,7 @@ const Profile = () => {
 								<div className="flex flex-col">
 									<div className="flex items-center">
 										<h3 className="text-xl font-bold text-slate-900 dark:text-slate-200">
-											{user.name}
+											{user?.name}
 										</h3>
 										<span className="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
 											<span className="sr-only">
@@ -76,73 +70,23 @@ const Profile = () => {
 										</span>
 									</div>
 									<p className="text-sm text-slate-500 dark:text-slate-400">
-										@{user.username}
+										@{user?.username}
 									</p>
 								</div>
 								<div className="inline-flex sm:ml-0">
-									<Menu
-										as="div"
-										className="relative inline-block text-left"
-									>
-										<Menu.Button className="inline-flex items-center p-2 text-sm font-medium text-gray-400 shadow-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0">
-											<span className="sr-only">
-												Open options menu
-											</span>
-											<EllipsisVerticalIcon
-												className="h-5 w-5"
-												aria-hidden="true"
-											/>
-										</Menu.Button>
-										<Transition
-											as={Fragment}
-											enter="transition ease-out duration-100"
-											enterFrom="transform opacity-0 scale-95"
-											enterTo="transform opacity-100 scale-100"
-											leave="transition ease-in duration-75"
-											leaveFrom="transform opacity-100 scale-100"
-											leaveTo="transform opacity-0 scale-95"
-										>
-											<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-neutral-50 dark:bg-neutral-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-												<div className="p-1">
-													<Menu.Item>
-														{({ active }) => (
-															<a
-																href={`https://letsupgrade.in/user/${user.username}/edit`}
-																target="_blank"
-																rel="noopener noreferrer"
-																className={classNames(
-																	active
-																		? "bg-neutral-200 dark:bg-neutral-600 text-slate-900 dark:text-slate-200"
-																		: "bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-slate-200",
-																	"rounded-md block px-4 py-2 text-sm"
-																)}
-															>
-																Edit profile
-															</a>
-														)}
-													</Menu.Item>
-													<Menu.Item>
-														{({ active }) => (
-															<span
-																className={classNames(
-																	active
-																		? "bg-neutral-200 dark:bg-neutral-600 text-slate-900 dark:text-slate-200"
-																		: "bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-slate-200",
-																	"rounded-md block px-4 py-2 text-sm"
-																)}
-																onClick={
-																	copyProfileLink
-																}
-															>
-																Copy profile
-																link
-															</span>
-														)}
-													</Menu.Item>
-												</div>
-											</Menu.Items>
-										</Transition>
-									</Menu>
+									<Options
+										options={[
+											{
+												label: "Edit profile",
+												isExternalLink: true,
+												link: `https://letsupgrade.in/user/${user?.username}/edit`,
+											},
+											{
+												label: "Copy profile link",
+												action: copyProfileLink,
+											},
+										]}
+									/>
 								</div>
 							</div>
 
@@ -176,7 +120,7 @@ const Profile = () => {
 								Title
 							</span>
 							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user.title}
+								{user?.title}
 							</span>
 						</div>
 						<div className="flex flex-col space-y-1">
@@ -184,7 +128,7 @@ const Profile = () => {
 								Bio
 							</span>
 							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user.bio}
+								{user?.bio}
 							</span>
 						</div>
 						<div className="flex flex-col space-y-1">
@@ -193,10 +137,10 @@ const Profile = () => {
 							</span>
 							<span>
 								<a
-									href={`mailto: ${user.email}`}
+									href={`mailto: ${user?.email}`}
 									className="text-sm text-slate-900 dark:text-slate-200 hover:text-lu-500"
 								>
-									{user.email}
+									{user?.email}
 								</a>
 							</span>
 						</div>
@@ -206,10 +150,10 @@ const Profile = () => {
 							</span>
 							<span>
 								<a
-									href={`tel: ${user.number}`}
+									href={`tel: ${user?.number}`}
 									className="text-sm text-slate-900 dark:text-slate-200"
 								>
-									{user.number}
+									{user?.number}
 								</a>
 							</span>
 						</div>
@@ -218,7 +162,7 @@ const Profile = () => {
 								Location
 							</span>
 							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user.location}
+								{user?.location}
 							</span>
 						</div>
 						<div className="flex flex-col space-y-1">
@@ -226,7 +170,7 @@ const Profile = () => {
 								Learning Hours
 							</span>
 							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user.learningHours}
+								{user?.learningHours}
 							</span>
 						</div>
 						<div className="flex flex-col space-y-2">
@@ -234,10 +178,10 @@ const Profile = () => {
 								Socials
 							</span>
 							<span className="text-sm text-slate-900 dark:text-slate-200 grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
-								{Object.keys(user.socials).map((socialName) => {
+								{Object.keys(user?.socials).map((socialName) => {
 									const SocialIcon =
 										getSocialIcon(socialName);
-									const socialUrl = user.socials[socialName];
+									const socialUrl = user?.socials[socialName];
 									return (
 										<a
 											key={socialName}

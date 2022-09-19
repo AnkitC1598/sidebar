@@ -1,7 +1,11 @@
 import { produce } from "immer";
 import { forwardRef } from "react";
-import { InboxChat } from "../components/atoms";
-import { Profile } from "../components/organisms";
+import { InboxChat } from "../components/molecules";
+import {
+	CreateNewGroupOrChat,
+	InboxChatDetail,
+	Profile,
+} from "../components/organisms";
 
 const getComponentFromName = (name) => {
 	switch (name) {
@@ -9,10 +13,16 @@ const getComponentFromName = (name) => {
 			return Profile;
 		case "inboxChat":
 			return InboxChat;
+		case "inboxChatDetail":
+			return InboxChatDetail;
+		case "newChatOrGroup":
+			return CreateNewGroupOrChat;
 		default:
 			return null;
 	}
 };
+
+const ONE_WAY_OVERLAP_COMPONENTS = ["newChatOrGroup"];
 
 export const socketReducer = (state, { type, payload }) => {
 	switch (type) {
@@ -39,7 +49,6 @@ export const socketReducer = (state, { type, payload }) => {
 };
 
 export const sidebarReducer = (state, { type, payload }) => {
-	console.log('start')
 	switch (type) {
 		/* COMMON */
 		case "SET_STATE_TYPE":
@@ -81,17 +90,52 @@ export const sidebarReducer = (state, { type, payload }) => {
 			});
 		case "SET_OVERLAP_SECTION":
 			return produce(state, (draft) => {
+				if (state.overlapSection.visible)
+					draft.lastOverlapSection.push(state.overlapSection);
 				const props = payload.props || {};
+				const options = payload.options || null;
+				const title = payload.title || null;
 				const componentName = payload.component;
 				const Component = getComponentFromName(componentName);
 				draft.overlapSection = {
 					visible: true,
 					Component: forwardRef((props, ref) => {
-						return <Component ref={ref} {...props} />;
+						return <Component {...props} />;
 					}),
-					props: payload.props || {},
+					title: title,
+					props: props,
+					options: options,
 					name: componentName,
 				};
+			});
+		case "GO_BACK_OVERLAP_SECTION":
+			return produce(state, (draft) => {
+				if (
+					state.lastOverlapSection.length &&
+					!ONE_WAY_OVERLAP_COMPONENTS.includes(
+						state.lastOverlapSection.at(-1).name
+					)
+				) {
+					if (state.lastOverlapSection.length) {
+						const last = state.lastOverlapSection.at(-1);
+						draft.overlapSection = last;
+						draft.lastOverlapSection.pop();
+					} else
+						draft.overlapSection = {
+							visible: false,
+							Component: null,
+							props: null,
+							name: null,
+						};
+				} else {
+					draft.overlapSection = {
+						visible: false,
+						Component: null,
+						props: null,
+						name: null,
+					};
+					draft.lastOverlapSection = [];
+				}
 			});
 		case "RESET_OVERLAP_SECTION":
 			return produce(state, (draft) => {
@@ -101,6 +145,7 @@ export const sidebarReducer = (state, { type, payload }) => {
 					props: null,
 					name: null,
 				};
+				draft.lastOverlapSection = [];
 			});
 		case "ASSIGN_PARTICIPANT_ID":
 			return produce(state, (draft) => {
@@ -316,5 +361,4 @@ export const sidebarReducer = (state, { type, payload }) => {
 				draft.avgRating = payload.avgRating;
 			});
 	}
-	console.log('end')
 };

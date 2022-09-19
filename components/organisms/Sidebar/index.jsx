@@ -19,9 +19,9 @@ import {
 	UserGroupIcon as UserGroupIconSolid,
 } from "@heroicons/react/24/solid";
 import { Fragment, useMemo } from "react";
-import { Agendas, Chats, Doubts, Users, PasteBin, Profile, Settings } from "..";
+import { Agendas, Chats, Doubts, PasteBin, Profile, Settings, Users } from "..";
 import { useSidebarStore } from "../../../store/store";
-import { Tooltip } from "../../../submodules/shared/components/atoms";
+import { Options, Tooltip } from "../../../submodules/shared/components/atoms";
 import { classNames } from "../../../submodules/shared/utils";
 
 const Sidebar = ({ enabledSections, toolTipDir }) => {
@@ -33,14 +33,18 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 		sideBarOpen,
 		sideBarSection,
 		overlapVisible,
-		// overlapName,
+		overlapTitle,
+		overlapOptions,
+		overlapName,
 		dispatchToSidebar,
 	} = useSidebarStore((store) => ({
 		userProfileImage: store.user?.profileImage,
 		sideBarOpen: store.sideBarOpen,
 		sideBarSection: store.sideBarSection,
 		overlapVisible: store.overlapSection.visible,
-		// overlapName: store.overlapSection.name,
+		overlapTitle: store.overlapSection.title,
+		overlapOptions: store.overlapSection.options,
+		overlapName: store.overlapSection.name,
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
 
@@ -55,6 +59,7 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				solidIcon: (
 					<ClipboardDocumentListIconSolid className="h-5 w-5" />
 				),
+				overlaps: [],
 			},
 			{
 				label: "chat",
@@ -65,24 +70,33 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				solidIcon: (
 					<ChatBubbleBottomCenterTextIconSolid className="h-5 w-5" />
 				),
+				overlaps: [
+					"inboxChat",
+					"inboxChatDetail",
+					"profile",
+					"newChatOrGroup",
+				],
 			},
 			{
 				label: "doubt",
 				component: <Doubts />,
 				outlineIcon: <HandRaisedIconOutline className="h-5 w-5" />,
 				solidIcon: <HandRaisedIconSolid className="h-5 w-5" />,
+				overlaps: [],
 			},
 			{
 				label: "pastebin",
 				component: <PasteBin />,
 				outlineIcon: <FolderIconOutline className="h-5 w-5" />,
 				solidIcon: <FolderIconSolid className="h-5 w-5" />,
+				overlaps: [],
 			},
 			{
 				label: "users",
 				component: <Users />,
 				outlineIcon: <UserGroupIconOutline className="h-5 w-5" />,
 				solidIcon: <UserGroupIconSolid className="h-5 w-5" />,
+				overlaps: ["profile"],
 			},
 			{
 				label: "profile",
@@ -93,12 +107,14 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 						src={userProfileImage}
 					/>
 				),
+				overlaps: [],
 			},
 			{
 				label: "settings",
 				component: <Settings />,
 				outlineIcon: <Cog6ToothIconOutline className="h-5 w-5" />,
 				solidIcon: <Cog6ToothIconSolid className="h-5 w-5" />,
+				overlaps: [],
 			},
 		],
 		[]
@@ -118,12 +134,15 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				<>
 					<Tab.Group
 						selectedIndex={findTabIndex(sideBarSection)}
-						onChange={(idx) =>
+						onChange={(idx) => {
 							dispatchToSidebar({
 								type: "SET_SIDEBAR_SECTION",
 								payload: enabledSections[idx],
-							})
-						}
+							});
+							dispatchToSidebar({
+								type: "RESET_OVERLAP_SECTION",
+							});
+						}}
 					>
 						<Tab.List className="z-20 h-screen h-screen-ios flex flex-col border-x border-neutral-200 dark:border-neutral-800 bg-neutral-50 px-2 py-3 dark:bg-neutral-900 space-y-5 md:rounded-none md:p-2 md:pr-2">
 							{Tabs.filter((tab) =>
@@ -213,15 +232,30 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 										className="h-full w-full divide-y divide-neutral-200 bg-neutral-50 outline-none transition-all duration-500 dark:divide-neutral-800 dark:bg-neutral-900"
 									>
 										<div className="flex h-16 w-full items-center space-x-2 bg-neutral-50 py-2 px-4 text-slate-900 dark:bg-neutral-900 dark:text-slate-200">
-											{overlapVisible ? (
-												<ArrowLeftIcon
-													className="h-10 w-10 dark:hover:bg-neutral-800 hover:bg-neutral-200 p-2 rounded-md"
-													onClick={() =>
-														dispatchToSidebar({
-															type: "RESET_OVERLAP_SECTION",
-														})
-													}
-												/>
+											{overlapVisible &&
+											tab.overlaps.includes(
+												overlapName
+											) ? (
+												<span className="w-full flex space-x-3 items-center">
+													<ArrowLeftIcon
+														className="h-10 w-10 dark:hover:bg-neutral-800 hover:bg-neutral-200 p-2 rounded-md"
+														onClick={() =>
+															dispatchToSidebar({
+																type: "GO_BACK_OVERLAP_SECTION",
+															})
+														}
+													/>
+													<span className="flex-1 text-xl line-clamp-1">
+														{overlapTitle}
+													</span>
+													{overlapOptions ? (
+														<Options
+															options={
+																overlapOptions
+															}
+														/>
+													) : null}
+												</span>
 											) : (
 												<span className="flex-1 text-xl capitalize">
 													{tab.label}

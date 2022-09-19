@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Role } from "../../../submodules/shared/components/atoms";
-import { DateDistance, ReadMore } from "..";
+import { DateDistance, ReadMore } from "../../atoms";
 
 const LinearChat = ({ msgGroup }) => {
 	if (Object.prototype.toString.call(msgGroup) !== "[object Object]")

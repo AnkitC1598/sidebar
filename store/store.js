@@ -23,6 +23,7 @@ export const useSidebarStore = create(
 				props: {},
 				name: "",
 			},
+			lastOverlapSection: [],
 			unRead: {
 				chat: 0,
 				resource: 0,

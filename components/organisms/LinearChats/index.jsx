@@ -1,5 +1,5 @@
 import { Input } from "../../../submodules/shared/components/atoms";
-import { LinearChat } from "../../atoms";
+import { LinearChat } from "../../molecules";
 
 const messages = [
 	{

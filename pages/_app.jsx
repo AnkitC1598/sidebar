@@ -6,7 +6,6 @@ import nprogress from "nprogress";
 import { useEffect } from "react";
 import { useSidebarStore } from "../store/store";
 import "../styles/globals.css";
-import { Loader } from "../submodules/shared/components/atoms";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -28,7 +27,7 @@ Router.events.on("routeChangeComplete", () => nprogress.done());
 Router.events.on("routeChangeError", () => nprogress.done());
 
 const user = {
-	uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t2",
+	uid: "fq3cc3YVO1UFoZmSL3EnNqntsM92",
 	bannerImg: "https://source.unsplash.com/1600x900/?technology",
 	profileImage:
 		"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
@@ -83,7 +82,7 @@ const App = (props) => {
 				{process.env.NODE_ENV === "development" && (
 					<ReactQueryDevtools
 						initialIsOpen={true}
-						position="top-right"
+						// position="top-right"
 					/>
 				)}
 			</QueryClientProvider>
