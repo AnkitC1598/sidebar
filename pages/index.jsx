@@ -35,9 +35,10 @@ const SidebarView = ({
 }) => {
 	if (!asComponent) useDarkMode();
 
-	const dispatchToSidebar = useSidebarStore(
-		(store) => store.dispatchToSidebar
-	);
+	const { loaded, dispatchToSidebar } = useSidebarStore((store) => ({
+		loaded: store.loaded,
+		dispatchToSidebar: store.dispatchToSidebar,
+	}));
 
 	useEffect(
 		() =>
@@ -53,9 +54,13 @@ const SidebarView = ({
 			type: "SET_STATE_TYPE",
 			payload: { type: "user", value: user },
 		});
+		dispatchToSidebar({
+			type: "SET_STATE_TYPE",
+			payload: { type: "loaded", value: true },
+		});
 	}, []);
 
-	return (
+	return loaded ? (
 		<div
 			className={classNames(
 				"fixed right-0 top-0 flex-1 sm:mt-0 sm:h-screen sm:flex-none transition-all duration-500",
@@ -67,7 +72,7 @@ const SidebarView = ({
 				enabledSections={enabledSections}
 			/>
 		</div>
-	);
+	) : null;
 };
 
 SidebarView.defaultProps = {

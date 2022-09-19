@@ -27,9 +27,6 @@ Router.events.on("routeChangeComplete", () => nprogress.done());
 Router.events.on("routeChangeError", () => nprogress.done());
 
 const App = (props) => {
-	const dispatchToSidebar = useSidebarStore(
-		(store) => store.dispatchToSidebar
-	);
 	useEffect(() => {
 		const check = () => {
 			let vh = window.innerHeight * 0.01;
@@ -37,14 +34,6 @@ const App = (props) => {
 		};
 		check();
 		window.addEventListener("resize", check);
-		dispatchToSidebar({
-			type: "SET_STATE_TYPE",
-			payload: { type: "user", value: user },
-		});
-		dispatchToSidebar({
-			type: "SET_STATE_TYPE",
-			payload: { type: "loaded", value: true },
-		});
 		return () => window.removeEventListener("resize", check);
 	}, []);
 
@@ -68,12 +57,10 @@ const App = (props) => {
 };
 
 const AppWithQuery = ({ Component, pageProps }) => {
-	const loaded = useSidebarStore((store) => store.loaded);
-
 	return (
 		<div className="flex h-screen select-none overflow-x-hidden overflow-y-scroll bg-neutral-100 scrollbar-hide dark:bg-neutral-900">
 			<div className="bg-neutral-100 dark:bg-neutral-900 h-screen w-screen flex-col">
-				{loaded ? <Component {...pageProps} /> : null}
+				<Component {...pageProps} />
 			</div>
 		</div>
 	);
