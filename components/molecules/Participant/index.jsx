@@ -52,7 +52,7 @@ const Participant = ({ participant, showPosition, options }) => {
 			},
 		];
 	}
-	console.log(options);
+
 	return (
 		<>
 			<div className="flex w-full flex-1 items-center space-x-2 p-4">
