@@ -61,6 +61,18 @@ const Chats = () => {
 		],
 		[]
 	);
+
+	const createNewChat = (reason) =>
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component: "newChatOrGroup",
+				title: `New ${reason}`,
+				props: {
+					intent: reason.toLowerCase(),
+				},
+			},
+		});
 	return (
 		<>
 			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 h-navScreen divide-y divide-neutral-200 dark:divide-neutral-800 relative">
@@ -154,17 +166,7 @@ const Chats = () => {
 														"rounded-md px-4 py-2 text-sm flex space-x-2 w-full"
 													)}
 													onClick={() =>
-														dispatchToSidebar({
-															type: "SET_OVERLAP_SECTION",
-															payload: {
-																component:
-																	"newChatOrGroup",
-																title: "New Chat",
-																props: {
-																	intent: "chat",
-																},
-															},
-														})
+														createNewChat("Chat")
 													}
 												>
 													Start a Chat
@@ -181,17 +183,7 @@ const Chats = () => {
 														"rounded-md px-4 py-2 text-sm flex space-x-2 w-full"
 													)}
 													onClick={() =>
-														dispatchToSidebar({
-															type: "SET_OVERLAP_SECTION",
-															payload: {
-																component:
-																	"newChatOrGroup",
-																title: "New Group",
-																props: {
-																	intent: "group",
-																},
-															},
-														})
+														createNewChat("Group")
 													}
 												>
 													Create Group

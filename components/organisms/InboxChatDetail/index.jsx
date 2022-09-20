@@ -1,10 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
-import { useSidebarStore } from "../../../store/store";
 import {
-	Button,
-	Options,
-	Role
+	Button
 } from "../../../submodules/shared/components/atoms";
 import { Participant } from "../../molecules";
 
@@ -119,9 +116,6 @@ const CREATOR = "User X";
 
 const InboxChatDetail = () => {
 	const [edit, setEdit] = useState(false);
-	const dispatchToSidebar = useSidebarStore(
-		(store) => store.dispatchToSidebar
-	);
 	return (
 		<>
 			{edit ? (
@@ -174,20 +168,6 @@ const InboxChatDetail = () => {
 								participant={member}
 								showPosition={false}
 								options={[
-									{
-										label: "View Profile",
-										action: () =>
-											dispatchToSidebar({
-												type: "SET_OVERLAP_SECTION",
-												payload: {
-													component: "profile",
-													title: `@${member.username}`,
-													props: {
-														user: member,
-													},
-												},
-											}),
-									},
 									{
 										label: "Make group admin",
 										action: () =>

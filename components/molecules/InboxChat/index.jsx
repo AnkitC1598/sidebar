@@ -371,7 +371,7 @@ const InboxChat = () => {
 
 	return (
 		<>
-			<ul className="flex w-full flex-col-reverse overflow-hidden overflow-y-scroll h-navScreen h-screen-ios rounded-md pt-0.5 scrollbar-hide space-y-2 p-4">
+			<ul className="flex w-full flex-col-reverse overflow-hidden overflow-y-scroll h-navScreen h-screen-ios rounded-md pt-0.5 scrollbar-hide space-y-2 space-y-reverse p-4">
 				{msgGroups.map((msgGroup, idx) => (
 					<li
 						key={idx}

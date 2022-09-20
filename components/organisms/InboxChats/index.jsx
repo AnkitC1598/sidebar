@@ -38,6 +38,40 @@ const InboxChats = () => {
 		(store) => store.dispatchToSidebar
 	);
 
+	const openInboxChat = ({ chatId, chatName }) =>
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component: "inboxChat",
+				title: chatName,
+				options: [
+					{
+						label: "Details",
+						action: () =>
+							dispatchToSidebar({
+								type: "SET_OVERLAP_SECTION",
+								payload: {
+									component: "inboxChatDetail",
+									title: chatName,
+									options: [
+										{
+											label: "Leave",
+											action: () => console.log("Leave"),
+										},
+									],
+									props: {
+										chatId: chatId,
+									},
+								},
+							}),
+					},
+				],
+				props: {
+					chatId: chatId,
+				},
+			},
+		});
+
 	return (
 		<>
 			{Object.prototype.toString.call(chats) === "[object Array]" &&
@@ -49,41 +83,9 @@ const InboxChats = () => {
 								key={chat?.chatName + idx}
 								className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
 								onClick={() =>
-									dispatchToSidebar({
-										type: "SET_OVERLAP_SECTION",
-										payload: {
-											component: "inboxChat",
-											title: chat?.chatName,
-											options: [
-												{
-													label: "Details",
-													action: () =>
-														dispatchToSidebar({
-															type: "SET_OVERLAP_SECTION",
-															payload: {
-																component:
-																	"inboxChatDetail",
-																title: chat?.chatName,
-																options: [
-																	{
-																		label: "Leave",
-																		action: () =>
-																			console.log(
-																				"Leave"
-																			),
-																	},
-																],
-																props: {
-																	chatId: chat.chatId,
-																},
-															},
-														}),
-												},
-											],
-											props: {
-												chatId: chat.chatId,
-											},
-										},
+									openInboxChat({
+										chatId: chat?.chatId,
+										chatName: chat?.chatName,
 									})
 								}
 							>

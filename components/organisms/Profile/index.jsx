@@ -1,5 +1,12 @@
-import { GlobeAltIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import {
+	BanknotesIcon,
+	CakeIcon,
+	ChatBubbleBottomCenterTextIcon,
+	MapPinIcon,
+	UserPlusIcon,
+} from "@heroicons/react/24/outline";
+import { CheckBadgeIcon, GlobeAltIcon } from "@heroicons/react/24/solid";
+import React, { useState } from "react";
 import { useSidebarStore } from "../../../store/store";
 import { Options, Tooltip } from "../../../submodules/shared/components/atoms";
 import {
@@ -8,6 +15,7 @@ import {
 	Instagram,
 	Linkedin,
 	Twitter,
+	UserFollowed,
 } from "../../../submodules/shared/icons";
 
 const getSocialIcon = (name) => {
@@ -32,8 +40,11 @@ const Profile = () => {
 		user: store.user,
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
+	const [followed, setFollowed] = useState(false);
 
 	const copyProfileLink = () => console.log("ProfileLinkCopy");
+
+	const toggleFollowUser = () => setFollowed((prev) => !prev);
 
 	return (
 		<>
@@ -46,159 +57,159 @@ const Profile = () => {
 							className="flex-1"
 						/>
 					</div>
-					<div className="lg:-mt-15 -mt-12 flow-root px-4 pb-5">
-						<div className="-m-1 flex">
-							<div className="inline-flex overflow-hidden rounded-lg border-4 border-white z-20">
+					<div className="relative lg:-mt-15 -mt-12 flow-root px-4 pb-5">
+						<div className="-m-1 flex justify-center">
+							<div className="inline-flex relative rounded-lg border-4 border-neutral-900 dark:border-neutral-50 z-20">
 								<img
 									className="h-24 w-24 flex-shrink-0"
 									src={user?.profileImage}
 									alt={user?.name}
 								/>
+								<span
+									className="absolute bottom-0 right-0 block h-4 w-4 translate-y-1/2 translate-x-1/2 transform rounded-full ring-2 ring-neutral-900 dark:ring-neutral-50 bg-green-400"
+									aria-hidden="true"
+								/>
 							</div>
 						</div>
-						<div className="mt-6">
-							<div className="flex justify-between items-center space-x-3">
-								<div className="flex flex-col">
-									<div className="flex items-center">
-										<h3 className="text-xl font-bold text-slate-900 dark:text-slate-200">
-											{user?.name}
-										</h3>
-										<span className="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
-											<span className="sr-only">
-												Online
-											</span>
-										</span>
-									</div>
+						<div className="mt-8 flex flex-col space-y-4">
+							<div className="flex flex-col justify-center text-center items-center space-y-1">
+								<div className="flex justify-center items-center space-x-2 text-purple-500 dark:text-purple-400">
+									<h3 className="text-xl font-bold text-slate-900 dark:text-slate-200 leading-none">
+										{user?.name}
+									</h3>
+									<CheckBadgeIcon className="h-5 w-5 flex-1" />
+									{/* <span className="inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
+										<span className="sr-only">Online</span>
+									</span> */}
+								</div>
+								<span className="flex items-center space-x-2">
 									<p className="text-sm text-slate-500 dark:text-slate-400">
 										@{user?.username}
 									</p>
-								</div>
-								<div className="inline-flex sm:ml-0">
-									<Options
-										options={[
-											{
-												label: "Edit profile",
-												isExternalLink: true,
-												link: `https://letsupgrade.in/user/${user?.username}/edit`,
-											},
-											{
-												label: "Copy profile link",
-												action: copyProfileLink,
-											},
-										]}
-									/>
-								</div>
+									<span className="inline-block h-1 w-1 flex-shrink-0 rounded-full bg-neutral-500"></span>
+									<p className="text-sm text-slate-500 dark:text-slate-400">
+										{user?.title}
+									</p>
+								</span>
 							</div>
 
-							<div className="mt-5 flex flex-wrap space-x-3">
-								<button
-									type="button"
-									className="inline-flex w-1/2 flex-shrink-0 items-center justify-center rounded-md border border-transparent bg-purple-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-0 sm:flex-1"
-									onClick={() =>
-										dispatchToSidebar({
-											type: "SET_SIDEBAR_SECTION",
-											payload: "chat",
-										})
-									}
-								>
-									Message
-								</button>
-								<button
-									type="button"
-									className="inline-flex w-1/2 flex-1 items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-0"
-								>
-									Follow
-								</button>
+							<div className="flex flex-col justify-center text-center items-center space-y-8">
+								<span className="text-sm text-slate-500 dark:text-slate-400">
+									{user?.bio}
+								</span>
+								<div className="flex flex-col justify-center text-center items-center space-y-4">
+									<div className="flex flex-col space-y-1">
+										<div className="flex justify-between space-x-8">
+											<span className="flex items-center space-x-1">
+												<BanknotesIcon className="h-4 w-4" />
+												<span className="text-sm text-slate-900 dark:text-slate-200">
+													314786 coins
+												</span>
+											</span>
+											<span className="flex items-center space-x-1">
+												<MapPinIcon className="h-4 w-4" />
+												<span className="text-sm text-slate-900 dark:text-slate-200">
+													India
+												</span>
+											</span>
+										</div>
+										<span className="flex items-center space-x-1">
+											<CakeIcon className="h-4 w-4" />
+											<span className="text-sm text-slate-900 dark:text-slate-200">
+												Joined on 15 Septmeber 2022
+											</span>
+										</span>
+									</div>
+									<div className="flex flex-col divide-y divide-neutral-300 dark:divide-neutral-700">
+										<div className="flex bg-neutral-200 dark:bg-neutral-800 px-4 py-3 mb-5 rounded-xl divide-x divide-neutral-400 dark:divide-neutral-700">
+											<div className="flex my-auto leading-none space-x-3 pl-2 pr-4">
+												<div className="text-[28px] font-bold text-neutral-500 flex-1 text-center">
+													05
+												</div>
+												<div className="text-xs text-left w-min">
+													Programs Enrolled
+												</div>
+											</div>
+											<div className="flex my-auto leading-none space-x-3 pr-2 pl-4">
+												<div className="text-[28px] font-bold text-neutral-500 flex-1 text-center">
+													03
+												</div>
+												<div className="text-xs text-left w-min">
+													Certificates Earned
+												</div>
+											</div>
+										</div>
+										<div className="pt-5 flex divide-x divide-neutral-400 dark:divide-neutral-700">
+											<span className="w-3/6 text-sm text-slate-900 dark:text-slate-200 flex justify-evenly">
+												<ChatBubbleBottomCenterTextIcon
+													className="h-9 w-9 text-slate-700 dark:text-slate-200 hover:bg-purple-900 dark:hover:bg-purple-500 border dark:border-neutral-200 dark:hover:border-purple-500 p-2 rounded-md shadow-sm"
+													onClick={() =>
+														dispatchToSidebar({
+															type: "SET_SIDEBAR_SECTION",
+															payload: "chat",
+														})
+													}
+												/>
+												<span
+													onClick={toggleFollowUser}
+												>
+													{followed ? (
+														<UserFollowed className="h-9 w-9 text-slate-700 dark:text-slate-200 bg-purple-900 dark:bg-purple-500 border dark:border-neutral-200 p-2 rounded-md shadow-sm" />
+													) : (
+														<UserPlusIcon className="h-9 w-9 text-slate-700 dark:text-slate-200  border dark:border-neutral-200 p-2 rounded-md shadow-sm" />
+													)}
+												</span>
+											</span>
+											<span className="w-4/6 text-sm text-slate-900 dark:text-slate-200 flex justify-evenly">
+												{Object.keys(user?.socials).map(
+													(socialName) => {
+														const SocialIcon =
+															getSocialIcon(
+																socialName
+															);
+														const socialUrl =
+															user?.socials[
+																socialName
+															];
+														return (
+															<a
+																key={socialName}
+																href={socialUrl}
+																target="_blank"
+																rel="noopener noreferrer"
+																className="group relative flex justify-center"
+															>
+																<SocialIcon className="h-9 w-9 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-400 border dark:border-neutral-200 p-2 rounded-md shadow-sm" />
+																<Tooltip
+																	position="top"
+																	label={
+																		socialName
+																	}
+																/>
+															</a>
+														);
+													}
+												)}
+											</span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div className="px-4 py-5 h-full overflow-y-scroll scrollbar-hide">
-					<div className="space-y-4">
-						<div className="flex flex-col space-y-1">
-							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-								Title
-							</span>
-							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user?.title}
-							</span>
-						</div>
-						<div className="flex flex-col space-y-1">
-							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-								Bio
-							</span>
-							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user?.bio}
-							</span>
-						</div>
-						<div className="flex flex-col space-y-1">
-							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-								Email
-							</span>
-							<span>
-								<a
-									href={`mailto: ${user?.email}`}
-									className="text-sm text-slate-900 dark:text-slate-200 hover:text-lu-500"
-								>
-									{user?.email}
-								</a>
-							</span>
-						</div>
-						<div className="flex flex-col space-y-1">
-							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-								Phone Number
-							</span>
-							<span>
-								<a
-									href={`tel: ${user?.number}`}
-									className="text-sm text-slate-900 dark:text-slate-200"
-								>
-									{user?.number}
-								</a>
-							</span>
-						</div>
-						<div className="flex flex-col space-y-1">
-							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-								Location
-							</span>
-							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user?.location}
-							</span>
-						</div>
-						<div className="flex flex-col space-y-1">
-							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-								Learning Hours
-							</span>
-							<span className="text-sm text-slate-900 dark:text-slate-200">
-								{user?.learningHours}
-							</span>
-						</div>
-						<div className="flex flex-col space-y-2">
-							<span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-								Socials
-							</span>
-							<span className="text-sm text-slate-900 dark:text-slate-200 grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
-								{Object.keys(user?.socials).map((socialName) => {
-									const SocialIcon =
-										getSocialIcon(socialName);
-									const socialUrl = user?.socials[socialName];
-									return (
-										<a
-											key={socialName}
-											href={socialUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="group relative flex"
-										>
-											<SocialIcon className="h-9 w-9 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-400 border dark:border-neutral-200 p-2 rounded-md shadow-sm" />
-											<Tooltip
-												position="top"
-												label={socialName}
-											/>
-										</a>
-									);
-								})}
-							</span>
+						<div className="absolute right-2 top-14 inline-flex sm:ml-0">
+							<Options
+								options={[
+									{
+										label: "Edit profile",
+										isExternalLink: true,
+										link: `https://letsupgrade.in/user/${user?.username}/edit`,
+									},
+									{
+										label: "Copy profile link",
+										action: copyProfileLink,
+									},
+								]}
+							/>
 						</div>
 					</div>
 				</div>

@@ -6,6 +6,7 @@ import {
 	Cog6ToothIcon as Cog6ToothIconOutline,
 	FolderIcon as FolderIconOutline,
 	HandRaisedIcon as HandRaisedIconOutline,
+	PuzzlePieceIcon as PuzzlePieceIconOutline,
 	UserGroupIcon as UserGroupIconOutline,
 } from "@heroicons/react/24/outline";
 import {
@@ -16,17 +17,27 @@ import {
 	Cog6ToothIcon as Cog6ToothIconSolid,
 	FolderIcon as FolderIconSolid,
 	HandRaisedIcon as HandRaisedIconSolid,
+	PuzzlePieceIcon as PuzzlePieceIconSolid,
 	UserGroupIcon as UserGroupIconSolid,
 } from "@heroicons/react/24/solid";
 import { Fragment, useMemo } from "react";
-import { Agendas, Chats, Doubts, PasteBin, Profile, Settings, Users } from "..";
+import {
+	Agendas,
+	Chats,
+	Doubts,
+	PasteBin,
+	Profile,
+	Quiz,
+	Settings,
+	Users,
+} from "..";
 import { useSidebarStore } from "../../../store/store";
 import { Options, Tooltip } from "../../../submodules/shared/components/atoms";
 import { classNames } from "../../../submodules/shared/utils";
 
 const Sidebar = ({ enabledSections, toolTipDir }) => {
 	if (Object.prototype.toString.call(enabledSections) !== "[object Array]")
-		return null;
+		throw new Error("Sidebar: enabledSections must be an array of strings");
 
 	const {
 		userProfileImage,
@@ -92,6 +103,13 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				overlaps: [],
 			},
 			{
+				label: "quiz",
+				component: <Quiz />,
+				outlineIcon: <PuzzlePieceIconOutline className="h-5 w-5" />,
+				solidIcon: <PuzzlePieceIconSolid className="h-5 w-5" />,
+				overlaps: ["quizView", "quizResult"],
+			},
+			{
 				label: "users",
 				component: <Users />,
 				outlineIcon: <UserGroupIconOutline className="h-5 w-5" />,
@@ -127,6 +145,16 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 		if (found) return found;
 		return 0;
 	};
+
+	const toggleSidebar = () =>
+		dispatchToSidebar({
+			type: "TOGGLE_SIDEBAR_STATE",
+		});
+
+	const goBackOverlap = () =>
+		dispatchToSidebar({
+			type: "GO_BACK_OVERLAP_SECTION",
+		});
 
 	return (
 		<>
@@ -191,11 +219,7 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 							>
 								<span
 									className="group relative flex aspect-square w-full flex-col items-center justify-center rounded-full p-3 text-sm transition-all duration-500 focus-visible:outline-0 bg-neutral-50 text-slate-900 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
-									onClick={() =>
-										dispatchToSidebar({
-											type: "TOGGLE_SIDEBAR_STATE",
-										})
-									}
+									onClick={toggleSidebar}
 								>
 									{sideBarOpen ? (
 										<ArrowRightOnRectangleIconSolid className="h-5 w-5" />
@@ -239,11 +263,7 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 												<span className="w-full flex space-x-3 items-center">
 													<ArrowLeftIcon
 														className="h-10 w-10 dark:hover:bg-neutral-800 hover:bg-neutral-200 p-2 rounded-md"
-														onClick={() =>
-															dispatchToSidebar({
-																type: "GO_BACK_OVERLAP_SECTION",
-															})
-														}
+														onClick={goBackOverlap}
 													/>
 													<span className="flex-1 text-xl line-clamp-1">
 														{overlapTitle}
@@ -280,6 +300,7 @@ Sidebar.defaultProps = {
 		"chat",
 		// "doubt",
 		"pastebin",
+		"quiz",
 		"users",
 		"profile",
 		"settings",

@@ -12,7 +12,9 @@ const Agenda = ({ agenda }) => {
 		if (input !== agenda.text) console.log(input);
 		else agenda.text = input;
 		setEditing(false);
-	};
+	}
+
+	const toggleEditing = () => setEditing((prev) => !prev);
 
 	return (
 		<>
@@ -30,7 +32,7 @@ const Agenda = ({ agenda }) => {
 				) : (
 					<span
 						className="flex flex-1 select-text space-x-4 px-6"
-						onClick={() => setEditing(true)}
+						onClick={toggleEditing}
 					>
 						<div className="flex items-center">
 							<input

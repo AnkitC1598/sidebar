@@ -4,7 +4,9 @@ import { Button, Input } from "../../../submodules/shared/components/atoms";
 
 const CreateNewGroupOrChat = ({ intent }) => {
 	if (Object.prototype.toString.call(intent) !== "[object String]")
-		throw new Error("Cannot Open Creator without Intent");
+		throw new Error(
+			"CreateNewGroupOrChat: Cannot Open Creator without Intent"
+		);
 	const dispatchToSidebar = useSidebarStore(
 		(store) => store.dispatchToSidebar
 	);

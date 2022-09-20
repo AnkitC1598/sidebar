@@ -8,6 +8,8 @@ const File = ({
 }) => {
 	const [showPreview, setShowPreview] = useState(false);
 
+	const openPreview = () => setShowPreview(true);
+
 	const closePreview = () => {
 		setShowPreview(false);
 	};
@@ -16,9 +18,7 @@ const File = ({
 			<div className="flex w-full flex-col space-y-4">
 				<div
 					className="flex w-full items-center space-x-2 overflow-hidden"
-					onClick={() => {
-						setShowPreview(true);
-					}}
+					onClick={openPreview}
 				>
 					<div className="square flex h-10 content-center justify-center">
 						<FileIcon

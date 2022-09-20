@@ -1,8 +1,11 @@
+import {
+	ChatBubbleBottomCenterTextIcon,
+	UserPlusIcon
+} from "@heroicons/react/24/solid";
 import { useSidebarStore } from "../../../store/store";
 import {
 	Options,
-	Role,
-	Tooltip,
+	Role
 } from "../../../submodules/shared/components/atoms";
 import { Medal } from "../../../submodules/shared/icons";
 import { classNames } from "../../../submodules/shared/utils";
@@ -23,39 +26,43 @@ const getPositionColor = (position) => {
 };
 
 const Participant = ({ participant, showPosition, options }) => {
+	const dispatchToSidebar = useSidebarStore(
+		(store) => store.dispatchToSidebar
+	);
 	if (Object.prototype.toString.call(options) === "[object Null]") {
-		const dispatchToSidebar = useSidebarStore(
-			(store) => store.dispatchToSidebar
-		);
 		options = [
 			{
-				label: "View Profile",
-				action: () =>
-					dispatchToSidebar({
-						type: "SET_OVERLAP_SECTION",
-						payload: {
-							component: "profile",
-							title: `@${participant.username}`,
-							props: {
-								user: participant,
-							},
-						},
-					}),
-			},
-			{
-				label: "Send Message",
-				action: () =>
-					dispatchToSidebar({
-						type: "SET_SIDEBAR_SECTION",
-						payload: "chat",
-					}),
+				label: "Report",
+				action: () => console.log("Report User"),
 			},
 		];
 	}
 
+	const openProfile = () =>
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component: "profile",
+				title: `@${participant.username}`,
+				props: {
+					user: participant,
+				},
+			},
+		});
+
+	const openChat = () =>
+		dispatchToSidebar({
+			type: "SET_SIDEBAR_SECTION",
+			payload: {
+				component: "chat",
+			},
+		});
+
+	const toggleFollowUser = () => console.log("Follow/Unfollow User");
+
 	return (
 		<>
-			<div className="flex w-full flex-1 items-center space-x-2 p-4">
+			<div className="flex w-full flex-1 items-center space-x-2 p-4 group">
 				{showPosition ? (
 					<span className="w-6 flex justify-center items-center">
 						{participant.position < 4 ? (
@@ -91,24 +98,18 @@ const Participant = ({ participant, showPosition, options }) => {
 						/>
 					) : null}
 				</div>
-				<div className="min-w-0 flex-1 px-2 md:grid md:gap-1">
-					<div className="w-[80%] truncate">
+				<div className="min-w-0 flex-1 px-2">
+					<div className="group-hover:w-2/3 w-full">
 						<div className="group relative flex space-x-1">
 							<span
-								className={classNames(
-									"truncate text-sm font-medium text-slate-900 dark:text-slate-200",
-									participant.participantId && "!text-lu-500"
-								)}
+								className="line-clamp-1 text-sm font-medium text-slate-900 dark:text-slate-200 hover:underline cursor-pointer"
+								onClick={openProfile}
 							>
 								{currentUser === participant.uid
 									? "You"
 									: participant.name}
 							</span>
 							<Role role={participant.role} />
-							<Tooltip
-								position="top"
-								label={`${participant.name} (${participant.role})`}
-							/>
 						</div>
 						<a
 							href={`https://letsupgrade.in/user/${participant.username}`}
@@ -122,7 +123,21 @@ const Participant = ({ participant, showPosition, options }) => {
 						</a>
 					</div>
 				</div>
-				<Options options={options} />
+				<div className="items-center space-x-3 group-hover:flex hidden">
+					<button
+						className="inline-flex items-center p-2 text-sm font-medium text-gray-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0"
+						onClick={openChat}
+					>
+						<ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
+					</button>
+					<button
+						className="inline-flex items-center p-2 text-sm font-medium text-gray-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0"
+						onClick={toggleFollowUser}
+					>
+						<UserPlusIcon className="h-5 w-5" />
+					</button>
+					<Options options={options} />
+				</div>
 			</div>
 		</>
 	);

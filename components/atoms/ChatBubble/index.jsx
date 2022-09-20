@@ -1,20 +1,37 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useSidebarStore } from "../../../store/store";
 import { LeftTail, RightTail } from "../../../submodules/shared/svgs";
 import {
 	classNames,
 	formatDate,
 	getHex,
-	urlify,
+	urlify
 } from "../../../submodules/shared/utils";
 
 const ChatBubble = ({ msg, time, user }) => {
 	if (Object.prototype.toString.call(msg) !== "[object String]")
-		throw new Error("msg must be a string");
+		throw new Error("ChatBubble: msg must be a string");
 
 	const [isReadMore, setIsReadMore] = useState(msg.length > 150);
-	const userId = useSidebarStore((store) => store.user.uid);
+	const { userId, dispatchToSidebar } = useSidebarStore((store) => ({
+		userId: store.user.uid,
+		dispatchToSidebar: store.dispatchToSidebar,
+	}));
 	const isSent = useMemo(() => user?.uid === userId, [user?.uid, userId]);
+
+	const openProfile = () =>
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component: "profile",
+				title: `@${user.username}`,
+				props: {
+					user: user,
+				},
+			},
+		});
+
+	const toggleReadMore = () => setIsReadMore((prev) => !prev);
 
 	return (
 		<>
@@ -35,16 +52,15 @@ const ChatBubble = ({ msg, time, user }) => {
 					</span>
 				) : null}
 				{user && !isSent ? (
-					<div className="flex justify-between">
-						<span className={classNames("flex items-center")}>
-							<span
-								className="text-sm font-semibold" // text-slate-900 dark:text-slate-200"
-								style={{
-									color: getHex(user.uid),
-								}}
-							>
-								{user.name}
-							</span>
+					<div className="flex items-center justify-between">
+						<span
+							className="text-sm font-semibold hover:underline cursor-pointer" // text-slate-900 dark:text-slate-200"
+							style={{
+								color: getHex(user.uid),
+							}}
+							onClick={openProfile}
+						>
+							{user.name}
 						</span>
 					</div>
 				) : null}
@@ -64,7 +80,7 @@ const ChatBubble = ({ msg, time, user }) => {
 				{msg.length > 150 && (
 					<div
 						className="cursor-pointer text-center text-xs text-lu-500"
-						onClick={() => setIsReadMore(!isReadMore)}
+						onClick={toggleReadMore}
 					>
 						{isReadMore ? "Show More" : "Show Less"}
 					</div>

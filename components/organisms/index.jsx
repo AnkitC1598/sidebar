@@ -7,6 +7,7 @@ export { default as InboxChats } from "./InboxChats";
 export { default as LinearChats } from "./LinearChats";
 export { default as PasteBin } from "./PasteBin";
 export { default as Profile } from "./Profile";
+export { default as Quiz } from "./Quiz";
 export { default as Settings } from "./Settings";
 export { default as Sidebar } from "./Sidebar";
 export { default as Users } from "./Users";

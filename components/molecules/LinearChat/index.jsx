@@ -4,7 +4,7 @@ import { DateDistance, ReadMore } from "../../atoms";
 
 const LinearChat = ({ msgGroup }) => {
 	if (Object.prototype.toString.call(msgGroup) !== "[object Object]")
-		return null;
+		throw new Error("LinearChat: msgGroup must be an object");
 
 	return (
 		<>

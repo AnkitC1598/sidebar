@@ -11,6 +11,7 @@ const ResourcePreview = ({
 	resource,
 	handleToggleVisibility,
 }) => {
+	const downloadResource = () => downloadFile(resource);
 	return (
 		<>
 			<Transition appear show={isOpen} as={Fragment}>
@@ -64,9 +65,7 @@ const ResourcePreview = ({
 										resource.ext !== "svg" ? (
 											<div
 												className="inline-flex justify-center rounded-lg bg-green-500 p-2 text-sm font-medium text-white hover:bg-green-600"
-												onClick={() =>
-													downloadFile(resource)
-												}
+												onClick={downloadResource}
 											>
 												<ArrowDownTrayIcon className="h-4 w-4" />
 											</div>
@@ -95,9 +94,7 @@ const ResourcePreview = ({
 											</span>
 											<div
 												className="inline-flex items-center justify-center space-x-2 rounded-lg bg-green-500 p-2 text-sm font-medium text-white hover:bg-green-600"
-												onClick={() =>
-													downloadFile(resource)
-												}
+												onClick={downloadResource}
 											>
 												<ArrowDownTrayIcon className="h-6 w-6" />
 												<span className="text-lg font-semibold">
