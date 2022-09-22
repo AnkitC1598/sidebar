@@ -15,7 +15,7 @@ export const useSidebarStore = create(
 			resourcePage: 0,
 			doubts: [],
 			doubtPage: 0,
-			sideBarOpen: true,
+			sideBarOpen: false,
 			sideBarSection: "",
 			overlapSection: {
 				visible: false,

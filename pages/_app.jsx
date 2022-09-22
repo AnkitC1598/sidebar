@@ -4,7 +4,6 @@ import Head from "next/head";
 import { Router } from "next/router";
 import nprogress from "nprogress";
 import { useEffect } from "react";
-import { useSidebarStore } from "../store/store";
 import "../styles/globals.css";
 
 const queryClient = new QueryClient({

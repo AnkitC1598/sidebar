@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { CheckBadgeIcon, GlobeAltIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
+import { formatDate } from "../../../../shared/utils";
 import { useSidebarStore } from "../../../store/store";
 import { Options, Tooltip } from "../../../submodules/shared/components/atoms";
 import {
@@ -52,7 +53,7 @@ const Profile = () => {
 				<div>
 					<div className="h-32 bg-transparent overflow-hidden flex items-center shadow-2xl dark:shadow-gray-900">
 						<img
-							src={user?.bannerImg}
+							src={user?.coverImage}
 							alt={user?.name}
 							className="flex-1"
 						/>
@@ -77,7 +78,9 @@ const Profile = () => {
 									<h3 className="text-xl font-bold text-slate-900 dark:text-slate-200 leading-none">
 										{user?.name}
 									</h3>
-									<CheckBadgeIcon className="h-5 w-5 flex-1" />
+									{user?.verified ? (
+										<CheckBadgeIcon className="h-5 w-5 flex-1" />
+									) : null}
 									{/* <span className="inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
 										<span className="sr-only">Online</span>
 									</span> */}
@@ -86,24 +89,30 @@ const Profile = () => {
 									<p className="text-sm text-slate-500 dark:text-slate-400">
 										@{user?.username}
 									</p>
-									<span className="inline-block h-1 w-1 flex-shrink-0 rounded-full bg-neutral-500"></span>
-									<p className="text-sm text-slate-500 dark:text-slate-400">
-										{user?.title}
-									</p>
+									{user?.title ? (
+										<>
+											<span className="inline-block h-1 w-1 flex-shrink-0 rounded-full bg-neutral-500"></span>
+											<p className="text-sm text-slate-500 dark:text-slate-400">
+												{user?.title}
+											</p>
+										</>
+									) : null}
 								</span>
 							</div>
 
 							<div className="flex flex-col justify-center text-center items-center space-y-8">
-								<span className="text-sm text-slate-500 dark:text-slate-400">
-									{user?.bio}
-								</span>
+								{user?.bio ? (
+									<span className="text-sm text-slate-500 dark:text-slate-400">
+										{user?.bio}
+									</span>
+								) : null}
 								<div className="flex flex-col justify-center text-center items-center space-y-4">
 									<div className="flex flex-col space-y-1">
 										<div className="flex justify-between space-x-8">
 											<span className="flex items-center space-x-1">
 												<BanknotesIcon className="h-4 w-4" />
 												<span className="text-sm text-slate-900 dark:text-slate-200">
-													314786 coins
+													{user?.coins} coins
 												</span>
 											</span>
 											<span className="flex items-center space-x-1">
@@ -116,7 +125,11 @@ const Profile = () => {
 										<span className="flex items-center space-x-1">
 											<CakeIcon className="h-4 w-4" />
 											<span className="text-sm text-slate-900 dark:text-slate-200">
-												Joined on 15 Septmeber 2022
+												Joined on{" "}
+												{
+													formatDate(user?.createdAt)
+														.normal
+												}
 											</span>
 										</span>
 									</div>
@@ -139,7 +152,7 @@ const Profile = () => {
 												</div>
 											</div>
 										</div>
-										<div className="pt-5 flex divide-x divide-neutral-400 dark:divide-neutral-700">
+										<div className="pt-5 flex justify-evenly divide-x divide-neutral-400 dark:divide-neutral-700">
 											<span className="w-3/6 text-sm text-slate-900 dark:text-slate-200 flex justify-evenly">
 												<ChatBubbleBottomCenterTextIcon
 													className="h-9 w-9 text-slate-700 dark:text-slate-200 hover:bg-purple-900 dark:hover:bg-purple-500 border dark:border-neutral-200 dark:hover:border-purple-500 p-2 rounded-md shadow-sm"
@@ -160,9 +173,11 @@ const Profile = () => {
 													)}
 												</span>
 											</span>
-											<span className="w-4/6 text-sm text-slate-900 dark:text-slate-200 flex justify-evenly">
-												{Object.keys(user?.socials).map(
-													(socialName) => {
+											{user?.socials ? (
+												<span className="w-4/6 text-sm text-slate-900 dark:text-slate-200 flex justify-evenly">
+													{Object.keys(
+														user?.socials
+													).map((socialName) => {
 														const SocialIcon =
 															getSocialIcon(
 																socialName
@@ -188,9 +203,9 @@ const Profile = () => {
 																/>
 															</a>
 														);
-													}
-												)}
-											</span>
+													})}
+												</span>
+											) : null}
 										</div>
 									</div>
 								</div>

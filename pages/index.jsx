@@ -1,39 +1,24 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { Sidebar } from "../components/organisms";
 import { useSidebarStore } from "../store/store";
 import { useDarkMode } from "../submodules/shared/hooks";
 import { classNames } from "../submodules/shared/utils";
 
-const user = {
-	uid: "fq3cc3YVO1UFoZmSL3EnNqntsM92",
-	bannerImg: "https://source.unsplash.com/1600x900/?technology",
-	profileImage:
-		"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-	name: "Ashley Porter",
-	username: "ashleyporter",
-	email: "ashleyporter@email.com",
-	number: "+911234567890",
-	title: "Compter Science Student",
-	bio: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu",
-	location: "New York, NY, USA",
-	learningHours: "500",
-	socials: {
-		// twitter: "http://twitter.com",
-		// instagram: "https://instagram.com",
-		// facebook: "https://facebook.com",
-		linkedin: "https://linkedin.com",
-		github: "https://github.com",
-		web: "https://letsupgrade.in",
-	},
-};
-
 const SidebarView = ({
 	asComponent,
 	className,
 	enabledSections,
 	defaultSection,
+	user,
 }) => {
 	if (!asComponent) useDarkMode();
+
+	if (
+		Object.prototype.toString.call(user) !== "[object Object]" &&
+		asComponent
+	)
+		throw new Error("SidebarView: user object is required");
 
 	const { loaded, dispatchToSidebar } = useSidebarStore((store) => ({
 		loaded: store.loaded,
@@ -50,14 +35,16 @@ const SidebarView = ({
 	);
 
 	useEffect(() => {
-		dispatchToSidebar({
-			type: "SET_STATE_TYPE",
-			payload: { type: "user", value: user },
-		});
-		dispatchToSidebar({
-			type: "SET_STATE_TYPE",
-			payload: { type: "loaded", value: true },
-		});
+		if (user) {
+			dispatchToSidebar({
+				type: "SET_STATE_TYPE",
+				payload: { type: "user", value: user },
+			});
+			dispatchToSidebar({
+				type: "SET_STATE_TYPE",
+				payload: { type: "loaded", value: true },
+			});
+		}
 	}, []);
 
 	return loaded ? (
@@ -89,6 +76,7 @@ SidebarView.defaultProps = {
 		"settings",
 	],
 	defaultSection: "agenda",
+	user: null,
 };
 
 export default SidebarView;
