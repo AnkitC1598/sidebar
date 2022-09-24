@@ -1,8 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
-import {
-	Button
-} from "../../../submodules/shared/components/atoms";
+import useGetChatDetails from "../../../hooks/query/chat/useGetChatDetails";
+import { Button } from "../../../submodules/shared/components/atoms";
 import { Participant } from "../../molecules";
 
 const chat = {
@@ -114,9 +113,12 @@ const chat = {
 
 const CREATOR = "User X";
 
-const InboxChatDetail = () => {
+const InboxChatDetail = ({ chatId }) => {
 	const [edit, setEdit] = useState(false);
-	return (
+
+	const { isLoading, isError, data, error } = useGetChatDetails({ chatId });
+	console.log({ isLoading, isError, data, error });
+	return isLoading ? null : (
 		<>
 			{edit ? (
 				<div className="flex w-full flex-col items-center space-y-4 bg-neutral-200 dark:bg-neutral-800 p-4 pb-2">
@@ -137,16 +139,24 @@ const InboxChatDetail = () => {
 				</div>
 			) : (
 				<div className="flex w-full flex-col items-center space-y-4 bg-neutral-200 dark:bg-neutral-800 p-4 pb-2">
-					<img
-						className="aspect-square h-28 w-28 rounded-md"
-						src={chat.chatIcon}
-					/>
+					{chat.imageUrl === null && chat.type === "group" ? (
+						<UsersIcon className="h-28 p-2 bg-neutral-500 aspect-square rounded-md" />
+					) : (
+						<img
+							src={
+								chat.imageUrl ||
+								`https://avatars.dicebear.com/api/initials/${chat.title}.svg`
+							}
+							alt={chat.title}
+							className="aspect-square h-28 rounded-md"
+						/>
+					)}
 					<div className="group relative flex flex-col items-center space-y-1">
 						<span className="text-xl font-medium text-slate-900 dark:text-slate-200">
-							{chat.chatName}
+							{data.details.title}
 						</span>
 						<span className="text-xs text-slate-400 dark:text-slate-200">
-							Created By {CREATOR}
+							Created By @{data.details.createdBy[0].username}
 						</span>
 					</div>
 				</div>
@@ -154,18 +164,18 @@ const InboxChatDetail = () => {
 			<div className="flex w-full flex-col h-full overflow-y-hidden">
 				<div className="flex justify-between text-slate-500 p-2">
 					<span className="text-sm">
-						{chat.members.length} members
+						{data.members.length} members
 					</span>
 					<MagnifyingGlassIcon className="h-4 w-4" />
 				</div>
 				<ul className="h-full divide-y divide-neutral-200 overflow-y-scroll bg-neutral-50 text-slate-900 shadow scrollbar-hide dark:divide-neutral-800 dark:bg-neutral-900 dark:text-slate-200 border-t border-neutral-200 dark:border-neutral-800">
-					{chat.members.map((member, idx) => (
+					{data.members.map((member, idx) => (
 						<li
-							key={member.uid + idx + 1}
+							key={member.user[0].uid + idx + 1}
 							className="bg-neutral-50 text-slate-900 dark:bg-neutral-900 dark:text-slate-200"
 						>
 							<Participant
-								participant={member}
+								participant={member.user[0]}
 								showPosition={false}
 								options={[
 									{

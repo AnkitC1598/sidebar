@@ -11,3 +11,5 @@ export { default as Quiz } from "./Quiz";
 export { default as Settings } from "./Settings";
 export { default as Sidebar } from "./Sidebar";
 export { default as Users } from "./Users";
+export { default as InboxChat } from "./InboxChat";
+export { default as QuizView } from "./QuizView";

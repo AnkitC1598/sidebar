@@ -2,7 +2,7 @@ import React from "react";
 import { useSidebarStore } from "../../../store/store";
 import { Input } from "../../../submodules/shared/components/atoms";
 import { classNames } from "../../../submodules/shared/utils";
-import { LRChat } from "..";
+import { LRChat } from "../../molecules";
 
 const msgGroups = [
 	{

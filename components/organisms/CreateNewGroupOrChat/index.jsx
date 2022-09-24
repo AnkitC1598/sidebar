@@ -1,4 +1,9 @@
-import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import React, { useRef, useState } from "react";
+import { toast } from "react-toastify";
+import queryClient from "../../../queries";
+import ChatQueries from "../../../queries/chat";
+import ChatSchema from "../../../schema/chat";
 import { useSidebarStore } from "../../../store/store";
 import { Button, Input } from "../../../submodules/shared/components/atoms";
 
@@ -7,9 +12,101 @@ const CreateNewGroupOrChat = ({ intent }) => {
 		throw new Error(
 			"CreateNewGroupOrChat: Cannot Open Creator without Intent"
 		);
-	const dispatchToSidebar = useSidebarStore(
-		(store) => store.dispatchToSidebar
+
+	const loadingToastRef = useRef();
+	const [title, setTitle] = useState(null);
+	const [description, setDescription] = useState(null);
+	const [members, setMembers] = useState([
+		"biDKYENbJeYfjQU86Lg3GY08k0L2",
+		"QSGUrdFqBmTt1xrLXxU3JIUeCJU2",
+	]);
+	const { user, dispatchToSidebar } = useSidebarStore((store) => ({
+		user: store.user,
+		dispatchToSidebar: store.dispatchToSidebar,
+	}));
+
+	const openChat = (title) =>
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component: "inboxChat",
+				title,
+			},
+		});
+
+	const { mutate, isLoading } = useMutation(
+		ChatQueries[intent === "group" ? "initGroup" : "initChat"],
+		{
+			onSuccess: (data) => {
+				queryClient.invalidateQueries(["chats"]);
+				toast.update(loadingToastRef.current, {
+					render: data.data.message,
+					type: "success",
+					isLoading: false,
+					closeOnClick: true,
+					pauseOnFocusLoss: false,
+					pauseOnHover: false,
+					autoClose: 5000,
+				});
+				data = data.data.results.data;
+				if (intent !== "group") data = data[0];
+				let title;
+				if (intent === "group") title = data.title;
+				else
+					title = data.members.filter(
+						(member) => member.uid !== user.uid
+					)[0].name;
+				openChat(title);
+			},
+			onError: (error) => {
+				const resp = error.response.data.results.data;
+				toast.update(loadingToastRef.current, {
+					render: resp.error,
+					type: "error",
+					isLoading: false,
+					closeOnClick: true,
+					pauseOnFocusLoss: false,
+					pauseOnHover: false,
+					autoClose: 5000,
+				});
+
+				let title;
+				if (intent === "group") title = resp.group.title;
+				else
+					title = resp.group.members.filter(
+						(member) => member.uid !== user.uid
+					)[0].name;
+				openChat(title);
+			},
+		}
 	);
+
+	const handleCreate = () => {
+		if (intent === "group") {
+			const initGrpData = { title, description: "", members };
+			const isDataValid = ChatSchema.initGroup.safeParse(initGrpData);
+			if (isDataValid.success) {
+				mutate(initGrpData);
+				loadingToastRef.current = toast.loading("Please wait...");
+			} else {
+				const { fieldErrors, formErrors } = isDataValid.error.flatten();
+				if (formErrors.length) console.error(formErrors);
+				if (Object.keys(fieldErrors).length) console.error(fieldErrors);
+			}
+		} else {
+			const initChatData = { user: members[1] };
+			const isDataValid = ChatSchema.initChat.safeParse(initChatData);
+			if (isDataValid.success) {
+				mutate(initChatData);
+				loadingToastRef.current = toast.loading("Please wait...");
+			} else {
+				const { fieldErrors, formErrors } = isDataValid.error.flatten();
+				if (formErrors.length) console.error(formErrors);
+				if (Object.keys(fieldErrors).length) console.error(fieldErrors);
+			}
+		}
+	};
+
 	return (
 		<>
 			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 h-navScreen">
@@ -23,7 +120,11 @@ const CreateNewGroupOrChat = ({ intent }) => {
 									className="h-10 w-10 rounded-full"
 								/>
 								<span className="w-full">
-									<Input />
+									<Input
+										placeholder="Title"
+										value={title}
+										setValue={setTitle}
+									/>
 								</span>
 							</div>
 							<span className="text-xs text-slate-500">
@@ -40,16 +141,9 @@ const CreateNewGroupOrChat = ({ intent }) => {
 				<div className="flex flex-col p-4 space-y-2">
 					<Button
 						label="Create"
-						action={() =>
-							dispatchToSidebar({
-								type: "SET_OVERLAP_SECTION",
-								payload: {
-									component: "inboxChat",
-									title: `${intent} Created`,
-								},
-							})
-						}
+						disabled={isLoading}
 						className="w-full"
+						action={handleCreate}
 					/>
 				</div>
 			</div>

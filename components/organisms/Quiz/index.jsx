@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSidebarStore } from "../../../store/store";
 import { Search } from "../../../submodules/shared/components/atoms";
-import { QuizPreview } from "../../molecules";
+import { QuizPreview } from "../../atoms";
 
 const quizes = [
 	{

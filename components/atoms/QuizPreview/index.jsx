@@ -1,19 +1,7 @@
 import { differenceInDays } from "date-fns";
 import React, { useMemo } from "react";
 import { useSidebarStore } from "../../../store/store";
-import { Options, Role } from "../../../submodules/shared/components/atoms";
 import { classNames } from "../../../submodules/shared/utils";
-
-const getStatusColor = (status) => {
-	switch (status) {
-		case "online":
-			return "bg-green-500";
-		case "offline":
-			return "bg-gray-500";
-		default:
-			return "bg-gray-500";
-	}
-};
 
 const QuizPreview = ({ quiz }) => {
 	if (Object.prototype.toString.call(quiz) !== "[object Object]")
@@ -28,17 +16,17 @@ const QuizPreview = ({ quiz }) => {
 		[quiz.expiryDate]
 	);
 
-	const openQuiz = () => console.log("Opening Quiz");
-	// dispatchToSidebar({
-	// 	type: "SET_OVERLAP_SECTION",
-	// 	payload: {
-	// 		component: "quizView",
-	// 		title: `@${quiz.name}`,
-	// 		props: {
-	// 			user: quiz,
-	// 		},
-	// 	},
-	// });
+	const openQuiz = () =>
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component: "quizView",
+				title: `${quiz.name}`,
+				props: {
+					quiz: quiz,
+				},
+			},
+		});
 
 	return (
 		<>

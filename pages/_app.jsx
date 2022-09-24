@@ -1,18 +1,13 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Head from "next/head";
 import { Router } from "next/router";
 import nprogress from "nprogress";
 import { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import queryClient from "../queries";
 import "../styles/globals.css";
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false,
-		},
-	},
-});
 
 nprogress.configure({
 	minimum: 0.3,
@@ -61,6 +56,18 @@ const AppWithQuery = ({ Component, pageProps }) => {
 			<div className="bg-neutral-100 dark:bg-neutral-900 h-screen w-screen flex-col">
 				<Component {...pageProps} />
 			</div>
+			<ToastContainer
+				position="top-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
 		</div>
 	);
 };

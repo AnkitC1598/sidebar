@@ -1,10 +1,11 @@
 import { produce } from "immer";
 import { forwardRef } from "react";
-import { InboxChat } from "../components/molecules";
 import {
 	CreateNewGroupOrChat,
+	InboxChat,
 	InboxChatDetail,
 	Profile,
+	QuizView
 } from "../components/organisms";
 
 const getComponentFromName = (name) => {
@@ -17,6 +18,8 @@ const getComponentFromName = (name) => {
 			return InboxChatDetail;
 		case "newChatOrGroup":
 			return CreateNewGroupOrChat;
+		case "quizView":
+			return QuizView;
 		default:
 			return null;
 	}

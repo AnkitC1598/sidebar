@@ -137,7 +137,7 @@ const Profile = () => {
 										<div className="flex bg-neutral-200 dark:bg-neutral-800 px-4 py-3 mb-5 rounded-xl divide-x divide-neutral-400 dark:divide-neutral-700">
 											<div className="flex my-auto leading-none space-x-3 pl-2 pr-4">
 												<div className="text-[28px] font-bold text-neutral-500 flex-1 text-center">
-													05
+													{"5".padStart(2, "0")}
 												</div>
 												<div className="text-xs text-left w-min">
 													Programs Enrolled
@@ -145,7 +145,7 @@ const Profile = () => {
 											</div>
 											<div className="flex my-auto leading-none space-x-3 pr-2 pl-4">
 												<div className="text-[28px] font-bold text-neutral-500 flex-1 text-center">
-													03
+													{"3".padStart(2, "0")}
 												</div>
 												<div className="text-xs text-left w-min">
 													Certificates Earned

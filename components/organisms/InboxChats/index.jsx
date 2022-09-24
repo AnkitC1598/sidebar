@@ -34,9 +34,11 @@ const chats = [
 ];
 
 const InboxChats = () => {
-	const dispatchToSidebar = useSidebarStore(
-		(store) => store.dispatchToSidebar
-	);
+	const {chats, user, dispatchToSidebar } = useSidebarStore((store) => ({
+		chats: store.chats,
+		user: store.user,
+		dispatchToSidebar: store.dispatchToSidebar,
+	}));
 
 	const openInboxChat = ({ chatId, chatName }) =>
 		dispatchToSidebar({
@@ -74,21 +76,20 @@ const InboxChats = () => {
 
 	return (
 		<>
-			{Object.prototype.toString.call(chats) === "[object Array]" &&
-			chats.length ? (
+			{chats.length ? (
 				<>
 					<ul className="flex h-full w-full flex-col divide-y divide-neutral-200 overflow-hidden overflow-y-scroll rounded-md scrollbar-hide dark:divide-neutral-800">
 						{chats.map((chat, idx) => (
 							<li
-								key={chat?.chatName + idx}
-								className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
-								onClick={() =>
-									openInboxChat({
-										chatId: chat?.chatId,
-										chatName: chat?.chatName,
+							key={chat?.title + idx}
+							className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+							onClick={() =>
+								openInboxChat({
+									chatId: chat?._id,
+										chatName: chat?.title,
 									})
 								}
-							>
+								>
 								<InboxChatPreview chat={chat} />
 							</li>
 						))}
@@ -97,11 +98,11 @@ const InboxChats = () => {
 			) : (
 				<>
 					<div className="flex h-full select-none flex-col items-center justify-center space-x-1 space-y-8 text-black">
-						<img
+						{/* <img
 							src="/assets/img/noMessage.png"
 							alt="No Agenda's Listed"
 							className="w-[25%] md:w-[60%]"
-						/>
+						/> */}
 						<div className="text-slate-500">
 							No Resource's Listed
 						</div>
