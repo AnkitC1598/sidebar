@@ -51,7 +51,7 @@ const SidebarView = ({
 		} else {
 			axios
 				.get(
-					"https://api.letsupgrade.net/v1/auth/profile?fields=createdAt,name,username,profileImage,coverImage,coins,verified,socialMediaHandles",
+					"https://api.letsupgrade.net/v1/auth/profile?fields=uid,createdAt,name,username,profileImage,coverImage,coins,verified,socialMediaHandles",
 					{
 						headers: {
 							Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFua2l0Y2hhdWRoYXJpMTU5OEBnbWFpbC5jb20iLCJ1aWQiOiJISnJjQ0VZcExZaEhnSEdpNEZRd3ZTT3hnYjYyIiwicm9sZSI6Im1lbWJlciIsImlhdCI6MTY2Mzg0ODkyOX0.1xrwz_FXnbnl2ekXDV7OyuIjnTO6QPcJmKRDUsAzO84`,

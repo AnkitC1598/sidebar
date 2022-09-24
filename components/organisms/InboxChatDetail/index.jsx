@@ -1,6 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import useGetChatDetails from "../../../hooks/query/chat/useGetChatDetails";
+import { useSidebarStore } from "../../../store/store";
 import { Button } from "../../../submodules/shared/components/atoms";
 import { Participant } from "../../molecules";
 
@@ -114,10 +115,11 @@ const chat = {
 const CREATOR = "User X";
 
 const InboxChatDetail = ({ chatId }) => {
+	const user = useSidebarStore((store) => store.user);
 	const [edit, setEdit] = useState(false);
 
 	const { isLoading, isError, data, error } = useGetChatDetails({ chatId });
-	console.log({ isLoading, isError, data, error });
+
 	return isLoading ? null : (
 		<>
 			{edit ? (
@@ -156,7 +158,7 @@ const InboxChatDetail = ({ chatId }) => {
 							{data.details.title}
 						</span>
 						<span className="text-xs text-slate-400 dark:text-slate-200">
-							Created By @{data.details.createdBy[0].username}
+							Created By @{data.details.createdBy.username}
 						</span>
 					</div>
 				</div>
@@ -171,23 +173,37 @@ const InboxChatDetail = ({ chatId }) => {
 				<ul className="h-full divide-y divide-neutral-200 overflow-y-scroll bg-neutral-50 text-slate-900 shadow scrollbar-hide dark:divide-neutral-800 dark:bg-neutral-900 dark:text-slate-200 border-t border-neutral-200 dark:border-neutral-800">
 					{data.members.map((member, idx) => (
 						<li
-							key={member.user[0].uid + idx + 1}
+							key={member.uid + idx + 1}
 							className="bg-neutral-50 text-slate-900 dark:bg-neutral-900 dark:text-slate-200"
 						>
 							<Participant
-								participant={member.user[0]}
+								participant={member}
 								showPosition={false}
-								options={[
-									{
-										label: "Make group admin",
-										action: () =>
-											console.debug("elevateAccess"),
-									},
-									{
-										label: "Remove",
-										action: () => console.debug("remove"),
-									},
-								]}
+								showOnline={false}
+								options={
+									user.uid === member.uid
+										? [
+												{
+													label: "Leave",
+													action: () =>
+														console.debug("Leave group"),
+												},
+										  ]
+										: [
+												{
+													label: "Make group admin",
+													action: () =>
+														console.debug(
+															"elevateAccess"
+														),
+												},
+												{
+													label: "Remove",
+													action: () =>
+														console.debug("remove"),
+												},
+										  ]
+								}
 							/>
 						</li>
 					))}

@@ -1,12 +1,9 @@
 import {
 	ChatBubbleBottomCenterTextIcon,
-	UserPlusIcon
+	UserPlusIcon,
 } from "@heroicons/react/24/solid";
 import { useSidebarStore } from "../../../store/store";
-import {
-	Options,
-	Role
-} from "../../../submodules/shared/components/atoms";
+import { Options, Role } from "../../../submodules/shared/components/atoms";
 import { Medal } from "../../../submodules/shared/icons";
 import { classNames } from "../../../submodules/shared/utils";
 
@@ -25,7 +22,7 @@ const getPositionColor = (position) => {
 	}
 };
 
-const Participant = ({ participant, showPosition, options }) => {
+const Participant = ({ participant, showPosition, showOnline, options }) => {
 	const dispatchToSidebar = useSidebarStore(
 		(store) => store.dispatchToSidebar
 	);
@@ -89,7 +86,7 @@ const Participant = ({ participant, showPosition, options }) => {
 						alt={participant.name}
 						className="square h-10 rounded-md"
 					/>
-					{!participant.isOnline ? (
+					{participant.isOnline && showOnline ? (
 						<span
 							className={classNames(
 								"absolute top-0 right-0 block h-2.5 w-2.5 -translate-y-1/4 translate-x-1/4 transform rounded-full ring-2 ring-neutral-50 dark:ring-neutral-900 bg-green-400"
@@ -98,9 +95,9 @@ const Participant = ({ participant, showPosition, options }) => {
 						/>
 					) : null}
 				</div>
-				<div className="min-w-0 flex-1 px-2">
+				<div className="flex-1 px-2">
 					<div className="group-hover:w-2/3 w-full">
-						<div className="group relative flex space-x-1">
+						<div className="group relative flex space-x-2">
 							<span
 								className="line-clamp-1 text-sm font-medium text-slate-900 dark:text-slate-200 hover:underline cursor-pointer"
 								onClick={openProfile}
@@ -146,6 +143,7 @@ const Participant = ({ participant, showPosition, options }) => {
 Participant.defaultProps = {
 	participants: [],
 	showPosition: true,
+	showOnline: true,
 	options: null,
 };
 
