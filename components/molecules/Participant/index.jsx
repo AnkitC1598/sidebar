@@ -55,8 +55,6 @@ const Participant = ({ participant, showPosition, showOnline, options }) => {
 			},
 		});
 
-	const toggleFollowUser = () => console.log("Follow/Unfollow User");
-
 	return (
 		<>
 			<div className="flex w-full flex-1 items-center space-x-2 p-4 group">
@@ -126,12 +124,6 @@ const Participant = ({ participant, showPosition, showOnline, options }) => {
 						onClick={openChat}
 					>
 						<ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
-					</button>
-					<button
-						className="inline-flex items-center p-2 text-sm font-medium text-gray-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0"
-						onClick={toggleFollowUser}
-					>
-						<UserPlusIcon className="h-5 w-5" />
 					</button>
 					<Options options={options} />
 				</div>

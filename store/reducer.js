@@ -98,6 +98,8 @@ export const sidebarReducer = (state, { type, payload }) => {
 				const props = payload.props || {};
 				const options = payload.options || null;
 				const title = payload.title || null;
+				const subtitle = payload.subtitle || null;
+				const image = payload.image || null;
 				const componentName = payload.component;
 				const Component = getComponentFromName(componentName);
 				draft.overlapSection = {
@@ -106,6 +108,8 @@ export const sidebarReducer = (state, { type, payload }) => {
 						return <Component {...props} />;
 					}),
 					title: title,
+					subtitle: subtitle,
+					image: image,
 					props: props,
 					options: options,
 					name: componentName,

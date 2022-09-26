@@ -368,7 +368,7 @@ const LinearChats = () => {
 		<>
 			{messages.length ? (
 				<>
-					<ul className="flex h-full w-full flex-col divide-y divide-neutral-200 overflow-hidden overflow-y-scroll rounded-md pt-0.5 scrollbar-hide dark:divide-neutral-800">
+					<ul className="flex h-linearChatContent w-full flex-col-reverse divide-y divide-y-reverse divide-neutral-200 overflow-hidden overflow-y-scroll rounded-md pt-0.5 scrollbar-hide dark:divide-neutral-800">
 						{messages.map((msgGroup, idx) => (
 							<li
 								key={msgGroup?.user?.uid + msgGroup.type + idx}

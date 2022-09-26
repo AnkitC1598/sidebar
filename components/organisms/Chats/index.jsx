@@ -112,14 +112,14 @@ const Chats = () => {
 													leaveFrom="opacity-100"
 													leaveTo="opacity-0"
 												>
-													<span className="w-2/3 mx-auto absolute -bottom-1 inset-x-0 transition-all duration-200 border-t-4 h-2 rounded-sm border-purple-700 dark:border-purple-300" />
+													<span className="w-2/3 mx-auto absolute -bottom-1 inset-x-0 transition-all duration-200 border-t-4 h-2 rounded-sm border-amber-900 dark:border-amber-200" />
 												</Transition>
 											</>
 										)}
 									</Tab>
 								))}
 							</Tab.List>
-							<Tab.Panels className="w-full h-full bg-neutral-50 dark:bg-neutral-900">
+							<Tab.Panels className="w-full h-full bg-neutral-50 dark:bg-neutral-900 h-chatPanel">
 								{tabs.map((tab) => (
 									<Tab.Panel
 										key={tab.label + "component"}

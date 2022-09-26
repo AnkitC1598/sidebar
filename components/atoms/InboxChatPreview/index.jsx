@@ -1,4 +1,4 @@
-import { UsersIcon } from "@heroicons/react/24/solid";
+import { UserGroupIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { formatDate } from "../../../submodules/shared/utils";
 
@@ -8,7 +8,7 @@ const InboxChatPreview = ({ chat }) => {
 			<div className="group flex w-full flex-1 items-center space-x-2">
 				<div className="relative flex-shrink-0">
 					{chat.imageUrl === null && chat.type === "group" ? (
-						<UsersIcon className="h-10 p-2 bg-neutral-500 aspect-square rounded-md" />
+						<UserGroupIcon className="h-10 p-2 text-neutral-500 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-700 aspect-square rounded-md" />
 					) : (
 						<img
 							src={

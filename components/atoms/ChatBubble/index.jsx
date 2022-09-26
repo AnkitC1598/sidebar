@@ -5,19 +5,17 @@ import {
 	classNames,
 	formatDate,
 	getHex,
-	urlify
+	urlify,
 } from "../../../submodules/shared/utils";
 
-const ChatBubble = ({ msg, time, user }) => {
+const ChatBubble = ({ msg, time, user, isSent }) => {
 	if (Object.prototype.toString.call(msg) !== "[object String]")
 		throw new Error("ChatBubble: msg must be a string");
 
 	const [isReadMore, setIsReadMore] = useState(msg.length > 150);
-	const { userId, dispatchToSidebar } = useSidebarStore((store) => ({
-		userId: store.user.uid,
-		dispatchToSidebar: store.dispatchToSidebar,
-	}));
-	const isSent = useMemo(() => user?.uid === userId, [user?.uid, userId]);
+	const dispatchToSidebar = useSidebarStore(
+		(store) => store.dispatchToSidebar
+	);
 
 	const openProfile = () =>
 		dispatchToSidebar({
@@ -37,8 +35,15 @@ const ChatBubble = ({ msg, time, user }) => {
 		<>
 			<span
 				className={classNames(
-					"relative bg-neutral-200 dark:bg-neutral-800 p-2 rounded-lg min-w-24 w-fit mb-0.5",
-					user ? (isSent ? "rounded-tr-none" : "rounded-tl-none") : ""
+					"relative p-2 rounded-lg min-w-24 w-fit shadow",
+					user
+						? isSent
+							? "rounded-tr-none"
+							: "rounded-tl-none"
+						: "",
+					isSent
+						? "bg-amber-100/70 dark:bg-amber-900"
+						: "bg-neutral-50 dark:bg-neutral-800"
 				)}
 			>
 				{user ? (
@@ -48,13 +53,17 @@ const ChatBubble = ({ msg, time, user }) => {
 							isSent ? "-right-2" : "-left-2"
 						)}
 					>
-						{isSent ? <RightTail /> : <LeftTail />}
+						{isSent ? (
+							<RightTail className="text-amber-100/70 dark:text-amber-900" />
+						) : (
+							<LeftTail className="text-neutral-50 dark:text-neutral-800" />
+						)}
 					</span>
 				) : null}
 				{user && !isSent ? (
 					<div className="flex items-center justify-between">
 						<span
-							className="text-sm font-semibold hover:underline cursor-pointer" // text-slate-900 dark:text-slate-200"
+							className="text-sm font-semibold hover:underline cursor-pointer"
 							style={{
 								color: getHex(user.uid),
 							}}
@@ -85,7 +94,7 @@ const ChatBubble = ({ msg, time, user }) => {
 						{isReadMore ? "Show More" : "Show Less"}
 					</div>
 				)}
-				<span className="text-xxs text-slate-500 float-right -mb-2 -mt-1">
+				<span className="text-xxs text-slate-500 float-right -mb-1">
 					{formatDate(time).chat}
 				</span>
 			</span>

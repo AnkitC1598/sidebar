@@ -26,7 +26,7 @@ const LRChat = ({ msgGroup }) => {
 				>
 					<span
 						className={classNames(
-							"flex flex-col",
+							"flex flex-col space-y-1",
 							isSent ? "items-end ml-2" : "items-start mr-2"
 						)}
 					>
@@ -42,7 +42,6 @@ const LRChat = ({ msgGroup }) => {
 							)
 						)}
 					</span>
-					{/* <span className="group-hover:visible invisible">asd</span> */}
 				</div>
 			</div>
 		</>

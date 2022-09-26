@@ -22,6 +22,9 @@ export const useSidebarStore = create(
 				Component: null,
 				props: {},
 				name: "",
+				title: "",
+				subtitle: "",
+				image: "",
 			},
 			lastOverlapSection: [],
 			unRead: {

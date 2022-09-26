@@ -208,7 +208,7 @@ const PasteBin = () => {
 			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 h-navScreen">
 				{resources.length ? (
 					<>
-						<ul className="flex h-full w-full flex-col divide-y divide-neutral-200 overflow-y-scroll rounded-md pt-0.5 scrollbar-hide dark:divide-neutral-800 md:!h-screen">
+						<ul className="flex h-full w-full flex-col-reverse divide-ydivide-y-reverse divide-neutral-200 overflow-y-scroll rounded-md pt-0.5 scrollbar-hide dark:divide-neutral-800 md:!h-screen">
 							{resources.map((resource, idx) => (
 								<Resource
 									key={resource._id}

@@ -2,29 +2,31 @@ import { Tab, Transition } from "@headlessui/react";
 import {
 	ArrowLeftOnRectangleIcon as ArrowLeftOnRectangleIconOutline,
 	ChatBubbleBottomCenterTextIcon as ChatBubbleBottomCenterTextIconOutline,
-	ClipboardDocumentListIcon as ClipboardDocumentListIconOutline,
+	CodeBracketSquareIcon as CodeBracketSquareIconOutline,
 	Cog6ToothIcon as Cog6ToothIconOutline,
-	FolderIcon as FolderIconOutline,
-	HandRaisedIcon as HandRaisedIconOutline,
+	DocumentTextIcon as DocumentTextIconOutline,
+	PaperClipIcon as PaperClipIconOutline,
 	PuzzlePieceIcon as PuzzlePieceIconOutline,
+	QueueListIcon as QueueListIconOutline,
 	UserGroupIcon as UserGroupIconOutline,
 } from "@heroicons/react/24/outline";
 import {
 	ArrowLeftIcon,
 	ArrowRightOnRectangleIcon as ArrowRightOnRectangleIconSolid,
 	ChatBubbleBottomCenterTextIcon as ChatBubbleBottomCenterTextIconSolid,
-	ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
+	CodeBracketSquareIcon as CodeBracketSquareIconSolid,
 	Cog6ToothIcon as Cog6ToothIconSolid,
-	FolderIcon as FolderIconSolid,
-	HandRaisedIcon as HandRaisedIconSolid,
+	DocumentTextIcon as DocumentTextIconSolid,
+	PaperClipIcon as PaperClipIconSolid,
 	PuzzlePieceIcon as PuzzlePieceIconSolid,
+	QueueListIcon as QueueListIconSolid,
 	UserGroupIcon as UserGroupIconSolid,
 } from "@heroicons/react/24/solid";
 import { Fragment, useMemo } from "react";
 import {
-	Agendas,
+	// Agendas,
 	Chats,
-	Doubts,
+	// Doubts,
 	PasteBin,
 	Profile,
 	Quiz,
@@ -34,6 +36,32 @@ import {
 import { useSidebarStore } from "../../../store/store";
 import { Options, Tooltip } from "../../../submodules/shared/components/atoms";
 import { classNames } from "../../../submodules/shared/utils";
+
+const selectedColor = {
+	topics: "bg-red-200 text-red-900 dark:bg-red-900 dark:text-red-200",
+	chat: "bg-amber-200 text-amber-900 dark:bg-amber-900 dark:text-amber-200",
+	doubts: "bg-lime-200 text-lime-900 dark:bg-lime-900 dark:text-lime-200",
+	pastebin: "bg-teal-200 text-teal-900 dark:bg-teal-900 dark:text-teal-200",
+	handouts: "bg-blue-200 text-blue-900 dark:bg-blue-900 dark:text-blue-200",
+	quiz: "bg-purple-200 text-purple-900 dark:bg-purple-900 dark:text-purple-200",
+	users: "bg-rose-200 text-rose-900 dark:bg-rose-900 dark:text-rose-200",
+	profile:
+		"bg-neutral-200 text-slate-900 dark:bg-neutral-800 dark:text-slate-200",
+	settings:
+		"bg-neutral-200 text-slate-900 dark:bg-neutral-800 dark:text-slate-200",
+};
+
+const hoverColor = {
+	topics: "hover:bg-red-100 dark:hover:bg-red-800",
+	chat: "hover:bg-amber-100 dark:hover:bg-amber-800",
+	doubts: "hover:bg-lime-100 dark:hover:bg-lime-800",
+	pastebin: "hover:bg-teal-100 dark:hover:bg-teal-800",
+	handouts: "hover:bg-blue-100 dark:hover:bg-blue-800",
+	quiz: "hover:bg-purple-100 dark:hover:bg-purple-800",
+	users: "hover:bg-rose-100 dark:hover:bg-rose-800",
+	profile: "hover:bg-neutral-200 dark:hover:bg-neutral-700",
+	settings: "hover:bg-neutral-200 dark:hover:bg-neutral-700",
+};
 
 const Sidebar = ({ enabledSections, toolTipDir }) => {
 	if (Object.prototype.toString.call(enabledSections) !== "[object Array]")
@@ -45,6 +73,8 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 		sideBarSection,
 		overlapVisible,
 		overlapTitle,
+		overlapSubTitle,
+		overlapImage,
 		overlapOptions,
 		overlapName,
 		dispatchToSidebar,
@@ -54,6 +84,8 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 		sideBarSection: store.sideBarSection,
 		overlapVisible: store.overlapSection.visible,
 		overlapTitle: store.overlapSection.title,
+		overlapSubTitle: store.overlapSection.subtitle,
+		overlapImage: store.overlapSection.image,
 		overlapOptions: store.overlapSection.options,
 		overlapName: store.overlapSection.name,
 		dispatchToSidebar: store.dispatchToSidebar,
@@ -62,15 +94,14 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 	const Tabs = useMemo(
 		() => [
 			{
-				label: "agenda",
-				component: <Agendas />,
-				outlineIcon: (
-					<ClipboardDocumentListIconOutline className="h-5 w-5" />
-				),
-				solidIcon: (
-					<ClipboardDocumentListIconSolid className="h-5 w-5" />
-				),
+				label: "topics",
+				component: <></>,
+				// component: <Agendas />,
+				outlineIcon: <QueueListIconOutline className="h-5 w-5" />,
+				solidIcon: <QueueListIconSolid className="h-5 w-5" />,
 				overlaps: [],
+				selected: "",
+				hover: "",
 			},
 			{
 				label: "chat",
@@ -87,20 +118,38 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 					"profile",
 					"newChatOrGroup",
 				],
+				selected: "",
+				hover: "",
 			},
 			{
-				label: "doubt",
-				component: <Doubts />,
-				outlineIcon: <HandRaisedIconOutline className="h-5 w-5" />,
-				solidIcon: <HandRaisedIconSolid className="h-5 w-5" />,
+				label: "doubts",
+				component: <></>,
+				// component: <Doubts />,
+				outlineIcon: (
+					<CodeBracketSquareIconOutline className="h-5 w-5" />
+				),
+				solidIcon: <CodeBracketSquareIconSolid className="h-5 w-5" />,
 				overlaps: [],
+				selected: "",
+				hover: "",
 			},
 			{
 				label: "pastebin",
 				component: <PasteBin />,
-				outlineIcon: <FolderIconOutline className="h-5 w-5" />,
-				solidIcon: <FolderIconSolid className="h-5 w-5" />,
+				outlineIcon: <DocumentTextIconOutline className="h-5 w-5" />,
+				solidIcon: <DocumentTextIconSolid className="h-5 w-5" />,
 				overlaps: [],
+				selected: "",
+				hover: "",
+			},
+			{
+				label: "handouts",
+				component: <></>,
+				outlineIcon: <PaperClipIconOutline className="h-5 w-5" />,
+				solidIcon: <PaperClipIconSolid className="h-5 w-5" />,
+				overlaps: [],
+				selected: "",
+				hover: "",
 			},
 			{
 				label: "quiz",
@@ -108,6 +157,8 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				outlineIcon: <PuzzlePieceIconOutline className="h-5 w-5" />,
 				solidIcon: <PuzzlePieceIconSolid className="h-5 w-5" />,
 				overlaps: ["quizView", "quizResult"],
+				selected: "",
+				hover: "",
 			},
 			{
 				label: "users",
@@ -115,6 +166,8 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				outlineIcon: <UserGroupIconOutline className="h-5 w-5" />,
 				solidIcon: <UserGroupIconSolid className="h-5 w-5" />,
 				overlaps: ["profile"],
+				selected: "",
+				hover: "",
 			},
 			{
 				label: "profile",
@@ -126,6 +179,8 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 					/>
 				),
 				overlaps: [],
+				selected: "",
+				hover: "",
 			},
 			{
 				label: "settings",
@@ -133,6 +188,8 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				outlineIcon: <Cog6ToothIconOutline className="h-5 w-5" />,
 				solidIcon: <Cog6ToothIconSolid className="h-5 w-5" />,
 				overlaps: [],
+				selected: "",
+				hover: "",
 			},
 		],
 		[]
@@ -188,9 +245,14 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 										className={({ selected }) =>
 											classNames(
 												"group relative flex aspect-square w-full flex-col items-center justify-center rounded-md text-sm transition-all duration-500 focus-visible:outline-0",
+												// selectedColor[tab.label]
 												selected && sideBarOpen
-													? "bg-neutral-200 text-slate-900 dark:bg-neutral-800 dark:text-slate-100"
-													: "bg-neutral-50 text-slate-900 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-slate-200 dark:hover:bg-neutral-700"
+													? selectedColor[tab.label]
+													: `bg-neutral-50 text-slate-900 dark:bg-neutral-900 dark:text-slate-200 ${
+															hoverColor[
+																tab.label
+															]
+													  }`
 											)
 										}
 									>
@@ -262,11 +324,23 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 											) ? (
 												<span className="w-full flex space-x-3 items-center">
 													<ArrowLeftIcon
-														className="h-10 w-10 dark:hover:bg-neutral-800 hover:bg-neutral-200 p-2 rounded-md"
+														className="h-9 w-9 dark:hover:bg-neutral-800 hover:bg-neutral-200 p-2 rounded-md cursor-pointer"
 														onClick={goBackOverlap}
 													/>
-													<span className="flex-1 text-xl line-clamp-1">
-														{overlapTitle}
+													{overlapImage
+														? overlapImage
+														: null}
+													<span className="flex-1 flex flex-col">
+														<span>
+															{overlapTitle}
+														</span>
+														{overlapSubTitle ? (
+															<span className="text-xs text-slate-500">
+																{
+																	overlapSubTitle
+																}
+															</span>
+														) : null}
 													</span>
 													{overlapOptions ? (
 														<Options
@@ -296,10 +370,11 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 
 Sidebar.defaultProps = {
 	enabledSections: [
-		// "agenda",
+		"topics",
 		"chat",
-		// "doubt",
+		"doubts",
 		"pastebin",
+		"handouts",
 		"quiz",
 		"users",
 		"profile",

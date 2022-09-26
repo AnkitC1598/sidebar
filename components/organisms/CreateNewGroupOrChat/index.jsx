@@ -25,12 +25,13 @@ const CreateNewGroupOrChat = ({ intent }) => {
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
 
-	const openChat = (title) =>
+	const openChat = ({ title, subtitle }) =>
 		dispatchToSidebar({
 			type: "SET_OVERLAP_SECTION",
 			payload: {
 				component: "inboxChat",
 				title,
+				subtitle,
 			},
 		});
 
@@ -51,12 +52,16 @@ const CreateNewGroupOrChat = ({ intent }) => {
 				data = data.data.results.data;
 				if (intent !== "group") data = data[0];
 				let title;
+				let subtitle;
 				if (intent === "group") title = data.title;
-				else
-					title = data.members.filter(
+				else {
+					const temp = data.members.filter(
 						(member) => member.uid !== user.uid
-					)[0].name;
-				openChat(title);
+					)[0];
+					title = temp.name;
+					subtitle = `@${temp.username}`;
+				}
+				openChat({ title, subtitle });
 			},
 			onError: (error) => {
 				const resp = error.response.data.results.data;
@@ -72,11 +77,14 @@ const CreateNewGroupOrChat = ({ intent }) => {
 
 				let title;
 				if (intent === "group") title = resp.group.title;
-				else
-					title = resp.group.members.filter(
+				else {
+					const temp = resp.group.members.filter(
 						(member) => member.uid !== user.uid
-					)[0].name;
-				openChat(title);
+					)[0];
+					title = temp.name;
+					subtitle = `@${temp.username}`;
+				}
+				openChat({ title, subtitle });
 			},
 		}
 	);

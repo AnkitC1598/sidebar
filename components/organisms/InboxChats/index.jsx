@@ -1,77 +1,111 @@
+import { UserGroupIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useSidebarStore } from "../../../store/store";
 import { InboxChatPreview } from "../../atoms";
 
-const chats = [
-	{
-		chatId: 1,
-		chatIcon: "https://via.placeholder.com/150",
-		chatName: "LisA Chat Test",
-		lastMessage: {
-			message: "Hello World",
-			time: "12:00",
-			user: {
-				uid: "123",
-				name: "LisA",
-				avatar: "https://via.placeholder.com/150",
-			},
-		},
-	},
-	{
-		chatId: 2,
-		chatIcon: "https://via.placeholder.com/150",
-		chatName: "LisA Chat Test",
-		lastMessage: {
-			message: "Hello World",
-			time: "12:00",
-			user: {
-				uid: "123",
-				name: "LisA",
-				avatar: "https://via.placeholder.com/150",
-			},
-		},
-	},
-];
-
 const InboxChats = () => {
-	const {chats, user, dispatchToSidebar } = useSidebarStore((store) => ({
+	const { chats, user, dispatchToSidebar } = useSidebarStore((store) => ({
 		chats: store.chats,
 		user: store.user,
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
 
-	const openInboxChat = ({ chatId, chatName }) =>
+	const groupProps = ({ chatId, chatTitle, chatImage }) => [
+		{
+			label: "Details",
+			action: () =>
+				dispatchToSidebar({
+					type: "SET_OVERLAP_SECTION",
+					payload: {
+						component: "inboxChatDetail",
+						title: chatTitle,
+						image: chatImage,
+						options: [
+							{
+								label: "Leave",
+								action: () => console.log("Leave"),
+							},
+						],
+						props: {
+							chatId: chatId,
+						},
+					},
+				}),
+		},
+	];
+
+	const singleChatProps = ({ chatTitle, chatImage }) => [
+		{
+			label: "Details",
+			action: () =>
+				dispatchToSidebar({
+					type: "SET_OVERLAP_SECTION",
+					payload: {
+						component: "profile",
+						title: `@${chatTitle}`,
+						image: chatImage,
+						props: {
+							user: user,
+						},
+					},
+				}),
+		},
+	];
+
+	const openInboxChat = ({
+		chatId,
+		chatTitle,
+		chatSubtitle,
+		chatType,
+		chatImage,
+	}) =>
 		dispatchToSidebar({
 			type: "SET_OVERLAP_SECTION",
 			payload: {
 				component: "inboxChat",
-				title: chatName,
-				options: [
-					{
-						label: "Details",
-						action: () =>
-							dispatchToSidebar({
-								type: "SET_OVERLAP_SECTION",
-								payload: {
-									component: "inboxChatDetail",
-									title: chatName,
-									options: [
-										{
-											label: "Leave",
-											action: () => console.log("Leave"),
-										},
-									],
-									props: {
-										chatId: chatId,
-									},
-								},
-							}),
-					},
-				],
+				title: chatTitle,
+				subtitle: chatSubtitle,
+				options:
+					chatType === "group"
+						? groupProps({ chatId, chatTitle, chatImage })
+						: singleChatProps({
+								chatTitle,
+								chatSubtitle,
+								chatImage,
+						  }),
+				image: chatImage,
 				props: {
 					chatId: chatId,
 				},
 			},
+		});
+
+	const handleOpenChat = (chat) =>
+		openInboxChat({
+			chatId: chat?._id,
+			chatTitle: chat?.title,
+			chatType: chat?.type,
+			chatSubtitle:
+				chat?.type === "group"
+					? null
+					: `@${
+							chat?.members.filter(
+								(member) => member.uid !== user.uid
+							)[0].username
+					  }`,
+			chatImage:
+				chat?.imageUrl === null && chat?.type === "group" ? (
+					<UserGroupIcon className="h-10 p-2 text-neutral-500 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-700 aspect-square rounded-md" />
+				) : (
+					<img
+						src={
+							chat?.imageUrl ||
+							`https://avatars.dicebear.com/api/initials/${chat?.title}.svg`
+						}
+						alt={chat?.title}
+						className="aspect-square h-10 rounded-md"
+					/>
+				),
 		});
 
 	return (
@@ -81,15 +115,10 @@ const InboxChats = () => {
 					<ul className="flex h-full w-full flex-col divide-y divide-neutral-200 overflow-hidden overflow-y-scroll rounded-md scrollbar-hide dark:divide-neutral-800">
 						{chats.map((chat, idx) => (
 							<li
-							key={chat?.title + idx}
-							className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
-							onClick={() =>
-								openInboxChat({
-									chatId: chat?._id,
-										chatName: chat?.title,
-									})
-								}
-								>
+								key={chat?.title + idx}
+								className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer"
+								onClick={() => handleOpenChat(chat)}
+							>
 								<InboxChatPreview chat={chat} />
 							</li>
 						))}
