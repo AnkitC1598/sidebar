@@ -1,7 +1,8 @@
 import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import { formatDistanceToNow } from "date-fns";
-import { File } from "..";
+import { FileResource } from "..";
 import { Toggle } from "../../../submodules/shared/components/atoms";
+import { urlify } from "../../../submodules/shared/utils";
 
 const Resource = ({ resource }) => {
 	const handleToggleVisibility = (resource) => {
@@ -17,48 +18,40 @@ const Resource = ({ resource }) => {
 		<>
 			<li className="flex flex-col space-y-4 bg-neutral-50 p-4 dark:bg-neutral-900">
 				<div className="flex items-start">
-					{resource.source === "file" ? (
-						// resource.isImage ? (
-						// 	<Image
-						// 		resource={resource}
-						// 		handleToggleVisibility={
-						// 			handleToggleVisibility
-						// 		}
-						// 	/>
-						// ) : (
-						<File
-							resource={resource}
-							handleToggleVisibility={() =>
-								handleToggleVisibility(resource)
-							}
+					<div className="w-full">
+						{/* {resource.link.length ? (
+							<LinkPreview
+								url={
+									typeof resource.link === "object"
+										? resource.link[0]
+										: resource.link
+								}
+								imageHeight={0}
+								descriptionLength={0}
+								borderRadius={5}
+								openInNewTab={true}
+								className="mb-2 break-words"
+							/>
+						) : null} */}
+						{resource.link.length ? (
+							<div
+								className="break-words"
+								dangerouslySetInnerHTML={{
+									__html: urlify(
+										typeof resource.link === "object"
+											? resource.link[0]
+											: resource.link
+									).text,
+								}}
+							/>
+						) : null}
+						<div
+							className="break-words"
+							dangerouslySetInnerHTML={{
+								__html: resource.text,
+							}}
 						/>
-					) : (
-						// )
-						resource.source === "input" && (
-							<div className="w-full">
-								{resource.link.length ? (
-									<LinkPreview
-										url={
-											typeof resource.link === "object"
-												? resource.link[0]
-												: resource.link
-										}
-										imageHeight={0}
-										descriptionLength={0}
-										borderRadius={5}
-										openInNewTab={true}
-										className="mb-2 break-words"
-									/>
-								) : null}
-								<div
-									className="break-words"
-									dangerouslySetInnerHTML={{
-										__html: resource.text,
-									}}
-								/>
-							</div>
-						)
-					)}
+					</div>
 				</div>
 				<span className="flex justify-between">
 					<span className="text-xs text-slate-300">

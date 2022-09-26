@@ -1,6 +1,5 @@
 export { default as Agenda } from "./Agenda";
-export { default as File } from "./File";
-export { default as InboxChat } from "../organisms/InboxChat";
+export { default as FileResource } from "./File";
 export { default as LinearChat } from "./LinearChat";
 export { default as LRChat } from "./LRChat";
 export { default as Participant } from "./Participant";

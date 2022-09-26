@@ -2,7 +2,7 @@ import { useState } from "react";
 import { defaultStyles, FileIcon } from "react-file-icon";
 import { ResourcePreview } from "..";
 
-const File = ({
+const FileResource = ({
 	resource,
 	handleToggleVisibility,
 }) => {
@@ -62,4 +62,4 @@ const File = ({
 	);
 };
 
-export default File;
+export default FileResource;
