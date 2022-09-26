@@ -32,11 +32,13 @@ const InboxChatPreview = ({ chat }) => {
 						</span>
 					</div>
 				</div>
-				<div className="flex flex-col">
-					<div className="text-xs text-slate-900 dark:text-slate-200">
-						{formatDate(chat.lastMessageAt).chat}
+				{chat.lastMessageAt ? (
+					<div className="flex flex-col">
+						<div className="text-xs text-slate-900 dark:text-slate-200">
+							{formatDate(chat.lastMessageAt).chat}
+						</div>
 					</div>
-				</div>
+				) : null}
 			</div>
 		</>
 	);
