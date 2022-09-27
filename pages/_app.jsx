@@ -6,7 +6,7 @@ import nprogress from "nprogress";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import queryClient from "../queries";
+import queryClient from "../submodules/shared/services/queryClient";
 import "../styles/globals.css";
 
 nprogress.configure({

@@ -22,9 +22,10 @@ const ChatBubble = ({ msg, time, user, isSent }) => {
 			type: "SET_OVERLAP_SECTION",
 			payload: {
 				component: "profile",
-				title: `@${user.username}`,
+				title: user.name,
+				subtitle: `@${user.username}`,
 				props: {
-					user: user,
+					username: user.username,
 				},
 			},
 		});

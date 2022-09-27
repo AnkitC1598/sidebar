@@ -34,7 +34,7 @@ const InboxChats = () => {
 		},
 	];
 
-	const singleChatProps = ({ chatTitle, chatImage }) => [
+	const singleChatProps = ({ chatTitle, chatSubtitle, chatImage }) => [
 		{
 			label: "Details",
 			action: () =>
@@ -42,10 +42,11 @@ const InboxChats = () => {
 					type: "SET_OVERLAP_SECTION",
 					payload: {
 						component: "profile",
-						title: `@${chatTitle}`,
+						title: chatTitle,
+						subtitle: chatSubtitle,
 						image: chatImage,
 						props: {
-							user: user,
+							username: chatSubtitle.replace("@", ""),
 						},
 					},
 				}),

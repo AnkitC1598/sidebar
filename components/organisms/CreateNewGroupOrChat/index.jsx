@@ -1,11 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import queryClient from "../../../queries";
+import queryClient from "../../../submodules/shared/services/queryClient";
 import ChatQueries from "../../../queries/chat";
 import ChatSchema from "../../../schema/chat";
 import { useSidebarStore } from "../../../store/store";
-import { Button, Input } from "../../../submodules/shared/components/atoms";
+import {
+	Avatar,
+	Button,
+	Input,
+	UserSearch,
+} from "../../../submodules/shared/components/atoms";
+import { UserGroupIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import produce from "immer";
 
 const CreateNewGroupOrChat = ({ intent }) => {
 	if (Object.prototype.toString.call(intent) !== "[object String]")
@@ -16,24 +24,99 @@ const CreateNewGroupOrChat = ({ intent }) => {
 	const loadingToastRef = useRef();
 	const [title, setTitle] = useState(null);
 	const [description, setDescription] = useState(null);
-	const [members, setMembers] = useState([
-		"biDKYENbJeYfjQU86Lg3GY08k0L2",
-		"QSGUrdFqBmTt1xrLXxU3JIUeCJU2",
-	]);
+	const [searchedUsers, setSearchedUsers] = useState([]);
 	const { user, dispatchToSidebar } = useSidebarStore((store) => ({
 		user: store.user,
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
 
-	const openChat = ({ title, subtitle }) =>
+	const [listAnimationRef] = useAutoAnimate();
+
+	const groupProps = ({ chatId, chatTitle, chatImage }) => [
+		{
+			label: "Details",
+			action: () =>
+				dispatchToSidebar({
+					type: "SET_OVERLAP_SECTION",
+					payload: {
+						component: "inboxChatDetail",
+						title: chatTitle,
+						image: chatImage,
+						options: [
+							{
+								label: "Leave",
+								action: () => console.log("Leave"),
+							},
+						],
+						props: {
+							chatId: chatId,
+						},
+					},
+				}),
+		},
+	];
+
+	const singleChatProps = ({ chatTitle, chatSubtitle, chatImage }) => [
+		{
+			label: "Details",
+			action: () =>
+				dispatchToSidebar({
+					type: "SET_OVERLAP_SECTION",
+					payload: {
+						component: "profile",
+						title: chatTitle,
+						subtitle: chatSubtitle,
+						image: chatImage,
+						props: {
+							username: chatSubtitle.replace("@", ""),
+						},
+					},
+				}),
+		},
+	];
+
+	const removeSelectedUser = (idx) => {
+		setSearchedUsers((prev) =>
+			produce(prev, (draft) => {
+				draft.splice(idx, 1);
+			})
+		);
+	};
+
+	const openChat = ({ chatId, title, subtitle, chatImage }) => {
 		dispatchToSidebar({
 			type: "SET_OVERLAP_SECTION",
 			payload: {
 				component: "inboxChat",
 				title,
 				subtitle,
+				image: chatImage,
+				options:
+					intent === "group"
+						? groupProps({ chatId, chatTitle: title, chatImage })
+						: singleChatProps({
+								chatTitle: title,
+								chatSubtitle: subtitle,
+								chatImage,
+						  }),
 			},
 		});
+	};
+
+	const getImage = (arr, title) => {
+		return arr?.imageUrl === null && arr?.type === "group" ? (
+			<UserGroupIcon className="h-10 p-2 text-neutral-500 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-700 aspect-square rounded-md" />
+		) : (
+			<img
+				src={
+					arr?.imageUrl ||
+					`https://avatars.dicebear.com/api/initials/${title}.svg`
+				}
+				alt={title}
+				className="aspect-square h-10 rounded-md"
+			/>
+		);
+	};
 
 	const { mutate, isLoading } = useMutation(
 		ChatQueries[intent === "group" ? "initGroup" : "initChat"],
@@ -51,17 +134,19 @@ const CreateNewGroupOrChat = ({ intent }) => {
 				});
 				data = data.data.results.data;
 				if (intent !== "group") data = data[0];
-				let title;
-				let subtitle;
-				if (intent === "group") title = data.title;
-				else {
+				let title, subtitle;
+				if (intent === "group") {
+					title = data.title;
+				} else {
 					const temp = data.members.filter(
 						(member) => member.uid !== user.uid
 					)[0];
 					title = temp.name;
 					subtitle = `@${temp.username}`;
 				}
-				openChat({ title, subtitle });
+				const chatId = data._id;
+				const chatImage = getImage(data, title);
+				openChat({ chatId, title, subtitle, chatImage });
 			},
 			onError: (error) => {
 				const resp = error.response.data.results.data;
@@ -74,24 +159,30 @@ const CreateNewGroupOrChat = ({ intent }) => {
 					pauseOnHover: false,
 					autoClose: 5000,
 				});
-
-				let title;
-				if (intent === "group") title = resp.group.title;
-				else {
+				let title, subtitle;
+				if (intent === "group") {
+					title = resp.group.title;
+				} else {
 					const temp = resp.group.members.filter(
 						(member) => member.uid !== user.uid
 					)[0];
 					title = temp.name;
 					subtitle = `@${temp.username}`;
 				}
-				openChat({ title, subtitle });
+				const chatId = resp.group._id;
+				const chatImage = getImage(resp.group, title);
+				openChat({ chatId, title, subtitle, chatImage });
 			},
 		}
 	);
 
 	const handleCreate = () => {
 		if (intent === "group") {
-			const initGrpData = { title, description: "", members };
+			const initGrpData = {
+				title,
+				description: "",
+				members: searchedUsers.map((searchedUser) => searchedUser.uid),
+			};
 			const isDataValid = ChatSchema.initGroup.safeParse(initGrpData);
 			if (isDataValid.success) {
 				mutate(initGrpData);
@@ -102,7 +193,9 @@ const CreateNewGroupOrChat = ({ intent }) => {
 				if (Object.keys(fieldErrors).length) console.error(fieldErrors);
 			}
 		} else {
-			const initChatData = { user: members[1] };
+			const initChatData = {
+				user: searchedUsers.map((searchedUser) => searchedUser.uid)[0],
+			};
 			const isDataValid = ChatSchema.initChat.safeParse(initChatData);
 			if (isDataValid.success) {
 				mutate(initChatData);
@@ -117,8 +210,8 @@ const CreateNewGroupOrChat = ({ intent }) => {
 
 	return (
 		<>
-			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 h-navScreen">
-				<div className="h-full flex flex-col">
+			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 h-navScreen divide-y divide-neutral-200 dark:divide-neutral-800">
+				<div className="h-linearChatContent flex flex-col">
 					{intent === "group" ? (
 						<div className="flex flex-col p-4 space-y-2 bg-neutral-200 dark:bg-neutral-800">
 							<div className="w-full flex space-x-4">
@@ -140,13 +233,63 @@ const CreateNewGroupOrChat = ({ intent }) => {
 							</span>
 						</div>
 					) : null}
-					<div className="flex flex-1 flex-col p-4 space-y-2">
+					<div className="flex flex-1 flex-col px-4 space-y-4 h-full divide-y divide-neutral-200 dark:divide-neutral-800">
 						<span className="w-full">
-							<Input placeholder="Search for students" />
+							<UserSearch
+								placeholder="Search for student"
+								// selected={searchedUsers}
+								setSelected={(val) =>
+									setSearchedUsers((prev) =>
+										produce(prev, (draft) => {
+											if (intent === "group")
+												draft.push(val);
+											else draft[0] = val;
+										})
+									)
+								}
+							/>
 						</span>
+						<ul
+							ref={listAnimationRef}
+							className="h-full w-full flex flex-col space-y-2 overflow-y-scroll scrollbar-hide pt-3"
+						>
+							{searchedUsers.length
+								? searchedUsers.map((searchedUser, idx) => (
+										<li
+											key={searchedUser.username + idx}
+											className="p-2 shadow rounded-md border border-neutral-200 dark:border-neutral-800 flex space-x-2"
+										>
+											<div className="flex flex-1 items-center space-x-2">
+												<Avatar
+													imgUrl={
+														searchedUser.profileImage
+													}
+													size="h-10"
+												/>
+												<div className="flex flex-col">
+													<span className="line-clamp-1">
+														{searchedUser.name}
+													</span>
+													<span className="text-xs line-clamp-1">
+														@{searchedUser.username}
+													</span>
+												</div>
+											</div>
+											<button
+												className="inline-flex items-center p-2 text-sm font-medium text-gray-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0"
+												onClick={() =>
+													removeSelectedUser(idx)
+												}
+											>
+												<XMarkIcon className="h-5 w-5" />
+											</button>
+										</li>
+								  ))
+								: null}
+						</ul>
 					</div>
 				</div>
-				<div className="flex flex-col p-4 space-y-2">
+				<div className="flex flex-col p-4 pb-3 space-y-2">
 					<Button
 						label="Create"
 						disabled={isLoading}

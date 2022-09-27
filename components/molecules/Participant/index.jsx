@@ -40,9 +40,10 @@ const Participant = ({ participant, showPosition, showOnline, options }) => {
 			type: "SET_OVERLAP_SECTION",
 			payload: {
 				component: "profile",
-				title: `@${participant.username}`,
+				title: participant.name,
+				subtitle: `@${participant.username}`,
 				props: {
-					user: participant,
+					username: participant.username,
 				},
 			},
 		});
