@@ -75,6 +75,14 @@ const CreateNewGroupOrChat = ({ intent }) => {
 		},
 	];
 
+	const addSelectedUser = (val) =>
+		setSearchedUsers((prev) =>
+			produce(prev, (draft) => {
+				if (intent === "group") draft.push(val);
+				else draft[0] = val;
+			})
+		);
+
 	const removeSelectedUser = (idx) => {
 		setSearchedUsers((prev) =>
 			produce(prev, (draft) => {
@@ -233,61 +241,14 @@ const CreateNewGroupOrChat = ({ intent }) => {
 							</span>
 						</div>
 					) : null}
-					<div className="flex flex-1 flex-col px-4 space-y-4 h-full divide-y divide-neutral-200 dark:divide-neutral-800">
-						<span className="w-full">
-							<UserSearch
-								placeholder="Search for student"
-								// selected={searchedUsers}
-								setSelected={(val) =>
-									setSearchedUsers((prev) =>
-										produce(prev, (draft) => {
-											if (intent === "group")
-												draft.push(val);
-											else draft[0] = val;
-										})
-									)
-								}
-							/>
-						</span>
-						<ul
-							ref={listAnimationRef}
-							className="h-full w-full flex flex-col space-y-2 overflow-y-scroll scrollbar-hide pt-3"
-						>
-							{searchedUsers.length
-								? searchedUsers.map((searchedUser, idx) => (
-										<li
-											key={searchedUser.username + idx}
-											className="p-2 shadow rounded-md border border-neutral-200 dark:border-neutral-800 flex space-x-2"
-										>
-											<div className="flex flex-1 items-center space-x-2">
-												<Avatar
-													imgUrl={
-														searchedUser.profileImage
-													}
-													size="h-10"
-												/>
-												<div className="flex flex-col">
-													<span className="line-clamp-1">
-														{searchedUser.name}
-													</span>
-													<span className="text-xs line-clamp-1">
-														@{searchedUser.username}
-													</span>
-												</div>
-											</div>
-											<button
-												className="inline-flex items-center p-2 text-sm font-medium text-gray-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0"
-												onClick={() =>
-													removeSelectedUser(idx)
-												}
-											>
-												<XMarkIcon className="h-5 w-5" />
-											</button>
-										</li>
-								  ))
-								: null}
-						</ul>
-					</div>
+					<span className="px-4">
+						<UserSearch
+							placeholder="Search for student"
+							selected={searchedUsers}
+							add={addSelectedUser}
+							remove={removeSelectedUser}
+						/>
+					</span>
 				</div>
 				<div className="flex flex-col p-4 pb-3 space-y-2">
 					<Button

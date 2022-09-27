@@ -13,6 +13,7 @@ const SidebarView = ({
 	enabledSections,
 	defaultSection,
 	user,
+	version,
 }) => {
 	if (
 		Object.prototype.toString.call(user) !== "[object Object]" &&
@@ -39,6 +40,10 @@ const SidebarView = ({
 	useGetChats();
 
 	useEffect(() => {
+		dispatchToSidebar({
+			type: "SET_STATE_TYPE",
+			payload: { type: "version", value: version ?? "0.0.0" },
+		});
 		if (user) {
 			dispatchToSidebar({
 				type: "SET_STATE_TYPE",
@@ -114,6 +119,7 @@ SidebarView.defaultProps = {
 	],
 	defaultSection: "agenda",
 	user: null,
+	version: null,
 };
 
 export default SidebarView;

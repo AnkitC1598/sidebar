@@ -1,9 +1,8 @@
 import {
-	ChatBubbleBottomCenterTextIcon,
-	UserPlusIcon,
+	ChatBubbleBottomCenterTextIcon
 } from "@heroicons/react/24/solid";
 import { useSidebarStore } from "../../../store/store";
-import { Options, Role } from "../../../submodules/shared/components/atoms";
+import { Avatar, Options, Role } from "../../../submodules/shared/components/atoms";
 import { Medal } from "../../../submodules/shared/icons";
 import { classNames } from "../../../submodules/shared/utils";
 
@@ -76,14 +75,14 @@ const Participant = ({ participant, showPosition, showOnline, options }) => {
 					</span>
 				) : null}
 				<div className="relative flex-shrink-0">
-					<img
-						src={
+					<Avatar
+						imgUrl={
 							participant.profileImage
 								? participant.profileImage
 								: `https://avatars.dicebear.com/api/initials/${participant.name}.svg`
 						}
 						alt={participant.name}
-						className="square h-10 rounded-md"
+						size="h-10"
 					/>
 					{participant.isOnline && showOnline ? (
 						<span

@@ -1,168 +1,118 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+	ArrowRightOnRectangleIcon,
+	CameraIcon,
+	PlusIcon,
+	UsersIcon,
+} from "@heroicons/react/24/solid";
+import produce from "immer";
 import React, { useState } from "react";
 import useGetChatDetails from "../../../hooks/query/chat/useGetChatDetails";
 import { useSidebarStore } from "../../../store/store";
-import { Button } from "../../../submodules/shared/components/atoms";
+import {
+	Button,
+	Input,
+	UserSearch,
+} from "../../../submodules/shared/components/atoms";
+import { Modal } from "../../../submodules/shared/components/organisms";
 import { Participant } from "../../molecules";
-
-const chat = {
-	chatId: 1,
-	chatIcon: "https://via.placeholder.com/150",
-	chatName: "LisA Chat Test",
-	members: [
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 1",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t22",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 2",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t23",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 3",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t24",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 4",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t25",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 5",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t26",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 6",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t27",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 7",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t28",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 8",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t29",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 9",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t210",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 10",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-		{
-			uid: "aVNhQHe1N8ZibeFmGh5zK8eAh9t211",
-			profileImage:
-				"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-			name: "Ashley Porter 11",
-			username: "ashleyporter",
-			role: "student",
-			title: "Code Storming 💻",
-		},
-	],
-};
-
-const CREATOR = "User X";
-
 const InboxChatDetail = ({ chatId }) => {
 	const user = useSidebarStore((store) => store.user);
 	const [edit, setEdit] = useState(false);
+	const [newTitle, setNewTitle] = useState(null);
+	const [isAddOpen, setIsAddOpen] = useState(false);
+	const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+	const [searchedUsers, setSearchedUsers] = useState([]);
 
 	const { isLoading, isError, data, error } = useGetChatDetails({ chatId });
 
+	const openAdd = () => setIsAddOpen(true);
+	const closeAdd = () => setIsAddOpen(false);
+
+	const openDelete = () => setIsDeleteOpen(true);
+	const closeDelete = () => setIsDeleteOpen(false);
+
+	const submitNewTitle = () => {
+		console.log(newTitle);
+		setEdit(false);
+	};
+
+	const addSelectedUser = (val) =>
+		setSearchedUsers((prev) =>
+			produce(prev, (draft) => {
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+				draft.push(val);
+			})
+		);
+
+	const removeSelectedUser = (idx) => {
+		setSearchedUsers((prev) =>
+			produce(prev, (draft) => {
+				draft.splice(idx, 1);
+			})
+		);
+	};
+
 	return isLoading ? null : (
 		<>
-			{edit ? (
-				<div className="flex w-full flex-col items-center space-y-4 bg-neutral-200 dark:bg-neutral-800 p-4 pb-2">
-					<img
-						className="aspect-square h-28 w-28 rounded-md"
-						src="https://via.placeholder.com/150"
-					/>
-					<div className="group relative flex flex-col items-center space-y-1">
-						<span className="w-full">
-							<Input />
-						</span>
-						<Button
-							label="Save"
-							action={() => console.log("update group details")}
-							className="w-full"
+			<div
+				className="flex w-full flex-col items-center space-y-4 bg-neutral-200 dark:bg-neutral-800 p-4 pb-2 relative"
+				onClick={(e) =>
+					setEdit(() =>
+						!e.target.classList.value.split(" ").includes("title")
+							? false
+							: true
+					)
+				}
+			>
+				<span className="relative flex items-center justify-center group">
+					<span className="group-hover:opacity-50">
+						{data.details.imageUrl === null &&
+						data.details.type === "group" ? (
+							<UsersIcon className="h-28 p-2 bg-neutral-500 aspect-square rounded-md" />
+						) : (
+							<img
+								src={
+									data.details.imageUrl ||
+									`https://avatars.dicebear.com/api/initials/${data.details.title}.svg`
+								}
+								alt={data.details.title}
+								className="aspect-square h-28 rounded-md"
+							/>
+						)}
+					</span>
+					<CameraIcon className="h-5 absolute invisible group-hover:visible" />
+				</span>
+				<div
+					className="group relative flex flex-col items-center space-y-1 title"
+					onClick={() => setEdit((prev) => !prev)}
+				>
+					{edit ? (
+						<Input
+							className="text-slate-900 dark:text-slate-200 bg-neutral-50 dark:bg-neutral-900 focus:text-slate-900 dark:focus:text-slate-200 focus:bg-neutral-50 dark:focus:bg-neutral-900 title"
+							handleSubmit={submitNewTitle}
+							defaultValue={data.details.title}
+							placeholder={data.details.title}
+							setValue={setNewTitle}
 						/>
-					</div>
-				</div>
-			) : (
-				<div className="flex w-full flex-col items-center space-y-4 bg-neutral-200 dark:bg-neutral-800 p-4 pb-2">
-					{chat.imageUrl === null && chat.type === "group" ? (
-						<UsersIcon className="h-28 p-2 bg-neutral-500 aspect-square rounded-md" />
 					) : (
-						<img
-							src={
-								chat.imageUrl ||
-								`https://avatars.dicebear.com/api/initials/${chat.title}.svg`
-							}
-							alt={chat.title}
-							className="aspect-square h-28 rounded-md"
-						/>
-					)}
-					<div className="group relative flex flex-col items-center space-y-1">
-						<span className="text-xl font-medium text-slate-900 dark:text-slate-200">
+						<span className="text-xl font-medium text-slate-900 dark:text-slate-200 px-2 dark:hover:bg-neutral-700 rounded-md title">
 							{data.details.title}
 						</span>
-						<span className="text-xs text-slate-400 dark:text-slate-200">
-							Created By @{data.details.createdBy.username}
-						</span>
-					</div>
+					)}
+					<span className="text-xs text-slate-400 dark:text-slate-200">
+						Created By @{data.details.createdBy.username}
+					</span>
 				</div>
-			)}
+			</div>
 			<div className="flex w-full flex-col h-full overflow-y-hidden">
 				<div className="flex justify-between text-slate-500 p-2">
 					<span className="text-sm">
@@ -186,7 +136,9 @@ const InboxChatDetail = ({ chatId }) => {
 												{
 													label: "Leave",
 													action: () =>
-														console.debug("Leave group"),
+														console.debug(
+															"Leave group"
+														),
 												},
 										  ]
 										: [
@@ -211,16 +163,68 @@ const InboxChatDetail = ({ chatId }) => {
 				<div className="flex p-2 space-x-2">
 					<Button
 						label="Add"
-						action={() => console.log("add member")}
+						action={openAdd}
 						className="w-1/3"
+						icon={<PlusIcon className="h-5" />}
 					/>
 					<Button
-						label="Delete Group"
-						action={() => console.log("delete group")}
+						label="Exit & Delete Group"
+						action={openDelete}
 						className="w-2/3"
+						icon={<ArrowRightOnRectangleIcon className="h-5" />}
 					/>
 				</div>
 			</div>
+			<Modal
+				className="p-6"
+				customHandler={{
+					isOpen: isAddOpen,
+					close: closeAdd,
+				}}
+			>
+				<UserSearch
+					placeholder="Search for student"
+					selected={searchedUsers}
+					add={addSelectedUser}
+					remove={removeSelectedUser}
+					maxListHeight="h-[60vh]"
+				/>
+				<div className="mt-4 flex justify-center">
+					<button
+						type="submit"
+						className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-0 space-x-1"
+					>
+						<PlusIcon className="h-5" />
+						<span>Add</span>
+					</button>
+				</div>
+			</Modal>
+			<Modal
+				className="p-6"
+				customHandler={{
+					isOpen: isDeleteOpen,
+					close: closeDelete,
+				}}
+			>
+				<div className="mt-2 text-slate-900 dark:text-slate-200">
+					<p>Exit & Delete "{data.details.title}". Are you sure? </p>
+				</div>
+				<div className="mt-4 flex justify-between">
+					<button
+						type="submit"
+						className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-0"
+					>
+						Cancel
+					</button>
+					<button
+						type="submit"
+						className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-0 space-x-1"
+						// onClick={resetMicReq}
+					>
+						<span>Confirm</span>
+					</button>
+				</div>
+			</Modal>
 		</>
 	);
 };

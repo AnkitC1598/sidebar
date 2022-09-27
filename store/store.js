@@ -7,6 +7,7 @@ export const useSidebarStore = create(
 		(set) => ({
 			loaded: false,
 			user: null,
+			version: "0.0.0",
 			agendas: [],
 			chats: [],
 			chatPage: 0,
