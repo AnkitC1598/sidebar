@@ -117,7 +117,7 @@ const InboxChats = () => {
 						{chats.map((chat, idx) => (
 							<li
 								key={chat?.title + idx}
-								className="group flex space-x-2 break-all p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer"
+								className="group flex space-x-2 break-all p-4 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer"
 								onClick={() => handleOpenChat(chat)}
 							>
 								<InboxChatPreview chat={chat} />

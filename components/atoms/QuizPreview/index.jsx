@@ -1,32 +1,15 @@
 import { differenceInDays } from "date-fns";
 import React, { useMemo } from "react";
-import { useSidebarStore } from "../../../store/store";
 import { classNames } from "../../../submodules/shared/utils";
 
 const QuizPreview = ({ quiz }) => {
 	if (Object.prototype.toString.call(quiz) !== "[object Object]")
 		throw new Error("QuizPreview: quiz is not an object");
 
-	const dispatchToSidebar = useSidebarStore(
-		(store) => store.dispatchToSidebar
-	);
-
 	const quizExpiringIn = useMemo(
 		() => differenceInDays(new Date(quiz.expiryDate), new Date()),
 		[quiz.expiryDate]
 	);
-
-	const openQuiz = () =>
-		dispatchToSidebar({
-			type: "SET_OVERLAP_SECTION",
-			payload: {
-				component: "quizView",
-				title: `${quiz.name}`,
-				props: {
-					quiz: quiz,
-				},
-			},
-		});
 
 	return (
 		<>
@@ -43,10 +26,7 @@ const QuizPreview = ({ quiz }) => {
 				<div className="min-w-0 flex-1 px-2">
 					<div className="group-hover:w-2/3 w-full">
 						<div className="group relative flex space-x-1">
-							<span
-								className="line-clamp-1 text-sm font-medium text-slate-900 dark:text-slate-200"
-								onClick={openQuiz}
-							>
+							<span className="line-clamp-1 text-sm font-medium text-slate-900 dark:text-slate-200">
 								{quiz.name}
 							</span>
 						</div>

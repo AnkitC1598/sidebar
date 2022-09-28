@@ -5,7 +5,8 @@ import {
 	InboxChat,
 	InboxChatDetail,
 	Profile,
-	QuizView
+	QuizView,
+	QuizResult,
 } from "../components/organisms";
 
 const getComponentFromName = (name) => {
@@ -20,6 +21,8 @@ const getComponentFromName = (name) => {
 			return CreateNewGroupOrChat;
 		case "quizView":
 			return QuizView;
+		case "quizResult":
+			return QuizResult;
 		default:
 			return null;
 	}

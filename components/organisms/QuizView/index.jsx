@@ -1,9 +1,20 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import produce from "immer";
 import React, { useState } from "react";
+import { useSidebarStore } from "../../../store/store";
 import { Button } from "../../../submodules/shared/components/atoms";
 import { classNames } from "../../../submodules/shared/utils";
 import { QuizQA } from "../../molecules";
+
+const quiz = {
+	id: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
+	icon: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+	name: "Quiz 1",
+	completed: true,
+	attempted: false,
+	quizStartDate: "2022-09-20T12:14:51.570Z",
+	expiryDate: "2022-09-25T12:14:51.570Z",
+};
 
 const questionList = [
 	{ question: "A", options: ["A", "B", "C", "D"], answer: null },
@@ -15,7 +26,10 @@ const questionList = [
 	{ question: "G", options: ["A", "B", "C", "D"], answer: null },
 ];
 
-const QuizView = ({ quiz }) => {
+const QuizView = ({ quizId }) => {
+	const dispatchToSidebar = useSidebarStore(
+		(store) => store.dispatchToSidebar
+	);
 	const [questions, setQuestions] = useState(questionList);
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -37,6 +51,16 @@ const QuizView = ({ quiz }) => {
 
 	const submit = () => {
 		console.log("submit", questions);
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component: "quizResult",
+				title: `${quiz.name} Results`,
+				props: {
+					quizId: quiz.id,
+				},
+			},
+		});
 	};
 
 	return (

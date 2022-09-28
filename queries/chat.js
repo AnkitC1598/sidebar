@@ -2,11 +2,9 @@ import { fetchWithToken } from "../submodules/shared/services/axios";
 
 const ChatQueries = {
 	initGroup: (data) => {
-		// console.log(data)
 		return fetchWithToken.post("/v1/groups/group", data);
 	},
 	initChat: (data) => {
-		// console.log(data)
 		return fetchWithToken.post("/v1/groups/single", data);
 	},
 	getChats: async ({ queryKey }) => {
@@ -26,6 +24,9 @@ const ChatQueries = {
 		const [_, chatId] = queryKey;
 		let resp = await fetchWithToken.get(`/v1/groups/details/${chatId}`);
 		return resp.data.results.data;
+	},
+	addToChat: ({ chatId, uid }) => {
+		return fetchWithToken.post(`/v1/groups/${chatId}/members/${uid}/add`);
 	},
 };
 
