@@ -28,7 +28,7 @@ const getComponentFromName = (name) => {
 	}
 };
 
-const ONE_WAY_OVERLAP_COMPONENTS = ["newChatOrGroup"];
+const ONE_WAY_OVERLAP_COMPONENTS = ["newChatOrGroup", 'quizView'];
 
 export const socketReducer = (state, { type, payload }) => {
 	switch (type) {

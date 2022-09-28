@@ -44,37 +44,19 @@ const quizes = [
 
 const Quiz = () => {
 	const [search, setSearch] = useState("");
-	const {
-		overlapVisible,
-		OverlapComponent,
-		overlapProps,
-		overlapName,
-		dispatchToSidebar,
-	} = useSidebarStore((store) => ({
-		overlapVisible: store.overlapSection.visible,
-		OverlapComponent: store.overlapSection.Component,
-		overlapProps: store.overlapSection.props,
-		overlapName: store.overlapSection.name,
-		dispatchToSidebar: store.dispatchToSidebar,
-	}));
-
-	const openQuiz = (quiz) =>
-		dispatchToSidebar({
-			type: "SET_OVERLAP_SECTION",
-			payload: {
-				component: "quizView",
-				title: `${quiz.name}`,
-				props: {
-					quizId: quiz.id,
-				},
-			},
-		});
+	const { overlapVisible, OverlapComponent, overlapProps, overlapName } =
+		useSidebarStore((store) => ({
+			overlapVisible: store.overlapSection.visible,
+			OverlapComponent: store.overlapSection.Component,
+			overlapProps: store.overlapSection.props,
+			overlapName: store.overlapSection.name,
+		}));
 
 	return (
 		<>
 			<div className="flex w-full flex-col bg-neutral-50 text-slate-900 h-screen-ios dark:bg-neutral-900 dark:text-slate-200 h-navScreen divide-y divide-neutral-200 dark:divide-neutral-700">
 				{overlapVisible &&
-					["quizView", "quizResult"].includes(overlapName) ? (
+				["quizView", "quizResult", "profile"].includes(overlapName) ? (
 					<OverlapComponent {...overlapProps} />
 				) : quizes.length ? (
 					<>
@@ -94,7 +76,6 @@ const Quiz = () => {
 									<li
 										key={quiz.id + idx + 1}
 										className="bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer"
-										onClick={() => openQuiz(quiz)}
 									>
 										<QuizPreview quiz={quiz} />
 									</li>

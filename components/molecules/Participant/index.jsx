@@ -1,8 +1,10 @@
-import {
-	ChatBubbleBottomCenterTextIcon
-} from "@heroicons/react/24/solid";
+import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/solid";
 import { useSidebarStore } from "../../../store/store";
-import { Avatar, Options, Role } from "../../../submodules/shared/components/atoms";
+import {
+	Avatar,
+	Options,
+	Role,
+} from "../../../submodules/shared/components/atoms";
 import { Medal } from "../../../submodules/shared/icons";
 import { classNames } from "../../../submodules/shared/utils";
 
@@ -21,7 +23,13 @@ const getPositionColor = (position) => {
 	}
 };
 
-const Participant = ({ participant, showPosition, showOnline, options }) => {
+const Participant = ({
+	participant,
+	showPosition,
+	showOnline,
+	canChat,
+	options,
+}) => {
 	const dispatchToSidebar = useSidebarStore(
 		(store) => store.dispatchToSidebar
 	);
@@ -119,12 +127,14 @@ const Participant = ({ participant, showPosition, showOnline, options }) => {
 					</div>
 				</div>
 				<div className="items-center space-x-3 group-hover:flex hidden">
-					<button
-						className="inline-flex items-center p-2 text-sm font-medium text-gray-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0"
-						onClick={openChat}
-					>
-						<ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
-					</button>
+					{canChat ? (
+						<button
+							className="inline-flex items-center p-2 text-sm font-medium text-gray-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md focus:outline-none focus:ring-0"
+							onClick={openChat}
+						>
+							<ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
+						</button>
+					) : null}
 					<Options options={options} />
 				</div>
 			</div>
@@ -136,6 +146,7 @@ Participant.defaultProps = {
 	participants: [],
 	showPosition: true,
 	showOnline: true,
+	canChat: true,
 	options: null,
 };
 

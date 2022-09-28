@@ -1,19 +1,43 @@
 import { differenceInDays } from "date-fns";
 import React, { useMemo } from "react";
+import { useSidebarStore } from "../../../store/store";
 import { classNames } from "../../../submodules/shared/utils";
 
 const QuizPreview = ({ quiz }) => {
 	if (Object.prototype.toString.call(quiz) !== "[object Object]")
 		throw new Error("QuizPreview: quiz is not an object");
 
+	const dispatchToSidebar = useSidebarStore(
+		(store) => store.dispatchToSidebar
+	);
+
 	const quizExpiringIn = useMemo(
 		() => differenceInDays(new Date(quiz.expiryDate), new Date()),
 		[quiz.expiryDate]
 	);
 
+	const openQuiz = (quiz) =>
+		dispatchToSidebar({
+			type: "SET_OVERLAP_SECTION",
+			payload: {
+				component:
+					(quiz.completed || quiz.attempted || quizExpiringIn <= 0) &&
+					quiz.name !== "Quiz 4"
+						? "quizResult"
+						: "quizView",
+				title: `${quiz.name}`,
+				props: {
+					quizId: quiz.id,
+				},
+			},
+		});
+
 	return (
 		<>
-			<div className="flex w-full flex-1 items-center space-x-2 p-4 group">
+			<div
+				className="flex w-full flex-1 items-center space-x-2 p-4 group"
+				onClick={() => openQuiz(quiz)}
+			>
 				<img
 					src={
 						quiz.icon
@@ -49,6 +73,8 @@ const QuizPreview = ({ quiz }) => {
 							? "Completed"
 							: quiz.attempted
 							? "Attempted"
+							: quizExpiringIn <= 0
+							? "Expired"
 							: quizExpiringIn <= 4
 							? `Expires in ${quizExpiringIn} days`
 							: ""}

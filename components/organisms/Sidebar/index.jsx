@@ -156,7 +156,7 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 				component: <Quiz />,
 				outlineIcon: <PuzzlePieceIconOutline className="h-5 w-5" />,
 				solidIcon: <PuzzlePieceIconSolid className="h-5 w-5" />,
-				overlaps: ["quizView", "quizResult"],
+				overlaps: ["quizView", "quizResult", "profile"],
 				selected: "",
 				hover: "",
 			},

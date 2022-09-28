@@ -1,8 +1,13 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import {
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	CheckCircleIcon,
+} from "@heroicons/react/24/solid";
 import produce from "immer";
 import React, { useState } from "react";
 import { useSidebarStore } from "../../../store/store";
 import { Button } from "../../../submodules/shared/components/atoms";
+import { Modal } from "../../../submodules/shared/components/organisms";
 import { classNames } from "../../../submodules/shared/utils";
 import { QuizQA } from "../../molecules";
 
@@ -32,13 +37,23 @@ const QuizView = ({ quizId }) => {
 	);
 	const [questions, setQuestions] = useState(questionList);
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+	const [isSubmitSuccessOpen, setIsSubmitSuccessOpen] = useState(false);
+
+	const openSubmitSuccess = () => setIsSubmitSuccessOpen(true);
+	const closeSubmitSuccess = () => setIsSubmitSuccessOpen(false);
 
 	const nextQuestion = () => {
-		setCurrentQuestionIndex((prev) => prev + 1);
+		if (currentQuestionIndex < questions.length - 1) {
+			setCurrentQuestionIndex((prev) =>
+				produce(prev, (draft) => draft + 1)
+			);
+		}
 	};
 	const prevQuestion = () => {
 		if (currentQuestionIndex > 0)
-			setCurrentQuestionIndex((prev) => prev - 1);
+			setCurrentQuestionIndex((prev) =>
+				produce(prev, (draft) => draft - 1)
+			);
 	};
 
 	const selectAnswer = (option) => {
@@ -51,6 +66,11 @@ const QuizView = ({ quizId }) => {
 
 	const submit = () => {
 		console.log("submit", questions);
+		openSubmitSuccess();
+	};
+
+	const showResult = () => {
+		closeSubmitSuccess();
 		dispatchToSidebar({
 			type: "SET_OVERLAP_SECTION",
 			payload: {
@@ -146,6 +166,31 @@ const QuizView = ({ quizId }) => {
 					</div>
 				</div>
 			</div>
+			<Modal
+				className="p-6"
+				customHandler={{
+					isOpen: isSubmitSuccessOpen,
+					close: showResult,
+				}}
+			>
+				<div className="mt-2 flex flex-col items-center text-slate-900 dark:text-slate-200">
+					<div className="text-xl mb-4">{quiz.name}</div>
+					<CheckCircleIcon className="h-24 text-green-500" />
+					<div className="text-lg">Completed</div>
+					<div className="text-sm">
+						{questions.length} out of {questions.length} questions
+						submitted successfully
+					</div>
+				</div>
+				<div className="mt-4 flex justify-center text-sm text-slate-900 dark:text-slate-200">
+					<div
+						className="underline underline-offset-2 cursor-pointer"
+						onClick={showResult}
+					>
+						Check {quiz.name} Leaderboard
+					</div>
+				</div>
+			</Modal>
 		</>
 	);
 };
