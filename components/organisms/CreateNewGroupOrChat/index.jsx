@@ -141,7 +141,6 @@ const CreateNewGroupOrChat = ({ intent }) => {
 					autoClose: 5000,
 				});
 				data = data.data.results.data;
-				if (intent !== "group") data = data[0];
 				let title, subtitle;
 				if (intent === "group") {
 					title = data.title;
