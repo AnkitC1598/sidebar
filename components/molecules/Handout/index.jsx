@@ -1,13 +1,13 @@
+import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import { DocumentDuplicateIcon } from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
 import { useState } from "react";
-import { FileResource, ImageResource } from "..";
+import { FileResource } from "..";
 import { Options, Toggle } from "../../../submodules/shared/components/atoms";
 import { classNames, urlify } from "../../../submodules/shared/utils";
 
-const Resource = ({ resource }) => {
+const Handout = ({ resource }) => {
 	const [copied, setCopied] = useState(false);
-	const [showPreview, setShowPreview] = useState(false);
 	const handleToggleVisibility = (resource) => {
 		console.log(!resource.isVisible);
 		// toggleVisibility({
@@ -34,21 +34,21 @@ const Resource = ({ resource }) => {
 		<>
 			<li className="group flex flex-col bg-neutral-50 p-4 dark:bg-neutral-900">
 				<div className="flex flex-col space-y-1 items-start text-sm">
-					{resource.source === "file" ? (
-						resource.isImage ? (
-							<ImageResource
-								resource={resource}
-								handleToggleVisibility={handleToggleVisibility}
+					{/* {resource.link.length ? (
+							<LinkPreview
+								url={
+									typeof resource.link === "object"
+										? resource.link[0]
+										: resource.link
+								}
+								imageHeight={0}
+								descriptionLength={0}
+								borderRadius={5}
+								openInNewTab={true}
+								className="mb-2 break-words"
 							/>
-						) : (
-							<FileResource
-								resource={resource}
-								handleToggleVisibility={handleToggleVisibility}
-								showPreview={showPreview}
-								setShowPreview={setShowPreview}
-							/>
-						)
-					) : resource.source === "input" && resource.link.length ? (
+						) : null} */}
+					{resource.link.length ? (
 						<div
 							className="break-all"
 							dangerouslySetInnerHTML={{
@@ -96,17 +96,17 @@ const Resource = ({ resource }) => {
 								onClick={copy}
 							/>
 						</span>
-						{/* <Toggle
+						<Toggle
 							value={resource.isVisible}
 							size="sm"
 							onChange={() => handleToggleVisibility(resource)}
-						/> */}
+						/>
 						<Options
 							options={[
 								{
 									label: "Report",
 									action: () =>
-										console.log("Report Resource"),
+										console.log("Report Handout"),
 								},
 							]}
 						/>
@@ -117,4 +117,4 @@ const Resource = ({ resource }) => {
 	);
 };
 
-export default Resource;
+export default Handout;

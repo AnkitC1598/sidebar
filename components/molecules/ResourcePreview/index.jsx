@@ -2,8 +2,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ArrowDownTrayIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
 import { Fragment } from "react";
-import { Toggle } from "../../../submodules/shared/components/atoms";
-import { downloadFile } from "../../../submodules/shared/utils";
 
 const ResourcePreview = ({
 	isOpen,
@@ -57,10 +55,10 @@ const ResourcePreview = ({
 										{resource.name}
 									</Dialog.Title>
 									<div className="flex items-center space-x-4">
-										<Toggle
+										{/* <Toggle
 											defaultValue={resource.isVisible}
 											onChange={handleToggleVisibility}
-										/>
+										/> */}
 										{resource.isImage &&
 										resource.ext !== "svg" ? (
 											<div
@@ -79,13 +77,18 @@ const ResourcePreview = ({
 										</button>
 									</div>
 								</div>
-								<div className="mt-2 flex max-h-[75vh] flex-1 items-center justify-center overflow-hidden p-5">
+								<div className="mt-2 flex max-h-[75vh] flex-1 items-center justify-center overflow-hidden p-5 preview">
 									{resource.isImage &&
 									resource.ext !== "svg" ? (
 										<img
 											src={resource.link}
 											alt={resource.link}
 											className="imgPreview max-w-[80%]"
+										/>
+									) : resource.ext === "pdf" ? (
+										<iframe
+											src={resource.link}
+											className="w-full h-[60vh]"
 										/>
 									) : (
 										<div className="flex flex-col items-center space-y-4">

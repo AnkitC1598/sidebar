@@ -2,6 +2,7 @@ export { default as Chats } from "./Chats";
 export { default as CreateNewGroupOrChat } from "./CreateNewGroupOrChat";
 export { default as Doubt } from "./Doubt";
 export { default as Doubts } from "./Doubts";
+export { default as Handouts } from "./Handouts";
 export { default as InboxChat } from "./InboxChat";
 export { default as InboxChatDetail } from "./InboxChatDetail";
 export { default as InboxChats } from "./InboxChats";

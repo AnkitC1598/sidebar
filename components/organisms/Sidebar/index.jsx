@@ -26,6 +26,7 @@ import { Fragment, useMemo } from "react";
 import {
 	Chats,
 	Doubts,
+	Handouts,
 	PasteBin,
 	Profile,
 	Quiz,
@@ -153,7 +154,7 @@ const Sidebar = ({
 				},
 				{
 					label: "handouts",
-					component: <></>,
+					component: <Handouts />,
 					outlineIcon: <PaperClipIconOutline className="h-5 w-5" />,
 					solidIcon: <PaperClipIconSolid className="h-5 w-5" />,
 					overlaps: [],

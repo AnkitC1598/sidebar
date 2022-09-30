@@ -1,4 +1,6 @@
-export { default as FileResource } from "./File";
+export { default as FileResource } from "./FileResource";
+export { default as Handout } from "./Handout";
+export { default as ImageResource } from "./ImageResource";
 export { default as LinearChat } from "./LinearChat";
 export { default as LRChat } from "./LRChat";
 export { default as Participant } from "./Participant";
