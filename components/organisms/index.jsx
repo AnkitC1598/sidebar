@@ -1,4 +1,3 @@
-export { default as Topics } from "./Topics";
 export { default as Chats } from "./Chats";
 export { default as CreateNewGroupOrChat } from "./CreateNewGroupOrChat";
 export { default as Doubt } from "./Doubt";
@@ -14,4 +13,5 @@ export { default as QuizResult } from "./QuizResult";
 export { default as QuizView } from "./QuizView";
 export { default as Settings } from "./Settings";
 export { default as Sidebar } from "./Sidebar";
+export { default as Topics } from "./Topics";
 export { default as Users } from "./Users";

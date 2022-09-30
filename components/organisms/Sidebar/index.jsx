@@ -8,7 +8,7 @@ import {
 	PaperClipIcon as PaperClipIconOutline,
 	PuzzlePieceIcon as PuzzlePieceIconOutline,
 	QueueListIcon as QueueListIconOutline,
-	UserGroupIcon as UserGroupIconOutline,
+	UserGroupIcon as UserGroupIconOutline
 } from "@heroicons/react/24/outline";
 import {
 	ArrowLeftIcon,
@@ -20,18 +20,16 @@ import {
 	PaperClipIcon as PaperClipIconSolid,
 	PuzzlePieceIcon as PuzzlePieceIconSolid,
 	QueueListIcon as QueueListIconSolid,
-	UserGroupIcon as UserGroupIconSolid,
+	UserGroupIcon as UserGroupIconSolid
 } from "@heroicons/react/24/solid";
 import { Fragment, useMemo } from "react";
 import {
-	// Agendas,
 	Chats,
 	Doubts,
 	PasteBin,
 	Profile,
 	Quiz,
-	Settings,
-	Users,
+	Settings, Topics, Users
 } from "..";
 import { useSidebarStore } from "../../../store/store";
 import { Options, Tooltip } from "../../../submodules/shared/components/atoms";
@@ -101,7 +99,7 @@ const Sidebar = ({
 			[
 				{
 					label: "topics",
-					component: <></>,
+					component: <Topics />,
 					// component: <Agendas />,
 					outlineIcon: <QueueListIconOutline className="h-5 w-5" />,
 					solidIcon: <QueueListIconSolid className="h-5 w-5" />,
