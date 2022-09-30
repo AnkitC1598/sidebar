@@ -356,13 +356,13 @@ const Users = () => {
 				) : (
 					<>
 						<div className="flex h-full select-none flex-col items-center justify-center space-x-1 space-y-8 text-black">
-							<img
+							{/* <img
 								src="/assets/img/noParticipants.png"
 								alt="No Participant's Yet"
 								className="w-[25%] md:w-[60%]"
-							/>
+							/> */}
 							<p className="text-slate-500">
-								No Participant's Yet
+								No Users Found
 							</p>
 						</div>
 					</>

@@ -6,11 +6,11 @@ import CookieService from "../../../submodules/shared/services/cookie.service";
 import { groupifyChat } from "../../../submodules/shared/utils";
 
 const classCodes = [
-	"63306544cc1ba0336678046d",
-	"633062f4022082335c03ad9d",
-	"632606debfc8f8343f7bfb13",
-	"6325d4d09dea1534311e0eee",
-	"631ccbf724ba8b30628209e0",
+	"62b2bd07b5b2876af60c7102",
+	"62b418ba28bfcb6b045f700b",
+	"62b58da7b5b2876af60c82d1",
+	"62b961ddab10132aeca3bf10",
+	"62baa4a1794bd52adef5595f",
 ];
 const hierarchyLevel = ["cohort", "term", "subject", "chapter", "topic"];
 
@@ -19,8 +19,15 @@ const useGetHierarchyChat = () => {
 	const dispatchToSidebar = useSidebarStore(
 		(store) => store.dispatchToSidebar
 	);
-	const classCode = classCodes[query.slug?.length - 1];
-	const hierarchy = hierarchyLevel[query.slug?.length - 1];
+
+	const slugBased = Boolean(query.slug);
+
+	const classCode =
+		classCodes[slugBased ? query.slug?.length : Object.keys(query)?.length];
+	const hierarchy =
+		hierarchyLevel[
+			slugBased ? query.slug?.length : Object.keys(query)?.length
+		];
 
 	useQuery(
 		[`${hierarchy}-chat-${classCode}`, classCode],
@@ -29,7 +36,8 @@ const useGetHierarchyChat = () => {
 			retry: false,
 			enabled:
 				Boolean(CookieService.getLocalAccessToken()) &&
-				Boolean(query.slug),
+				Boolean(hierarchy) &&
+				Boolean(classCode),
 			onSuccess: (data) => {
 				dispatchToSidebar({
 					type: "SET_STATE_TYPE",

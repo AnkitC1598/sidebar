@@ -23,13 +23,13 @@ const Topics = () => {
 				) : (
 					<>
 						<div className="flex h-full flex-col items-center justify-center space-x-1 space-y-8 text-black">
-							<img
+							{/* <img
 								src="/assets/img/noAgenda.png"
 								alt="No Agenda's Listed"
 								className="w-[25%] md:w-[60%]"
-							/>
+							/> */}
 							<div className="text-slate-500">
-								No Agenda's Listed
+								No Topics Found
 							</div>
 						</div>
 					</>

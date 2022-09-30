@@ -134,7 +134,7 @@ const InboxChats = () => {
 							className="w-[25%] md:w-[60%]"
 						/> */}
 						<div className="text-slate-500">
-							No Resource's Listed
+							No Chats Found
 						</div>
 					</div>
 				</>

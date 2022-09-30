@@ -24,7 +24,7 @@ const SidebarView = ({
 		throw new Error("SidebarView: user object is required");
 
 	if (!asComponent) useDarkMode();
-
+	
 	const { loaded, dispatchToSidebar } = useSidebarStore((store) => ({
 		loaded: store.loaded,
 		dispatchToSidebar: store.dispatchToSidebar,
@@ -39,7 +39,7 @@ const SidebarView = ({
 		[defaultSection]
 	);
 
-	useGetHierarchyChat()
+	useGetHierarchyChat();
 
 	useGetChats();
 

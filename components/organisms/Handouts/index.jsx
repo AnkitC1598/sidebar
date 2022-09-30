@@ -165,13 +165,13 @@ const Handouts = () => {
 				) : (
 					<>
 						<div className="flex h-full select-none flex-col items-center justify-center space-x-1 space-y-8 text-black">
-							<img
+							{/* <img
 								src="/assets/img/noResource.png"
 								alt="No Agenda's Listed"
 								className="w-[25%] md:w-[60%]"
-							/>
+							/> */}
 							<div className="text-slate-500">
-								No Resource's Listed
+								No Handouts Found
 							</div>
 						</div>
 					</>
