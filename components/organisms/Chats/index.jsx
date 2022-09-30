@@ -87,7 +87,7 @@ const Chats = () => {
 					<OverlapComponent {...overlapProps} />
 				) : (
 					<>
-						<Tab.Group selectedIndex={2}>
+						<Tab.Group defaultIndex={2}>
 							<Tab.List className="flex">
 								{tabs.map((tab) => (
 									<Tab

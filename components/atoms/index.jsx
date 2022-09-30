@@ -1,5 +1,6 @@
 export { default as ChatBubble } from "./ChatBubble";
 export { default as DateDistance } from "./DateDistance";
+export { default as DoubtPreview } from "./DoubtPreview";
 export { default as InboxChatPreview } from "./InboxChatPreview";
 export { default as QuizPreview } from "./QuizPreview";
 export { default as ReadMore } from "./ReadMore";

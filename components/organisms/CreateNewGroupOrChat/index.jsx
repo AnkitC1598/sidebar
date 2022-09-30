@@ -1,19 +1,19 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { UserGroupIcon } from "@heroicons/react/24/solid";
 import { useMutation } from "@tanstack/react-query";
+import { loadingToastConfig } from "../../../submodules/shared/config";
+import produce from "immer";
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import queryClient from "../../../submodules/shared/services/queryClient";
 import ChatQueries from "../../../queries/chat";
 import ChatSchema from "../../../schema/chat";
 import { useSidebarStore } from "../../../store/store";
 import {
-	Avatar,
 	Button,
 	Input,
-	UserSearch,
+	UserSearch
 } from "../../../submodules/shared/components/atoms";
-import { UserGroupIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import produce from "immer";
+import queryClient from "../../../submodules/shared/services/queryClient";
 
 const CreateNewGroupOrChat = ({ intent }) => {
 	if (Object.prototype.toString.call(intent) !== "[object String]")
@@ -134,11 +134,7 @@ const CreateNewGroupOrChat = ({ intent }) => {
 				toast.update(loadingToastRef.current, {
 					render: data.data.message,
 					type: "success",
-					isLoading: false,
-					closeOnClick: true,
-					pauseOnFocusLoss: false,
-					pauseOnHover: false,
-					autoClose: 5000,
+					...loadingToastConfig,
 				});
 				data = data.data.results.data;
 				let title, subtitle;
@@ -160,11 +156,7 @@ const CreateNewGroupOrChat = ({ intent }) => {
 				toast.update(loadingToastRef.current, {
 					render: resp.error,
 					type: "error",
-					isLoading: false,
-					closeOnClick: true,
-					pauseOnFocusLoss: false,
-					pauseOnHover: false,
-					autoClose: 5000,
+					...loadingToastConfig,
 				});
 				let title, subtitle;
 				if (intent === "group") {

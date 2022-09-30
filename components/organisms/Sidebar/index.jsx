@@ -26,7 +26,7 @@ import { Fragment, useMemo } from "react";
 import {
 	// Agendas,
 	Chats,
-	// Doubts,
+	Doubts,
 	PasteBin,
 	Profile,
 	Quiz,
@@ -123,13 +123,12 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 			},
 			{
 				label: "doubts",
-				component: <></>,
-				// component: <Doubts />,
+				component: <Doubts />,
 				outlineIcon: (
 					<CodeBracketSquareIconOutline className="h-5 w-5" />
 				),
 				solidIcon: <CodeBracketSquareIconSolid className="h-5 w-5" />,
-				overlaps: [],
+				overlaps: ["doubtView", "profile"],
 				selected: "",
 				hover: "",
 			},

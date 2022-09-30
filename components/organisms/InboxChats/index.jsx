@@ -104,7 +104,7 @@ const InboxChats = () => {
 							`https://avatars.dicebear.com/api/initials/${chat?.title}.svg`
 						}
 						alt={chat?.title}
-						className="aspect-square h-10 rounded-md"
+						className="aspect-square h-8 rounded-md"
 					/>
 				),
 		});
@@ -120,7 +120,7 @@ const InboxChats = () => {
 								className="group flex space-x-2 break-all p-4 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer"
 								onClick={() => handleOpenChat(chat)}
 							>
-								<InboxChatPreview chat={chat} />
+								<InboxChatPreview chat={chat} idx={idx} />
 							</li>
 						))}
 					</ul>

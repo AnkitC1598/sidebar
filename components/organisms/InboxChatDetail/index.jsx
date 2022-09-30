@@ -3,9 +3,10 @@ import {
 	ArrowRightOnRectangleIcon,
 	CameraIcon,
 	PlusIcon,
-	UsersIcon,
+	UsersIcon
 } from "@heroicons/react/24/solid";
 import { useMutation } from "@tanstack/react-query";
+import { loadingToastConfig } from "../../../submodules/shared/config";
 import produce from "immer";
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -17,7 +18,7 @@ import {
 	Button,
 	Input,
 	Loader,
-	UserSearch,
+	UserSearch
 } from "../../../submodules/shared/components/atoms";
 import { Modal } from "../../../submodules/shared/components/organisms";
 import queryClient from "../../../submodules/shared/services/queryClient";
@@ -89,11 +90,7 @@ const InboxChatDetail = ({ chatId }) => {
 			toast.update(loadingToastRef.current, {
 				render: data.data.message,
 				type: "success",
-				isLoading: false,
-				closeOnClick: true,
-				pauseOnFocusLoss: false,
-				pauseOnHover: false,
-				autoClose: 5000,
+				...loadingToastConfig,
 			});
 		},
 		onError: (error) => {
@@ -101,11 +98,7 @@ const InboxChatDetail = ({ chatId }) => {
 			toast.update(loadingToastRef.current, {
 				render: resp,
 				type: "error",
-				isLoading: false,
-				closeOnClick: true,
-				pauseOnFocusLoss: false,
-				pauseOnHover: false,
-				autoClose: 5000,
+				...loadingToastConfig,
 			});
 		},
 	});

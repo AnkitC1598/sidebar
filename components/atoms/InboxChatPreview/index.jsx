@@ -2,7 +2,7 @@ import { UserGroupIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { formatDate } from "../../../submodules/shared/utils";
 
-const InboxChatPreview = ({ chat }) => {
+const InboxChatPreview = ({ chat, idx }) => {
 	return (
 		<>
 			<div className="group flex w-full flex-1 items-center space-x-2">
@@ -23,12 +23,16 @@ const InboxChatPreview = ({ chat }) => {
 				<div className="min-w-0 flex-1 px-2 md:grid md:gap-1">
 					<div className="w-[80%] truncate">
 						<div className="group relative flex space-x-1">
-							<span className="truncate text-sm font-medium text-slate-900 dark:text-slate-200">
+							<span className="truncate text-sm text-slate-900 dark:text-slate-200">
 								{chat.title}
 							</span>
 						</div>
 						<span className="flex items-center text-xs text-slate-400 dark:text-slate-500">
-							<span className="truncate">{chat.lastMessage}</span>
+							<span className="truncate">
+								{chat.lastMessage || idx === 0
+									? "Lorem ipsum dolor sit amet, consectetur"
+									: null}
+							</span>
 						</span>
 					</div>
 				</div>

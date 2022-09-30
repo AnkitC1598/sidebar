@@ -7,6 +7,7 @@ import {
 	Profile,
 	QuizView,
 	QuizResult,
+	Doubt,
 } from "../components/organisms";
 
 const getComponentFromName = (name) => {
@@ -23,6 +24,8 @@ const getComponentFromName = (name) => {
 			return QuizView;
 		case "quizResult":
 			return QuizResult;
+		case "doubtView":
+			return Doubt;
 		default:
 			return null;
 	}
