@@ -77,8 +77,6 @@ const Chats = ({ nestedEnabledSections }) => {
 		return 0;
 	};
 
-	console.log(findTabIndex());
-
 	const createNewChat = (reason) =>
 		dispatchToSidebar({
 			type: "SET_OVERLAP_SECTION",

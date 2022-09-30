@@ -23,14 +23,12 @@ const CreateNewGroupOrChat = ({ intent }) => {
 
 	const loadingToastRef = useRef();
 	const [title, setTitle] = useState(null);
-	const [description, setDescription] = useState(null);
 	const [searchedUsers, setSearchedUsers] = useState([]);
 	const { user, dispatchToSidebar } = useSidebarStore((store) => ({
 		user: store.user,
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
 
-	const [listAnimationRef] = useAutoAnimate();
 
 	const groupProps = ({ chatId, chatTitle, chatImage }) => [
 		{

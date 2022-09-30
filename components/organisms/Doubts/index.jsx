@@ -193,12 +193,12 @@ const Doubts = () => {
 							<div
 								className={classNames(
 									open
-										? "fixed inset-0 w-full inline-block border-none"
+										? "absolute inset-0 w-full inline-block border-none"
 										: "absolute bottom-0 right-0 w-full"
 								)}
 							>
 								{open ? (
-									<div className="fixed inset-0 bg-black bg-opacity-75" />
+									<div className="absolute inset-0 bg-black bg-opacity-75" />
 								) : null}
 								<Popover.Button className="absolute bottom-4 right-4 rounded-md ml-auto flex items-center justify-center p-2 bg-neutral-200 dark:bg-neutral-800 transition">
 									{open ? (
@@ -216,7 +216,7 @@ const Doubts = () => {
 									leaveFrom="opacity-100 translate-y-0"
 									leaveTo="opacity-0 translate-y-1"
 								>
-									<Popover.Panel className="absolute bottom-20 right-0 z-10 mt-3 w-5/6 transform px-4 sm:px-0 lg:max-w-3xl">
+									<Popover.Panel className="absolute bottom-20 right-4 z-10 mt-3 w-3/4 transform">
 										<div className="overflow-hidden flex flex-col space-y-3">
 											<div className="flex space-x-3 rounded-md bg-neutral-50 border border-neutral-200 dark:border-neutral-800 px-2 py-4">
 												<img
