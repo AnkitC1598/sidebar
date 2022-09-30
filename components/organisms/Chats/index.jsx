@@ -68,17 +68,6 @@ const Chats = ({ nestedEnabledSections }) => {
 			].filter((tab) => nestedEnabledSections.includes(tab.label)),
 		[nestedEnabledSections]
 	);
-	console.log("nestedEnabledSections", nestedEnabledSections);
-	console.log(
-		"map",
-		Tabs.map((tab) => tab.label)
-	);
-	console.log(
-		"filter",
-		Tabs.filter((tab) => nestedEnabledSections.includes(tab.label)).map(
-			(tab) => tab.label
-		)
-	);
 
 	const findTabIndex = (tabLabel) => {
 		const found = Tabs.filter((tab) =>
