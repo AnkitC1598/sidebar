@@ -10,7 +10,7 @@ const useGetChats = () => {
 	}));
 
 	const { isLoading, isError, data, error } = useQuery(
-		["chats", user?.uid],
+		["inboxChats", user?.uid],
 		ChatQueries.getChats,
 		{
 			retry: 1,
@@ -20,7 +20,7 @@ const useGetChats = () => {
 			onSuccess: (data) => {
 				dispatchToSidebar({
 					type: "SET_STATE_TYPE",
-					payload: { type: "chats", value: data },
+					payload: { type: "inboxChats", value: data },
 				});
 			},
 		}

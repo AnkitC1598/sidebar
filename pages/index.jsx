@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { Sidebar } from "../components/organisms";
-import { useGetChats } from "../hooks/query/chat";
+import { useGetChats, useGetHierarchyChat } from "../hooks/query/chat";
 import { useSidebarStore } from "../store/store";
 import { useDarkMode } from "../submodules/shared/hooks";
 import CookieService from "../submodules/shared/services/cookie.service";
@@ -38,6 +38,8 @@ const SidebarView = ({
 			}),
 		[defaultSection]
 	);
+
+	useGetHierarchyChat()
 
 	useGetChats();
 

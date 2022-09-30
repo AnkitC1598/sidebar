@@ -4,8 +4,8 @@ import { useSidebarStore } from "../../../store/store";
 import { InboxChatPreview } from "../../atoms";
 
 const InboxChats = () => {
-	const { chats, user, dispatchToSidebar } = useSidebarStore((store) => ({
-		chats: store.chats,
+	const { inboxChats, user, dispatchToSidebar } = useSidebarStore((store) => ({
+		inboxChats: store.inboxChats,
 		user: store.user,
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
@@ -111,10 +111,10 @@ const InboxChats = () => {
 
 	return (
 		<>
-			{chats.length ? (
+			{inboxChats.length ? (
 				<>
 					<ul className="flex h-full w-full flex-col divide-y divide-neutral-200 overflow-hidden overflow-y-scroll rounded-md scrollbar-hide dark:divide-neutral-800">
-						{chats.map((chat, idx) => (
+						{inboxChats.map((chat, idx) => (
 							<li
 								key={chat?.title + idx}
 								className="group flex space-x-2 break-all p-4 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer"

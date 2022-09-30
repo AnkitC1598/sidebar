@@ -28,6 +28,14 @@ const ChatQueries = {
 	addToChat: ({ chatId, uid }) => {
 		return fetchWithToken.post(`/v1/groups/${chatId}/members/${uid}/add`);
 	},
+	getHierarchyChat: async ({ queryKey }) => {
+		const [_, chatId] = queryKey;
+		// return chatId;
+		let resp = await fetchWithToken.get(
+			`https://service.letsupgrade.in/v1/chats/${chatId}`
+		);
+		return resp.data.results.data;
+	},
 };
 
 export default ChatQueries;
