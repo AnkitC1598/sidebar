@@ -1,7 +1,5 @@
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { UserGroupIcon } from "@heroicons/react/24/solid";
 import { useMutation } from "@tanstack/react-query";
-import { loadingToastConfig } from "../../../submodules/shared/config";
 import produce from "immer";
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -13,6 +11,7 @@ import {
 	Input,
 	UserSearch
 } from "../../../submodules/shared/components/atoms";
+import { loadingToastConfig } from "../../../submodules/shared/config";
 import queryClient from "../../../submodules/shared/services/queryClient";
 
 const CreateNewGroupOrChat = ({ intent }) => {
