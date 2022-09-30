@@ -63,7 +63,12 @@ const hoverColor = {
 	settings: "hover:bg-neutral-200 dark:hover:bg-neutral-700",
 };
 
-const Sidebar = ({ enabledSections, toolTipDir }) => {
+const Sidebar = ({
+	enabledSections,
+	toolTipDir,
+	nestedEnabledSections,
+	dispatchToApp,
+}) => {
 	if (Object.prototype.toString.call(enabledSections) !== "[object Array]")
 		throw new Error("Sidebar: enabledSections must be an array of strings");
 
@@ -92,106 +97,113 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 	}));
 
 	const Tabs = useMemo(
-		() => [
-			{
-				label: "topics",
-				component: <></>,
-				// component: <Agendas />,
-				outlineIcon: <QueueListIconOutline className="h-5 w-5" />,
-				solidIcon: <QueueListIconSolid className="h-5 w-5" />,
-				overlaps: [],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "chat",
-				component: <Chats />,
-				outlineIcon: (
-					<ChatBubbleBottomCenterTextIconOutline className="h-5 w-5" />
-				),
-				solidIcon: (
-					<ChatBubbleBottomCenterTextIconSolid className="h-5 w-5" />
-				),
-				overlaps: [
-					"inboxChat",
-					"inboxChatDetail",
-					"profile",
-					"newChatOrGroup",
-				],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "doubts",
-				component: <Doubts />,
-				outlineIcon: (
-					<CodeBracketSquareIconOutline className="h-5 w-5" />
-				),
-				solidIcon: <CodeBracketSquareIconSolid className="h-5 w-5" />,
-				overlaps: ["doubtView", "profile"],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "pastebin",
-				component: <PasteBin />,
-				outlineIcon: <DocumentTextIconOutline className="h-5 w-5" />,
-				solidIcon: <DocumentTextIconSolid className="h-5 w-5" />,
-				overlaps: [],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "handouts",
-				component: <></>,
-				outlineIcon: <PaperClipIconOutline className="h-5 w-5" />,
-				solidIcon: <PaperClipIconSolid className="h-5 w-5" />,
-				overlaps: [],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "quiz",
-				component: <Quiz />,
-				outlineIcon: <PuzzlePieceIconOutline className="h-5 w-5" />,
-				solidIcon: <PuzzlePieceIconSolid className="h-5 w-5" />,
-				overlaps: ["quizView", "quizResult", "profile"],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "users",
-				component: <Users />,
-				outlineIcon: <UserGroupIconOutline className="h-5 w-5" />,
-				solidIcon: <UserGroupIconSolid className="h-5 w-5" />,
-				overlaps: ["profile"],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "profile",
-				component: <Profile />,
-				icon: (
-					<img
-						className="aspect-square h-7 w-7 rounded-md"
-						src={userProfileImage}
-					/>
-				),
-				overlaps: [],
-				selected: "",
-				hover: "",
-			},
-			{
-				label: "settings",
-				component: <Settings />,
-				outlineIcon: <Cog6ToothIconOutline className="h-5 w-5" />,
-				solidIcon: <Cog6ToothIconSolid className="h-5 w-5" />,
-				overlaps: [],
-				selected: "",
-				hover: "",
-			},
-		],
-		[]
+		() =>
+			[
+				{
+					label: "topics",
+					component: <></>,
+					// component: <Agendas />,
+					outlineIcon: <QueueListIconOutline className="h-5 w-5" />,
+					solidIcon: <QueueListIconSolid className="h-5 w-5" />,
+					overlaps: [],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "chat",
+					component: (
+						<Chats nestedEnabledSections={nestedEnabledSections} />
+					),
+					outlineIcon: (
+						<ChatBubbleBottomCenterTextIconOutline className="h-5 w-5" />
+					),
+					solidIcon: (
+						<ChatBubbleBottomCenterTextIconSolid className="h-5 w-5" />
+					),
+					overlaps: [
+						"inboxChat",
+						"inboxChatDetail",
+						"profile",
+						"newChatOrGroup",
+					],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "doubts",
+					component: <Doubts />,
+					outlineIcon: (
+						<CodeBracketSquareIconOutline className="h-5 w-5" />
+					),
+					solidIcon: (
+						<CodeBracketSquareIconSolid className="h-5 w-5" />
+					),
+					overlaps: ["doubtView", "profile"],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "pastebin",
+					component: <PasteBin />,
+					outlineIcon: (
+						<DocumentTextIconOutline className="h-5 w-5" />
+					),
+					solidIcon: <DocumentTextIconSolid className="h-5 w-5" />,
+					overlaps: [],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "handouts",
+					component: <></>,
+					outlineIcon: <PaperClipIconOutline className="h-5 w-5" />,
+					solidIcon: <PaperClipIconSolid className="h-5 w-5" />,
+					overlaps: [],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "quiz",
+					component: <Quiz />,
+					outlineIcon: <PuzzlePieceIconOutline className="h-5 w-5" />,
+					solidIcon: <PuzzlePieceIconSolid className="h-5 w-5" />,
+					overlaps: ["quizView", "quizResult", "profile"],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "users",
+					component: <Users />,
+					outlineIcon: <UserGroupIconOutline className="h-5 w-5" />,
+					solidIcon: <UserGroupIconSolid className="h-5 w-5" />,
+					overlaps: ["profile"],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "profile",
+					component: <Profile />,
+					icon: (
+						<img
+							className="aspect-square h-7 w-7 rounded-md"
+							src={userProfileImage}
+						/>
+					),
+					overlaps: [],
+					selected: "",
+					hover: "",
+				},
+				{
+					label: "settings",
+					component: <Settings dispatchToApp={dispatchToApp} />,
+					outlineIcon: <Cog6ToothIconOutline className="h-5 w-5" />,
+					solidIcon: <Cog6ToothIconSolid className="h-5 w-5" />,
+					overlaps: [],
+					selected: "",
+					hover: "",
+				},
+			].filter((tab) => enabledSections.includes(tab.label)),
+		[enabledSections, nestedEnabledSections]
 	);
 
 	const findTabIndex = (tabLabel) => {
@@ -229,9 +241,7 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 						}}
 					>
 						<Tab.List className="z-20 h-screen h-screen-ios flex flex-col border-x border-neutral-200 dark:border-neutral-800 bg-neutral-50 px-2 py-3 dark:bg-neutral-900 space-y-5 md:rounded-none md:p-2 md:pr-2">
-							{Tabs.filter((tab) =>
-								enabledSections.includes(tab.label)
-							).map((tab) => (
+							{Tabs.map((tab) => (
 								<span
 									key={tab.label}
 									className={classNames(
@@ -309,9 +319,7 @@ const Sidebar = ({ enabledSections, toolTipDir }) => {
 							leaveTo="translate-x-full"
 						>
 							<Tab.Panels className="z-10 w-full bg-neutral-50 dark:bg-neutral-900 border-x border-neutral-200 dark:border-neutral-800">
-								{Tabs.filter((tab) =>
-									enabledSections.includes(tab.label)
-								).map((tab) => (
+								{Tabs.map((tab) => (
 									<Tab.Panel
 										key={tab.label}
 										className="h-full w-full divide-y divide-neutral-200 bg-neutral-50 outline-none transition-all duration-500 dark:divide-neutral-800 dark:bg-neutral-900"
@@ -380,6 +388,7 @@ Sidebar.defaultProps = {
 		"settings",
 	],
 	toolTipDir: "left",
+	nestedEnabledSections: ["live", "discussion", "inbox"],
 };
 
 export default Sidebar;

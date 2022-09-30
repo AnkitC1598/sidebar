@@ -16,7 +16,7 @@ const QuizPreview = ({ quiz }) => {
 		[quiz.expiryDate]
 	);
 
-	const openQuiz = (quiz) =>
+	const openQuiz = () =>
 		dispatchToSidebar({
 			type: "SET_OVERLAP_SECTION",
 			payload: {
@@ -36,17 +36,8 @@ const QuizPreview = ({ quiz }) => {
 		<>
 			<div
 				className="flex w-full flex-1 items-center space-x-2 p-4 group"
-				onClick={() => openQuiz(quiz)}
+				onClick={openQuiz}
 			>
-				<img
-					src={
-						quiz.icon
-							? quiz.icon
-							: `https://avatars.dicebear.com/api/initials/${quiz.name}.svg`
-					}
-					alt={quiz.name}
-					className="square h-10 rounded-md"
-				/>
 				<div className="min-w-0 flex-1 px-2">
 					<div className="group-hover:w-2/3 w-full">
 						<div className="group relative flex space-x-1">

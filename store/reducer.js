@@ -31,7 +31,7 @@ const getComponentFromName = (name) => {
 	}
 };
 
-const ONE_WAY_OVERLAP_COMPONENTS = ["newChatOrGroup", 'quizView'];
+const ONE_WAY_OVERLAP_COMPONENTS = ["newChatOrGroup", "quizView"];
 
 export const socketReducer = (state, { type, payload }) => {
 	switch (type) {
@@ -96,6 +96,11 @@ export const sidebarReducer = (state, { type, payload }) => {
 			return produce(state, (draft) => {
 				draft.sideBarOpen = true;
 				draft.sideBarSection = payload;
+			});
+		case "SET_SIDEBAR_SECTION_NESTED":
+			return produce(state, (draft) => {
+				draft.sideBarOpen = true;
+				draft.sideBarNestedSection = payload;
 			});
 		case "SET_OVERLAP_SECTION":
 			return produce(state, (draft) => {

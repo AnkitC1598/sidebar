@@ -11,9 +11,11 @@ const SidebarView = ({
 	asComponent,
 	className,
 	enabledSections,
+	nestedEnabledSections,
 	defaultSection,
 	user,
 	version,
+	dispatchToApp,
 }) => {
 	if (
 		Object.prototype.toString.call(user) !== "[object Object]" &&
@@ -98,6 +100,8 @@ const SidebarView = ({
 			<Sidebar
 				toolTipDir={asComponent ? "left" : "right"}
 				enabledSections={enabledSections}
+				nestedEnabledSections={nestedEnabledSections}
+				dispatchToApp={dispatchToApp}
 			/>
 		</div>
 	) : null;
@@ -117,9 +121,11 @@ SidebarView.defaultProps = {
 		"profile",
 		"settings",
 	],
+	nestedEnabledSections: ["live", "discussion", "inbox"],
 	defaultSection: "agenda",
 	user: null,
 	version: null,
+	dispatchToApp: () => false,
 };
 
 export default SidebarView;

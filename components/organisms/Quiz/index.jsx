@@ -6,7 +6,6 @@ import { QuizPreview } from "../../atoms";
 const quizes = [
 	{
 		id: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
-		icon: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
 		name: "Quiz 1",
 		completed: true,
 		attempted: false,
@@ -15,7 +14,6 @@ const quizes = [
 	},
 	{
 		id: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
-		icon: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
 		name: "Quiz 2",
 		completed: false,
 		attempted: true,
@@ -24,7 +22,6 @@ const quizes = [
 	},
 	{
 		id: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
-		icon: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
 		name: "Quiz 3",
 		completed: false,
 		attempted: false,
@@ -33,12 +30,11 @@ const quizes = [
 	},
 	{
 		id: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
-		icon: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
 		name: "Quiz 4",
 		completed: false,
 		attempted: false,
 		quizStartDate: "2022-09-20T12:14:51.570Z",
-		expiryDate: "2022-09-26T12:14:51.570Z",
+		expiryDate: "2022-10-26T12:14:51.570Z",
 	},
 ];
 

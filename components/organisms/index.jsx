@@ -1,4 +1,4 @@
-export { default as Agendas } from "./Agendas";
+export { default as Topics } from "./Topics";
 export { default as Chats } from "./Chats";
 export { default as CreateNewGroupOrChat } from "./CreateNewGroupOrChat";
 export { default as Doubt } from "./Doubt";

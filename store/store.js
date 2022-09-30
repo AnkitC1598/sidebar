@@ -18,6 +18,7 @@ export const useSidebarStore = create(
 			doubtPage: 0,
 			sideBarOpen: false,
 			sideBarSection: "",
+			sideBarNestedSection: "",
 			overlapSection: {
 				visible: false,
 				Component: null,

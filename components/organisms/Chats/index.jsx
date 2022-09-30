@@ -15,14 +15,16 @@ import { InboxChats, LinearChats } from "..";
 import { useSidebarStore } from "../../../store/store";
 import { classNames } from "../../../submodules/shared/utils";
 
-const Chats = () => {
+const Chats = ({ nestedEnabledSections }) => {
 	const {
+		sideBarNestedSection,
 		overlapVisible,
 		OverlapComponent,
 		overlapProps,
 		overlapName,
 		dispatchToSidebar,
 	} = useSidebarStore((store) => ({
+		sideBarNestedSection: store.sideBarNestedSection,
 		overlapVisible: store.overlapSection.visible,
 		OverlapComponent: store.overlapSection.Component,
 		overlapProps: store.overlapSection.props,
@@ -30,37 +32,63 @@ const Chats = () => {
 		dispatchToSidebar: store.dispatchToSidebar,
 	}));
 
-	const tabs = useMemo(
-		() => [
-			{
-				label: "Live",
-				solidIcon: <SignalIconSolid className="h-5 w-5 rounded-md" />,
-				outlineIcon: (
-					<SignalIconOutline className="h-5 w-5 rounded-md" />
-				),
-				component: <LinearChats />,
-			},
-			{
-				label: "Discussion",
-				solidIcon: (
-					<UserGroupIconSolid className="h-5 w-5 rounded-md" />
-				),
-				outlineIcon: (
-					<UserGroupIconOutline className="h-5 w-5 rounded-md" />
-				),
-				component: <LinearChats />,
-			},
-			{
-				label: "Inbox",
-				solidIcon: <InboxIconSolid className="h-5 w-5 rounded-md" />,
-				outlineIcon: (
-					<InboxIconOutline className="h-5 w-5 rounded-md" />
-				),
-				component: <InboxChats />,
-			},
-		],
-		[]
+	const Tabs = useMemo(
+		() =>
+			[
+				{
+					label: "live",
+					solidIcon: (
+						<SignalIconSolid className="h-5 w-5 rounded-md" />
+					),
+					outlineIcon: (
+						<SignalIconOutline className="h-5 w-5 rounded-md" />
+					),
+					component: <LinearChats />,
+				},
+				{
+					label: "discussion",
+					solidIcon: (
+						<UserGroupIconSolid className="h-5 w-5 rounded-md" />
+					),
+					outlineIcon: (
+						<UserGroupIconOutline className="h-5 w-5 rounded-md" />
+					),
+					component: <LinearChats />,
+				},
+				{
+					label: "inbox",
+					solidIcon: (
+						<InboxIconSolid className="h-5 w-5 rounded-md" />
+					),
+					outlineIcon: (
+						<InboxIconOutline className="h-5 w-5 rounded-md" />
+					),
+					component: <InboxChats />,
+				},
+			].filter((tab) => nestedEnabledSections.includes(tab.label)),
+		[nestedEnabledSections]
 	);
+	console.log("nestedEnabledSections", nestedEnabledSections);
+	console.log(
+		"map",
+		Tabs.map((tab) => tab.label)
+	);
+	console.log(
+		"filter",
+		Tabs.filter((tab) => nestedEnabledSections.includes(tab.label)).map(
+			(tab) => tab.label
+		)
+	);
+
+	const findTabIndex = (tabLabel) => {
+		const found = Tabs.filter((tab) =>
+			nestedEnabledSections.includes(tab.label)
+		).findIndex((tab) => tab.label === tabLabel);
+		if (found) return found;
+		return 0;
+	};
+
+	console.log(findTabIndex());
 
 	const createNewChat = (reason) =>
 		dispatchToSidebar({
@@ -87,9 +115,17 @@ const Chats = () => {
 					<OverlapComponent {...overlapProps} />
 				) : (
 					<>
-						<Tab.Group defaultIndex={2}>
+						<Tab.Group
+							selectedIndex={findTabIndex(sideBarNestedSection)}
+							onChange={(idx) => {
+								dispatchToSidebar({
+									type: "SET_SIDEBAR_SECTION_NESTED",
+									payload: nestedEnabledSections[idx],
+								});
+							}}
+						>
 							<Tab.List className="flex">
-								{tabs.map((tab) => (
+								{Tabs.map((tab) => (
 									<Tab
 										key={tab.label + "tab"}
 										className="w-full py-2.5 text-sm font-medium leading-5 focus:outline-none transition-all duration-200 focus:ring-0 focus:bg-transparent flex flex-col justify-center items-center space-y-1 relative bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"
@@ -99,7 +135,10 @@ const Chats = () => {
 												{selected
 													? tab.solidIcon
 													: tab.outlineIcon}
-												<span span className="sr-only">
+												<span
+													span
+													className="sr-only capitalize"
+												>
 													{tab.label}
 												</span>
 												<Transition
@@ -120,7 +159,7 @@ const Chats = () => {
 								))}
 							</Tab.List>
 							<Tab.Panels className="w-full h-full bg-neutral-50 dark:bg-neutral-900 h-chatPanel">
-								{tabs.map((tab) => (
+								{Tabs.map((tab) => (
 									<Tab.Panel
 										key={tab.label + "component"}
 										className={classNames(

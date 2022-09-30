@@ -85,9 +85,10 @@ const Participant = ({
 				<div className="relative flex-shrink-0">
 					<Avatar
 						imgUrl={
-							participant.profileImage
-								? participant.profileImage
-								: `https://avatars.dicebear.com/api/initials/${participant.name}.svg`
+							// participant.profileImage
+							// 	? participant.profileImage
+							// 	: `https://avatars.dicebear.com/api/initials/${participant.name}.svg`
+							`https://avatars.dicebear.com/api/initials/${participant.name}.svg`
 						}
 						alt={participant.name}
 						size="h-10"
