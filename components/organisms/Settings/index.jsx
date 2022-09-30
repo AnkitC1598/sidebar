@@ -11,7 +11,7 @@ import { useDarkMode } from "../../../submodules/shared/hooks";
 import CookieService from "../../../submodules/shared/services/cookie.service";
 
 const Settings = ({ dispatchToApp }) => {
-	if (Object.prototype.toString.call(dispatchToApp) !== "[object Object]")
+	if (Object.prototype.toString.call(dispatchToApp) !== "[object Function]")
 		throw new Error("Settings: dispatchToApp is not a function");
 	const dispatchToSidebar = useSidebarStore(
 		(store) => store.dispatchToSidebar
@@ -88,6 +88,10 @@ const Settings = ({ dispatchToApp }) => {
 			</div>
 		</>
 	);
+};
+
+Settings.defaultProps = {
+	dispatchToApp: null,
 };
 
 export default Settings;
