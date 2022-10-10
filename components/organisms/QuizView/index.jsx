@@ -4,12 +4,13 @@ import {
 	CheckCircleIcon,
 } from "@heroicons/react/24/solid";
 import produce from "immer";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSidebarStore } from "../../../store/store";
 import { Button } from "../../../submodules/shared/components/atoms";
 import { Modal } from "../../../submodules/shared/components/organisms";
 import { classNames } from "../../../submodules/shared/utils";
 import { QuizQA } from "../../molecules";
+import ReactCanvasConfetti from "react-canvas-confetti";
 
 const quiz = {
 	id: "aVNhQHe1N8ZibeFmGh5zK8eAh9t21",
@@ -38,6 +39,49 @@ const QuizView = ({ quizId }) => {
 	const [questions, setQuestions] = useState(questionList);
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 	const [isSubmitSuccessOpen, setIsSubmitSuccessOpen] = useState(false);
+	const confettiAnimationInstance = useRef();
+
+	const getConfettiAnimationInstance = useCallback((instance) => {
+		confettiAnimationInstance.current = instance;
+	}, []);
+
+	const makeShot = useCallback((particleRatio, opts) => {
+		confettiAnimationInstance.current &&
+			confettiAnimationInstance.current({
+				...opts,
+				origin: { y: 0.7 },
+				particleCount: Math.floor(200 * particleRatio),
+			});
+	}, []);
+
+	const fireConfetti = useCallback(() => {
+		makeShot(0.25, {
+			spread: 26,
+			startVelocity: 55,
+		});
+
+		makeShot(0.2, {
+			spread: 60,
+		});
+
+		makeShot(0.35, {
+			spread: 100,
+			decay: 0.91,
+			scalar: 0.8,
+		});
+
+		makeShot(0.1, {
+			spread: 120,
+			startVelocity: 25,
+			decay: 0.92,
+			scalar: 1.2,
+		});
+
+		makeShot(0.1, {
+			spread: 120,
+			startVelocity: 45,
+		});
+	}, [makeShot]);
 
 	const openSubmitSuccess = () => setIsSubmitSuccessOpen(true);
 	const closeSubmitSuccess = () => setIsSubmitSuccessOpen(false);
@@ -66,6 +110,7 @@ const QuizView = ({ quizId }) => {
 
 	const submit = () => {
 		console.log("submit", questions);
+		fireConfetti();
 		openSubmitSuccess();
 	};
 
@@ -83,9 +128,11 @@ const QuizView = ({ quizId }) => {
 		});
 	};
 
+	useEffect(() => (window.fire = fireConfetti), []);
+
 	return (
 		<>
-			<div className="px-4 h-full flex flex-col divide-y divide-neutral-200 dark:divide-neutral-800">
+			<div className="relative px-4 h-full flex flex-col divide-y divide-neutral-200 dark:divide-neutral-800">
 				<div className="flex items-center py-2">
 					<div className="flex-1 text-center text-2xl font-semibold">
 						{quiz.name}
@@ -165,6 +212,17 @@ const QuizView = ({ quizId }) => {
 						</div>
 					</div>
 				</div>
+				<ReactCanvasConfetti
+					refConfetti={getConfettiAnimationInstance}
+					style={{
+						position: "absolute",
+						pointerEvents: "none",
+						width: "100%",
+						height: "125%",
+						top: 0,
+						right: 0,
+					}}
+				/>
 			</div>
 			<Modal
 				className="p-6"

@@ -77,13 +77,13 @@ const ResourcePreview = ({
 										</button>
 									</div>
 								</div>
-								<div className="mt-2 flex max-h-[75vh] flex-1 items-center justify-center overflow-hidden p-5 preview">
+								<div className="mt-2 flex max-h-[75vh] flex-1 items-center justify-center overflow-hidden preview py-5">
 									{resource.isImage &&
 									resource.ext !== "svg" ? (
 										<img
 											src={resource.link}
 											alt={resource.link}
-											className="imgPreview max-w-[80%]"
+											className="imgPreview max-w-full"
 										/>
 									) : resource.ext === "pdf" ? (
 										<iframe

@@ -10,7 +10,7 @@ const ImageResource = ({ resource, handleToggleVisibility }) => {
 	};
 	return (
 		<>
-			<div className="flex justify-center space-x-2">
+			<div className="flex justify-center space-x-2 w-full">
 				<div className="flex content-center justify-center min-w-[25%] max-w-[75%]">
 					<img
 						src={
